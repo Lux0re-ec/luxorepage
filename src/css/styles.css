@@ -1,0 +1,99 @@
+/* Establece box-sizing global para un control predecible del tamaño de los elementos */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Contenedor de productos */
+.products-grid {
+  display: grid;
+  /* Se unifica el valor de minmax y gap.
+     El valor de 250px es más adecuado para tarjetas de producto en una cuadrícula. */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 4rem; /* Se mantiene el valor de 4rem, ya que parece ser la intención */
+  justify-items: center;
+  padding: 0 1rem; /* Asegura un padding horizontal */
+}
+
+/* Tarjeta de producto */
+.product-card {
+  background-color: #1f2937; /* bg-gray-800 */
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  max-width: 220px; /* Asegura que la tarjeta no exceda este ancho */
+  width: 100%; /* Permite que la tarjeta ocupe todo el ancho disponible hasta max-width */
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(232, 218, 113, 0.4);
+}
+
+.product-card:focus {
+  outline: 2px solid #E8DA71;
+  outline-offset: 4px; /* Proporciona un offset claro para la accesibilidad */
+}
+
+/* Imagen dentro de la tarjeta */
+.product-card img {
+  width: 80%; /* Reduce el tamaño de la imagen para que no ocupe todo el ancho de la tarjeta */
+  max-width: 180px; /* Limita el ancho máximo de la imagen */
+  height: auto; /* Mantiene la proporción de la imagen */
+  aspect-ratio: 1 / 1; /* Mantiene la imagen cuadrada */
+  object-fit: cover; /* Asegura que la imagen cubra el área sin distorsión */
+  border-radius: 0.75rem;
+  margin-bottom: 0.75rem;
+  /* Se eliminan estilos inline de la imagen que estaban en HTML y pueden generar conflicto.
+     Si se necesita un box-shadow específico para la imagen, se debe aplicar aquí. */
+}
+
+/* Filtro oscuro solo al fondo (pseudo-elemento para superposición) */
+/* Se asume que .bg-overlay se aplica al <body> o un contenedor principal */
+.bg-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0; /* shorthand para top, right, bottom, left: 0 */
+  background: rgba(0, 0, 0, 0.75); /* Aumenta ligeramente la opacidad del overlay */
+  z-index: 0;
+  pointer-events: none; /* Asegura que el overlay no bloquee interacciones */
+}
+
+/* Asegura que el contenido esté por encima del overlay */
+.bg-overlay > * {
+  position: relative;
+  z-index: 1;
+  /* Se elimina 'color: white;' aquí si ya está definido globalmente en body o reset CSS
+     o si solo aplica a elementos específicos dentro de bg-overlay */
+}
+
+/* Estilo para enlaces del menú móvil */
+/* Se asume que esta clase se aplica a los <a> dentro del menú móvil */
+.mobile-menu-link {
+  font-family: "DM Serif Display", serif;
+  font-style: italic;
+}
+
+/* Estilo para iconos con gradiente/brillo dorado */
+/* Clase base para el color y brillo inicial de los iconos interactivos */
+.icon-golden-gradient {
+  color: #E8DA71; /* Color base dorado más claro */
+  text-shadow: 0 0 8px rgba(232, 218, 113, 0.7), 0 0 15px rgba(232, 218, 113, 0.5);
+  transition: text-shadow 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+/* Efecto hover para iconos con gradiente/brillo dorado */
+.icon-golden-gradient:hover {
+  color: #F5E089; /* Dorado más brillante al pasar el cursor */
+  text-shadow: 0 0 12px rgba(232, 218, 113, 0.9), 0 0 25px rgba(232, 218, 113, 0.7);
+}
+
+/* Clase para brillo dorado permanente o activado por JS */
+/* Se debe usar esta clase para un estado "activado" */
+.icon-golden-glow {
+  color: #F5E089 !important; /* Un dorado más brillante, se mantiene !important si hay conflictos */
+  text-shadow: 0 0 12px rgba(232, 218, 113, 0.9), 0 0 25px rgba(232, 218, 113, 0.7) !important; /* Efecto de brillo, se mantiene !important */
+  transition: all 0.5s ease-in-out; /* Transición más suave para la entrada */
+}

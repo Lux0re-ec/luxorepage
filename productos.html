@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Productos - Luxore.ec</title>
+    <link rel="icon" type="image/png" href="./src/img/isotipoLuxore.ico" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <link href="./dist/output.css" rel="stylesheet" />
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Variables CSS del index.html para consistencia */
+      :root {
+        --default-icon-color: #bfa03a; /* Color dorado base */
+        --active-glow-color: #f5e089; /* Color dorado más claro para el brillo activo */
+        --glow-shadow: 0 0 12px rgba(232, 218, 113, 0.5),
+          /* Más desenfoque, color más claro, opacidad total */ 0 0 25px
+            rgba(232, 218, 113, 1),
+          /* Segunda capa de sombra más grande y opaca */ 0 0 50px
+            rgba(255, 250, 200, 0.5); /* Sombra para el brillo */
+      }
+
+      /* Estilos generales del body para el fondo del index.html */
+      body {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.3)),
+          url("./src/img/FondoLuxore.png");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed; /* Esto asegura que el fondo permanezca fijo */
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        font-family: "Cormorant Garamond", serif; /* Aplicar Cormorant Garamond por defecto */
+      }
+
+      /* Estilos para product-card (ajustados para el nuevo grid y AOS) */
+      .product-card {
+        background: #1f2937; /* gray-800 - ajustado a bg-gray-800 de index.html */
+        border-radius: 1rem;
+        padding: 1rem;
+        max-width: 220px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Sombra más sutil y consistente */
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Añadida transformación para el hover */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+        height: 100%; /* Para asegurar que todas las tarjetas tengan la misma altura en el grid */
+      }
+      .product-card:hover {
+        transform: translateY(
+          -4px
+        ); /* Pequeño levantamiento al pasar el mouse */
+        box-shadow: 0 8px 20px rgba(232, 218, 113, 0.4); /* Sombra más pronunciada con color dorado */
+      }
+      .product-card img,
+      .product-card video {
+        width: 180px;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 0.75rem; /* Consistency with index.html */
+        margin-bottom: 0.75rem;
+        flex-shrink: 0;
+        /* Sombras de la imagen para consistencia con index.html */
+        box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.9),
+          0 4px 12px rgba(0, 0, 0, 0.9), 0 0 0 2px rgba(255, 255, 255, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Mantenemos las transiciones */
+      }
+      .product-card img:hover,
+      .product-card video:hover {
+        transform: scale(1.03); /* Efecto de zoom al pasar el mouse */
+      }
+      .product-title {
+        color: #f5e089; /* Color más claro del index.html para títulos */
+        font-weight: 600;
+        font-family: "DM Serif Display", serif;
+        font-size: 1.125rem;
+        text-align: center;
+        margin-bottom: 0.5rem;
+      }
+      .product-desc {
+        color: #a0aec0; /* gray-400 */
+        font-size: 0.875rem;
+        text-align: center;
+        min-height: 3em;
+        /* Usa la fuente del index para las descripciones */
+        font-family: "Cormorant Garamond", serif; /* o 'Cormorant Garamond' si prefieres */
+      }
+
+      /* Grid container - ajustado para un mejor espaciado y tamaño de columnas */
+      .products-grid {
+        display: grid;
+        grid-template-columns: repeat(
+          auto-fit,
+          minmax(250px, 1fr)
+        ); /* Min size a 250px para más espacio */
+        gap: 4rem; /* Aumentado el gap para mejor visibilidad */
+        max-width: 1200px; /* Ancho máximo para el grid */
+        margin: 0 auto;
+        padding: 2rem 1rem;
+        justify-items: center; /* Centrar las tarjetas dentro de las columnas */
+      }
+
+      /* Modal */
+      .modal-bg {
+        background: rgba(0, 0, 0, 0.85);
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        padding: 1rem;
+        opacity: 0; /* Para la transición de entrada/salida */
+        transition: opacity 0.3s ease-out; /* Transición suave para la opacidad */
+      }
+      .modal-bg.active {
+        display: flex;
+        opacity: 1; /* Muestra el modal */
+      }
+      .modal-content {
+        background: #1a202c; /* gray-900 */
+        border-radius: 1rem;
+        max-width: 80vw;
+        max-height: 80vh;
+        overflow-y: auto;
+        padding: 1.5rem;
+        color: white;
+        position: relative;
+        font-family: "DM Serif Display", serif;
+        box-shadow: 0 10px 30px rgba(232, 218, 113, 0.75);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        transform: scale(0.9); /* Para la animación de entrada */
+        opacity: 0; /* Para la animación de entrada */
+        transition: transform 0.3s ease-out, opacity 0.3s ease-out; /* Transición para la escala y opacidad */
+      }
+      .modal-bg.active .modal-content {
+        transform: scale(1); /* Escala a tamaño normal */
+        opacity: 1; /* Hace visible el contenido */
+      }
+      .modal-content img,
+      .modal-content video {
+        max-width: 100%;
+        max-height: 60vh;
+        border-radius: 1rem;
+        object-fit: contain;
+        flex-shrink: 0;
+      }
+      .modal-title {
+        font-size: 1.75rem;
+        color: #e8da71;
+        text-align: center;
+        margin: 0;
+      }
+      .modal-desc {
+        font-size: 1rem;
+        color: #cbd5e0; /* gray-300 */
+        text-align: center;
+        /* Asegúrate de usar una de tus fuentes para la descripción del modal */
+        font-family: "Cormorant Garamond", serif; /* o 'Cormorant Garamond' */
+      }
+      .modal-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: transparent;
+        border: none;
+        color: #e8da71;
+        font-size: 2rem;
+        cursor: pointer;
+        font-weight: bold;
+        transition: color 0.2s ease, text-shadow 0.2s ease; /* Transición para el hover */
+      }
+      .modal-close:hover {
+        color: #bfa03a;
+        text-shadow: 0 0 8px rgba(232, 218, 113, 0.7); /* Brillo al pasar el mouse */
+      }
+
+      /* NUEVOS ESTILOS PARA LA ANIMACIÓN DEL ISOLOGO EN EL HEADER */
+      .isologo-glow-pulse {
+        transition: filter 0.5s ease-out; /* Transición para el brillo del filtro */
+      }
+      .isologo-glow-pulse.active-pulse {
+        filter: drop-shadow(
+          0 0 15px #e8da71
+        ); /* Un brillo inicial más pronunciado */
+      }
+
+      /* Estilos para las imágenes de los socios */
+      .partner-logo {
+        transition: all 0.3s ease-in-out;
+        border-radius: 50%; /* Si quieres que sean circulares, como suelen ser los logos de perfil */
+        overflow: hidden;
+        display: block; /* Para que margin: auto funcione correctamente si es un <a> */
+      }
+
+      .partner-logo:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px rgba(232, 218, 113, 0.7),
+          0 0 30px rgba(232, 218, 113, 0.5);
+      }
+
+      /* Estilos para el enlace del nombre de usuario */
+      .partner-instagram-link {
+        color: #a0aec0; /* Color gris claro por defecto */
+        text-decoration: none; /* Quita el subrayado predeterminado */
+        transition: color 0.3s ease, text-shadow 0.3s ease; /* Transición para color y sombra */
+      }
+
+      .partner-instagram-link:hover {
+        color: #e8da71; /* Color dorado al pasar el ratón */
+        text-shadow: 0 0 8px rgba(232, 218, 113, 0.7); /* Brillo sutil */
+      }
+
+      /* CAMBIO DE COLOR DE FONDO DE MYSTERY BOX Y AJUSTES */
+      .mystery-box-section {
+        background-color: #0d1b2a; /* ¡NUEVO COLOR DE FONDO! */
+        /* Puedes mantener el background-image si quieres una textura encima */
+        /* background-image: url('./src/img/mystery_pattern.png'); */
+        background-size: cover;
+        background-position: center;
+        border-top: 2px solid #e8da71;
+        border-bottom: 2px solid #e8da71;
+        padding: 5rem 1rem;
+        text-align: center;
+      }
+
+      .mystery-box-title {
+        font-family: "DM Serif Display", serif;
+        font-size: 2.5rem;
+        line-height: 1.2;
+        margin-bottom: 1.5rem;
+        background-image: linear-gradient(to right, #e8da71, #bfa03a, #8c7853);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 0 10px rgba(232, 218, 113, 0.4);
+        transition: all 0.3s ease;
+      }
+      .mystery-box-title:hover {
+        text-shadow: 0 0 20px rgba(232, 218, 113, 0.7),
+          0 0 30px rgba(232, 218, 113, 0.5);
+      }
+
+      .mystery-box-subtitle {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.1rem;
+        color: #e0e0e0;
+        margin-bottom: 2.5rem;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.6;
+      }
+
+      .mystery-box-image {
+        width: 250px;
+        height: auto;
+        margin: 0 auto 2rem auto;
+        border-radius: 1.5rem;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7),
+          0 0 30px rgba(232, 218, 113, 0.5);
+        transition: transform 0.4s ease-in-out;
+        cursor: pointer;
+      }
+      .mystery-box-image:hover {
+        transform: scale(1.05) rotate(2deg);
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.9),
+          0 0 40px rgba(232, 218, 113, 0.8);
+      }
+
+      .mystery-box-price {
+        font-family: "DM Serif Display", serif;
+        font-size: 1.5rem;
+        color: #e8da71;
+        font-weight: bold;
+        margin-bottom: 2.5rem;
+        text-shadow: 0 0 15px rgba(232, 218, 113, 0.6);
+      }
+
+      .mystery-box-button {
+        background: linear-gradient(to right, #e8da71, #bfa03a, #8c7853);
+        color: #1a202c;
+        padding: 1rem 2.5rem;
+        border-radius: 0.75rem;
+        font-size: 1.25rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        cursor: pointer;
+        border: none;
+        box-shadow: 0 5px 20px rgba(232, 218, 113, 0.5);
+        transition: all 0.3s ease;
+        font-family: "Cormorant Garamond", serif;
+      }
+      .mystery-box-button:hover {
+        background: linear-gradient(to right, #f5e089, #d4bb5a, #a8946e);
+        box-shadow: 0 8px 25px rgba(232, 218, 113, 0.8);
+        transform: translateY(-3px);
+      }
+
+      /* Opcional: para el texto de la probabilidad, si lo quieres más sutil */
+      .mystery-box-probability {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1rem;
+        color: #a0aec0;
+        margin-top: 1.5rem;
+        font-style: italic;
+      }
+      .line-through-manual {
+        text-decoration: line-through;
+      }
+      .icon-glow {
+        transition: text-shadow 0.3s ease-in-out; /* Suaviza la transición del resplandor */
+      }
+
+      .icon-glow:hover {
+        text-shadow: 0 0 20px #ffd700, 0 0 15px #daa520, 0 0 20px #b8860b;
+      }
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body class="text-white">
+    <header
+      class="sticky top-0 z-50 bg-black border-b border-[#E8DA71] px-4 py-4 md:py-4 flex items-center justify-between relative h-20 md:h-24"
+    >
+      <div class="absolute inset-0 bg-black bg-opacity-40 -z-[1]"></div>
+
+      <h1
+        class="flex items-center space-x-2 text-3xl tracking-wider bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] bg-clip-text text-transparent"
+        style="font-family: 'DM Serif Display', serif; font-style: italic"
+      >
+        <div class="absolute left-1/2 transform -translate-x-1/2">
+          <a href="index.html">
+            <img
+              id="header-isologo"
+              src="./src/img/isotipoLuxore.png"
+              alt="Isologo Luxore"
+              class="w-16 md:w-20 h-auto object-contain hover:drop-shadow-[0_0_15px_#E8DA71] isologo-glow-pulse"
+            />
+          </a>
+        </div>
+      </h1>
+
+      <div class="ml-auto">
+        <button
+          id="menu-toggle"
+          class="text-[#E8DA71] text-3xl focus:outline-none hover:drop-shadow-[0_0_4px_#E8DA71]"
+          aria-label="Abrir menú"
+        >
+          <i class="bi bi-list icon-golden-gradient"></i>
+        </button>
+      </div>
+      <nav
+        id="mobile-menu"
+        class="fixed top-0 right-0 w-64 h-full bg-black text-white p-6 transform translate-x-full transition-transform duration-300 z-40 shadow-lg"
+      >
+        <button
+          id="menu-close"
+          class="text-2xl mb-6 focus:outline-none hover:drop-shadow-[0_0_6px_#E8DA71] transition"
+          aria-label="Cerrar menú"
+        >
+          <i
+            class="bi bi-arrow-left-circle-fill text-3xl icon-golden-gradient"
+          ></i>
+        </button>
+        <ul class="space-y-4 text-lg">
+          <li>
+            <a
+              href="index.html"
+              class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition"
+              style="font-family: 'DM Serif Display', serif; font-style: italic"
+              >Inicio</a
+            >
+          </li>
+          <li>
+            <a
+              href="productos.html"
+              class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition"
+              style="font-family: 'DM Serif Display', serif; font-style: italic"
+              >Colecciones</a
+            >
+          </li>
+          <li>
+            <a
+              href="nosotros.html"
+              class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition"
+              style="font-family: 'DM Serif Display', serif; font-style: italic"
+              >Nosotros</a
+            >
+          </li>
+          <li>
+            <a
+              href="socios.html"
+              class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition"
+              style="font-family: 'DM Serif Display', serif; font-style: italic"
+              >Socios</a
+            >
+          </li>
+          <div class="flex justify-center gap-8 mb-3 text-2xl">
+            <a
+              href="https://instagram.com/luxore.ec"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-aos="zoom-in"
+              data-aos-duration="800"
+              data-aos-delay="3500"
+              class="interactive-icon"
+              aria-label="Síguenos en Instagram"
+              ><i class="bi bi-instagram icon-glow"></i
+            ></a>
+            <a
+              href="https://tiktok.com/@luxore.ec"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-aos="zoom-in"
+              data-aos-duration="800"
+              data-aos-delay="3500"
+              class="interactive-icon"
+              aria-label="Síguenos en TikTok"
+              ><i class="bi bi-tiktok icon-glow"></i
+            ></a>
+            <a
+              href="https://www.youtube.com/@luxore_ec"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-aos="zoom-in"
+              data-aos-duration="800"
+              data-aos-delay="3500"
+              class="interactive-icon"
+              aria-label="Síguenos en YouTube"
+              ><i class="bi bi-youtube icon-glow"></i
+            ></a>
+            <a
+              href="https://www.facebook.com/luxore.ec"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-aos="zoom-in"
+              data-aos-duration="800"
+              data-aos-delay="3500"
+              class="interactive-icon"
+              aria-label="Síguenos en Facebook"
+              ><i class="bi bi-facebook icon-glow"></i
+            ></a>
+          </div>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="flex-grow">
+      <section class="py-20 px-6" id="products-section">
+        <h2
+          class="text-4xl tracking-wide bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] bg-clip-text text-transparent italic text-center mb-12 hover:drop-shadow-[0_0_6px_#E8DA71] transition"
+          style="font-family: 'DM Serif Display', serif"
+          data-aos="fade-up"
+          data-aos-duration="1000"
+        >
+          Nuestras Colecciones Exclusivas
+        </h2>
+
+        <h3
+          class="text-3xl tracking-wide bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] bg-clip-text text-transparent italic text-center mb-8 mt-16 hover:drop-shadow-[0_0_6px_#E8DA71] transition"
+          style="font-family: 'DM Serif Display', serif"
+          data-aos="fade-up"
+          data-aos-delay="200"
+          data-aos-duration="1000"
+        >
+          Luxore Prestige Collection
+        </h3>
+        <div class="products-grid">
+          <div
+            class="product-card cursor-pointer"
+            data-title="Guayaquil Prestige Collection"
+            data-desc="Inspirado en la Perla del Pacífico, este recuerdo captura la vibrante energía y la rica historia de Guayaquil. Ideal para coleccionistas y amantes de la cultura costeña."
+            data-img="./src/img/GuayaquilPC.png"
+            data-video-src="./src/animacion.mp4/GuayaquilPC.mp4"
+            tabindex="0"
+            data-aos="fade-up"
+            data-aos-duration="800"
+            data-aos-delay="100"
+          >
+            <img
+              src="./src/img/GuayaquilPC.png"
+              alt="Guayaquil Prestige Collection"
+              class="product-img"
+            />
+            <h4 class="product-title">Guayaquil</h4>
+            <p class="product-desc">Inspirado en la Perla del Pacífico.</p>
+            <p
+              class="text-[#E8DA71] text-lg font-bold mt-2"
+              style="font-family: 'Cormorant Garamond', serif"
+            >
+              <span class="text-2xl">Precio $4.00</span>
+              <span class="text-gray-500 line-through-manual text-base mr-2"
+                >$5.50</span
+              >
+            </p>
+          </div>
+
+          <div
+            class="product-card cursor-pointer"
+            data-title="Quito Prestige Collection"
+            data-desc="Esta pieza de arte celebra la majestuosidad de Quito, con sus iglesias coloniales y su impresionante paisaje andino. Un tesoro que evoca la capital del Ecuador."
+            data-img="./src/img/QuitoPC.png"
+            data-video-src="./src/animacion.mp4/QuitoPC.mp4"
+            tabindex="0"
+            data-aos="fade-up"
+            data-aos-duration="800"
+            data-aos-delay="800"
+          >
+            <div class="media-container">
+              <img
+                src="./src/img/QuitoPC.png"
+                alt="Quito Prestige Collection"
+                class="product-img"
+              />
+              <video
+                src="./src/animacion.mp4/GalapagosPC.mp4"
+                poster="./src/img/QuitoPC.png"
+                alt="Animación Quito Prestige Collection"
+                class="hidden"
+                muted
+                preload="auto"
+              ></video>
+            </div>
+            <h4 class="product-title">Quito</h4>
+            <p class="product-desc">Arte colonial y modernidad en una pieza.</p>
+            <p
+              class="text-[#E8DA71] text-lg font-bold mt-2"
+              style="font-family: 'Cormorant Garamond', serif"
+            >
+              <span class="text-2xl">Precio $4.00</span>
+              <span class="text-gray-500 line-through-manual text-base mr-2"
+                >$5.50</span
+              >
+            </p>
+          </div>
+
+          <div
+            class="product-card cursor-pointer"
+            data-title="Cuenca Prestige Collection"
+            data-desc="Reflejo de historia y elegancia andina, este producto rinde homenaje a Cuenca, Patrimonio Cultural de la Humanidad, con su arquitectura única y su atmósfera bohemia."
+            data-img="./src/img/CuencaPC.png"
+            data-video-src="./src/animacion.mp4/CuencaPC.mp4"
+            tabindex="0"
+            data-aos="fade-up"
+            data-aos-duration="800"
+            data-aos-delay="800"
+          >
+            <div class="media-container">
+              <img
+                src="./src/img/CuencaPC.png"
+                alt="Cuenca Deluxe"
+                class="product-img"
+              />
+              <video
+                src="./src/animacion.mp4/CuencaPC.mp4"
+                poster="./src/img/CuencaPC.png"
+                alt="Animación Cuenca Prestige Collection"
+                class="hidden"
+                muted
+                preload="auto"
+              ></video>
+            </div>
+            <h4 class="product-title">Cuenca</h4>
+            <p class="product-desc">Reflejo de historia y elegancia andina.</p>
+            <p
+              class="text-[#E8DA71] text-lg font-bold mt-2"
+              style="font-family: 'Cormorant Garamond', serif"
+            >
+              <span class="text-2xl">Precio $4.00</span>
+              <span class="text-gray-500 line-through-manual text-base mr-2"
+                >$5.50</span
+              >
+            </p>
+          </div>
+
+          <div
+            class="product-card cursor-pointer"
+            data-title="Galápagos Prestige Collection"
+            data-desc="Captura la esencia de la biodiversidad única de las islas encantadas. Un homenaje a la naturaleza inigualable de Galápagos que te acompañará siempre."
+            data-img="./src/img/GalapagosPC.png"
+            data-video-src="./src/animacion.mp4/GalapagosPC.mp4"
+            tabindex="0"
+            data-aos="fade-up"
+            data-aos-duration="800"
+            data-aos-delay="800"
+          >
+            <div class="media-container">
+              <img
+                src="./src/img/GalapagosPC.png"
+                alt="Galápagos Prestige Collection"
+                class="product-img"
+              />
+              <video
+                src="./src/animacion.mp4/GalapagosPC.mp4"
+                poster="./src/img/GalapagosPC.png"
+                alt="Animación Galápagos Prestige Collection"
+                class="hidden"
+                muted
+                preload="auto"
+              ></video>
+            </div>
+            <h4 class="product-title">Galápagos</h4>
+            <p class="product-desc">
+              Naturaleza única desde las islas encantadas.
+            </p>
+            <p
+              class="text-[#E8DA71] text-lg font-bold mt-2"
+              style="font-family: 'Cormorant Garamond', serif"
+            >
+              <span class="product-title">AGOTADO</span>
+              <span
+                class="text-gray-500 line-through-manual text-base mr-2"
+              ></span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-20 px-6" id="luxore-masterpiece-section">
+        <h2
+          class="text-3xl tracking-wide bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] bg-clip-text text-transparent italic text-center mb-12 hover:drop-shadow-[0_0_6px_#E8DA71] transition"
+          style="font-family: 'DM Serif Display', serif"
+          data-aos="fade-up"
+          data-aos-duration="1000"
+        >
+          Luxore Masterpiece Collection
+        </h2>
+
+        <div class="products-grid">
+          <div
+            class="product-card Masterpiece Collection"
+            data-title="Guayaquil Masterpiece Collection"
+            data-desc="Diseño moderno y sofisticado, captura la esencia cosmopolita de Guayaquil con un acabado plateado distintivo. Perfecto para quienes aprecian la elegancia contemporánea."
+            data-img="./src/img/GuayaquilMP - copia.png"
+            data-video-src="./src/animacion.mp4/GuayaquilMP.mp4"
+            tabindex="0"
+            data-aos="fade-up"
+            data-aos-duration="800"
+            data-aos-delay="800"
+          >
+            <div class="media-container">
+              <img
+                src="./src/img/GuayaquilMP - copia.png"
+                alt="Guayaquil Masterpiece Collection"
+                class="product-img"
+              />
+              <video
+                src="./src/animacion.mp4/GuayaquilMP.mp4"
+                poster="./src/img/GuayaquilMP - copia.png"
+                alt="Animación Guayaquil Masterpiece Collection"
+                class="hidden"
+                muted
+                preload="auto"
+              ></video>
+            </div>
+            <h4 class="product-title">Guayaquil</h4>
+            <p class="product-desc">
+              Diseño moderno y sofisticado de Guayaquil.
+            </p>
+            <p
+              class="text-[#E8DA71] text-lg font-bold mt-2"
+              style="font-family: 'Cormorant Garamond', serif"
+            >
+              <span class="text-2xl">Precio $4.00</span>
+              <span class="text-gray-500 line-through-manual text-base mr-2"
+                >$5.50</span
+              >
+            </p>
+          </div>
+
+          <div
+            class="product-card cursor-pointer"
+            data-title="Quito Masterpiece Collection"
+            data-desc="Una reinterpretación moderna de la capital, esta pieza combina la tradición con la vanguardia en un brillo plateado que refleja la evolución de Quito."
+            data-img="./src/img/QuitoMP - copia.png"
+            data-video-src="./src/animacion.mp4/QuitoMP.mp4"
+            tabindex="0"
+            data-aos="fade-up"
+            data-aos-duration="800"
+            data-aos-delay="800"
+          >
+            <div class="media-container">
+              <img
+                src="./src/img/QuitoMP - copia.png"
+                alt="Quito Masterpiece Collection"
+                class="product-img"
+              />
+              <video
+                src="./src/animacion.mp4/QuitoMP.mp4"
+                poster="./src/img/QuitoMP - copia.png"
+                alt="Animación Cuenca Masterpiece Collection"
+                class="hidden"
+                muted
+                preload="auto"
+              ></video>
+            </div>
+            <h4 class="product-title">Quito</h4>
+            <p class="product-desc">
+              Tradición y vanguardia en un brillo plateado.
+            </p>
+            <p
+              class="text-[#E8DA71] text-lg font-bold mt-2"
+              style="font-family: 'Cormorant Garamond', serif"
+            >
+              <span class="text-2xl">Precio $4.00</span>
+              <span class="text-gray-500 line-through-manual text-base mr-2"
+                >$5.50</span
+              >
+            </p>
+          </div>
+
+          <div
+            class="product-card cursor-pointer"
+            data-title="Cuenca Masterpiece Collection"
+            data-desc="Inspirada en la elegancia de Cuenca, esta pieza en tono plateado ofrece un toque de distinción y arte, ideal para quienes valoran la sofisticación sutil."
+            data-img="./src/img/CuencaMP.png"
+            data-video-src="./src/animacion.mp4/CuencaMP.mp4"
+            tabindex="0"
+            data-aos="fade-up"
+            data-aos-duration="800"
+            data-aos-delay="800"
+          >
+            <div class="media-container">
+              <img
+                src="./src/img/CuencaMP.png"
+                alt="Cuenca Masterpiece Collection"
+                class="product-img"
+              />
+              <video
+                src="./src/animacion.mp4/CuencaMP.mp4"
+                poster="./src/img/CuencaMP.png"
+                alt="Animación Quito Masterpiece Collection"
+                class="hidden"
+                muted
+                preload="auto"
+              ></video>
+            </div>
+            <h4 class="product-title">Cuenca</h4>
+            <p class="product-desc">
+              Toque de distinción y arte en tono plateado.
+            </p>
+            <p
+              class="text-[#E8DA71] text-lg font-bold mt-2"
+              style="font-family: 'Cormorant Garamond', serif"
+            >
+              <span class="text-2xl">Precio $4.00</span>
+              <span class="text-gray-500 line-through-manual text-base mr-2"
+                >$5.50</span
+              >
+            </p>
+          </div>
+
+          <div
+            class="product-card cursor-pointer"
+            data-title="Galápagos Masterpiece Collection"
+            data-desc="Celebra la majestuosidad natural de Galápagos con un diseño minimalista y brillante, que evoca la pureza y la calma de sus islas únicas."
+            data-img="./src/img/GalapagosMP - copia.png"
+            data-video-src="./src/animacion.mp4/GalapagosMP.mp4"
+            tabindex="0"
+            data-aos="fade-up"
+            data-aos-duration="800"
+            data-aos-delay="800"
+          >
+            <div class="media-container">
+              <img
+                src="./src/img/GalapagosMP - copia.png"
+                alt="Galápagos Masterpiece Collection"
+                class="product-img"
+              />
+              <video
+                src="./src/animacion.mp4/GalapagosMP.mp4"
+                poster="./src/img/GalapagosMP - copia.png"
+                alt="Animación Galapagos Masterpiece Collection"
+                class="hidden"
+                muted
+                preload="auto"
+              ></video>
+            </div>
+            <h4 class="product-title">Galápagos Masterpiece Collection</h4>
+            <p class="product-desc">
+              Diseño minimalista y brillante de las islas.
+            </p>
+            <p
+              class="text-[#E8DA71] text-lg font-bold mt-2"
+              style="font-family: 'Cormorant Garamond', serif"
+            >
+              <span class="product-title">AGOTADO</span>
+              <span
+                class="text-gray-500 line-through-manual text-base mr-2"
+              ></span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div
+        id="modal"
+        class="modal-bg"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+        aria-describedby="modal-desc"
+      >
+        <div class="modal-content">
+          <button
+            id="modal-close"
+            class="modal-close"
+            aria-label="Cerrar modal"
+          >
+            ×
+          </button>
+          <div
+            id="modal-media-container"
+            class="w-full flex justify-center items-center"
+          ></div>
+          <h3 id="modal-title" class="modal-title"></h3>
+          <p id="modal-desc" class="modal-desc"></p>
+        </div>
+      </div>
+
+      <section
+        id="mystery-box-section"
+        class="mystery-box-section"
+        data-aos="fade-up"
+        data-aos-duration="1200"
+      >
+        <h2 class="mystery-box-title">Mystery Box by Luxore</h2>
+        <p class="mystery-box-subtitle">
+          ¿Listo para descubrir la exclusividad? Explora la Colección
+          Masterpiece y llévate una pieza única. Ten un 25% de probabilidad de
+          adquirir la exclusiva figura de Galápagos.
+        </p>
+
+        <img
+          src="./src/img/mbl.png"
+          alt="Caja Misteriosa Luxore"
+          class="mystery-box-image"
+        />
+
+        <p class="mystery-box-price">
+          Precio: $4.00
+          <span class="text-lg text-gray-500 line-through-manual text-base mr-2"
+            >$5.50</span
+          >
+        </p>
+
+        <a
+          href="https://www.instagram.com/luxore.ec"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mystery-box-button"
+        >
+          Escribenos
+        </a>
+
+        <p class="mystery-box-probability">
+          *Cada Caja Misteriosa contiene una pieza aleatoria de la Colección
+          Masterpiece (Guayaquil, Quito, Cuenca, o Galápagos). El 25% de las
+          cajas incluyen la pieza de Galápagos. No hay devoluciones ni cambios.
+        </p>
+      </section>
+    </main>
+    <footer
+      class="bg-black border-t border-[#E8DA71] p-6 text-center text-sm text-gray-500"
+    >
+      © 2025 Luxore.ec — Todos los derechos reservados.
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script>
+    <script>
+      // Script para el menú móvil
+      document.addEventListener("DOMContentLoaded", () => {
+        const toggle = document.getElementById("menu-toggle");
+        const close = document.getElementById("menu-close");
+        const menu = document.getElementById("mobile-menu");
+
+        const headerIsologo = document.getElementById("header-isologo");
+        if (headerIsologo) {
+          headerIsologo.classList.add("active-pulse");
+          setTimeout(() => {
+            headerIsologo.classList.remove("active-pulse");
+          }, 500);
+        }
+
+        toggle.addEventListener("click", () => {
+          menu.classList.remove("translate-x-full");
+        });
+        close.addEventListener("click", () => {
+          menu.classList.add("translate-x-full");
+        });
+      });
+
+      // Script para el modal
+      const modal = document.getElementById("modal");
+      const modalMediaContainer = document.getElementById(
+        "modal-media-container"
+      ); // Nuevo contenedor
+      const modalTitle = document.getElementById("modal-title");
+      const modalDesc = document.getElementById("modal-desc");
+      const modalClose = document.getElementById("modal-close");
+      const cards = document.querySelectorAll(".product-card");
+
+      function openModal(card) {
+        // Limpiar el contenido anterior del contenedor de medios
+        modalMediaContainer.innerHTML = "";
+
+        const videoSrc = card.dataset.videoSrc;
+        const imgSrc = card.dataset.img;
+
+        if (videoSrc) {
+          const videoElement = document.createElement("video");
+          videoElement.src = videoSrc;
+          videoElement.poster = imgSrc; // Usar la imagen como póster
+          // Eliminado 'loop' para que se reproduzca solo una vez
+          videoElement.muted = true;
+          // Eliminado 'playsInline' ya que se usa 'controls'
+          videoElement.controls = true; // Permite controles de video
+          videoElement.classList.add("modal-content-media"); // Clase para estilos
+          modalMediaContainer.appendChild(videoElement);
+          videoElement.play().catch((error) => {
+            console.error("Error al reproducir el video:", error);
+            // Si la reproducción automática falla, se podría mostrar la imagen en su lugar
+            const imgElement = document.createElement("img");
+            imgElement.src = imgSrc;
+            imgElement.alt = card.dataset.title;
+            imgElement.classList.add("modal-content-media");
+            modalMediaContainer.innerHTML = ""; // Limpiar video si existe
+            modalMediaContainer.appendChild(imgElement);
+          });
+        } else {
+          const imgElement = document.createElement("img");
+          imgElement.src = imgSrc;
+          imgElement.alt = card.dataset.title;
+          imgElement.classList.add("modal-content-media"); // Clase para estilos
+          modalMediaContainer.appendChild(imgElement);
+        }
+
+        modalTitle.textContent = card.dataset.title;
+        modalDesc.textContent = card.dataset.desc;
+        modal.classList.add("active");
+        document.body.style.overflow = "hidden";
+        modalClose.focus();
+      }
+
+      function closeModal() {
+        modal.classList.remove("active");
+        document.body.style.overflow = "auto";
+        modalMediaContainer.innerHTML = ""; // Limpiar el contenido multimedia al cerrar
+      }
+
+      cards.forEach((card) => {
+        card.addEventListener("click", () => openModal(card));
+        card.addEventListener("keypress", (e) => {
+          if (e.key === "Enter") {
+            openModal(card);
+          }
+        });
+      });
+
+      modalClose.addEventListener("click", closeModal);
+
+      // Cerrar modal al hacer clic fuera del contenido
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          closeModal();
+        }
+      });
+    </script>
+  </body>
+</html>
