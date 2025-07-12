@@ -9,6 +9,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css"
+      rel="stylesheet"
+    />
+    <link
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=DM+Serif+Display:ital@0;1&display=swap"
       rel="stylesheet"
     />
@@ -17,29 +21,103 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     />
     <link href="./dist/output.css" rel="stylesheet" />
-
     <style>
-      /* Variables CSS para colores personalizados */
       :root {
-        --default-icon-color: #bfa03a; /* Color dorado base */
-        --active-glow-color: #f5e089; /* Color dorado más claro para el brillo activo */
+        --default-icon-color: #bfa03a;
+        --active-glow-color: #f5e089;
         --glow-shadow: 0 0 12px rgba(232, 218, 113, 0.5),
-          0 0 25px rgba(232, 218, 113, 1), 0 0 50px rgba(255, 250, 200, 0.5); /* Sombra para el brillo */
+          0 0 25px rgba(232, 218, 113, 1), 0 0 50px rgba(255, 250, 200, 0.5);
       }
-
-      /* Definición de fuentes personalizadas (localmente si no se cargan de Google Fonts) */
       @font-face {
         font-family: "Cormorant Garamond";
         src: url("./fonts/CormorantGaramond-VariableFont_wght.woff2")
           format("woff2");
+        font-display: swap;
       }
       @font-face {
         font-family: "DM Serif Display";
         src: url("./fonts/DMSerifDisplay-Italic.woff2") format("woff2");
+        font-display: swap;
       }
 
-      /* Estilos generales del body para el fondo de imagen */
-      body {
+      .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 4rem;
+        justify-items: center;
+      }
+      .product-card {
+        background-color: #1f2937;
+        border-radius: 1rem;
+        padding: 1rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        max-width: 220px;
+        width: 100%;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+      }
+      .product-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(232, 218, 113, 0.4);
+      }
+      .feature-icon {
+        color: var(--default-icon-color);
+        text-shadow: none;
+        transition: all 0.5s ease-in-out;
+      }
+      .feature-icon.active-glow {
+        color: var(--active-glow-color);
+        text-shadow: var(--glow-shadow);
+      }
+      .feature-icon:hover {
+        color: var(--active-glow-color);
+        text-shadow: var(--glow-shadow);
+      }
+      .isologo-glow-pulse {
+        transition: filter 0.5s ease-out;
+      }
+      .isologo-glow-pulse.active-pulse {
+        filter: drop-shadow(0 0 15px #e8da71);
+      }
+      .partner-logo {
+        transition: all 0.3s ease-in-out;
+        border-radius: 50%;
+        overflow: hidden;
+        display: block;
+      }
+      .partner-logo:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px rgba(232, 218, 113, 0.7),
+          0 0 30px rgba(232, 218, 113, 0.5);
+      }
+      .partner-instagram-link {
+        color: #a0aec0;
+        text-decoration: none;
+        transition: color 0.3s ease, text-shadow 0.3s ease;
+      }
+      .partner-instagram-link:hover {
+        color: #e8da71;
+        text-shadow: 0 0 8px rgba(232, 218, 113, 0.7);
+      }
+      /* Generalización de estilos para iconos interactivos */
+      .interactive-icon {
+        color: var(--default-icon-color);
+        text-shadow: none;
+        transition: all 0.3s ease-in-out;
+      }
+      .interactive-icon:hover {
+        color: var(--active-glow-color);
+        text-shadow: var(--glow-shadow);
+      }
+
+      /* Estilos para los enlaces de navegación */
+      .nav-link-dm-serif {
+        font-family: "DM Serif Display", serif;
+      }
+
+      /* Estilo del cuerpo para el fondo */
+      .bg-overlay {
         background-image: linear-gradient(
             rgba(0, 0, 0, 0.3),
             rgba(0, 0, 0, 0.3)
@@ -49,111 +127,376 @@
         background-position: center;
         background-repeat: no-repeat;
         background-attachment: fixed;
-        color: white; /* Asegura el color del texto globalmente */
       }
 
-      /* Restablecer estilos de texto para que las fuentes de Google sean las predeterminadas */
-      p,
-      /* Eliminado 'nav a' y 'ul li a' de aquí para que los estilos inline en el header tomen prioridad */
-      ul li a {
-        font-family: "Cormorant Garamond", serif; /* Usar Cormorant Garamond para párrafos y enlaces de navegación */
-        font-style: normal; /* Asegurar que no sea itálica por defecto */
-        color: #e2e8f0; /* Un gris claro para el texto de los párrafos */
+      /* Estilos para el botón CTA */
+      .btn-cta {
+        background-color: transparent;
+        border: 2px solid #e8da71;
+        color: #e8da71;
+        padding: 0.9rem 2rem;
+        border-radius: 9999px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        letter-spacing: 0.05em;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: "Cormorant Garamond", serif;
+        text-decoration: none;
+        display: inline-block;
+        box-shadow: 0 0 10px rgba(232, 218, 113, 0.6);
+        font-style: italic;
       }
 
-      /* Estilos para títulos h1, h2, h3 */
-      h1,
-      h2,
-      h3 {
-        font-family: "DM Serif Display", serif;
-        font-style: italic; /* Los títulos siempre serán itálicos */
-        background: linear-gradient(90deg, #e8da71, #bfa03a, #8c7853);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+      .btn-cta:hover {
+        background: linear-gradient(to right, #9a6a08, #f5e089, #9a6a08);
+        box-shadow: 0 6px 20px rgba(232, 218, 113, 0.6);
+        transform: translateY(-2px);
       }
 
-      /* Estilos para el isologo del header */
-      .isologo-glow-pulse {
-        transition: filter 0.5s ease-out;
-      }
-      .isologo-glow-pulse.active-pulse {
-        filter: drop-shadow(0 0 15px #e8da71);
+      /* Estilos para el contenedor de la animación de inicio */
+      .initial-animation-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 50vh;
+        padding: 2rem;
+        background-color: transparent;
       }
 
-      /* Estilos de las tarjetas del equipo */
-      .team-member-card {
-        background: #1f2937; /* Color de fondo más oscuro para las tarjetas */
+      .initial-animation-container video {
+        max-width: 800px;
+        width: 100%;
+        height: auto;
         border-radius: 1rem;
-        padding: 1.5rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        display: block;
+      }
+
+      /* Estilos del carrusel */
+      .slideshow-container {
+        max-width: 800px;
+        position: relative;
+        margin: auto;
+        border-radius: 1rem;
+        overflow: hidden;
+      }
+
+      .mySlides {
+        display: none;
+        width: 100%;
+      }
+
+      .mySlides img {
+        width: 100%;
+        height: 500px;
+        object-fit: cover;
+        border-radius: 1rem;
+      }
+
+      /* Botones de navegación */
+      .prev,
+      .next {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        width: auto;
+        padding: 16px;
+        margin-top: -22px;
+        color: white;
+        font-weight: bold;
+        font-size: 30px;
+        transition: 0.6s ease;
+        border-radius: 0 3px 3px 0;
+        user-select: none;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      .next {
+        right: 0;
+        border-radius: 3px 0 0 3px;
+      }
+
+      .prev:hover,
+      .next:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+
+      /* Puntos indicadores */
+      .dot {
+        cursor: pointer;
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+        transition: background-color 0.6s ease;
+      }
+
+      .active,
+      .dot:hover {
+        background-color: #717171;
+      }
+
+      /* Animación de desvanecimiento */
+      .fade {
+        animation-name: fade;
+        animation-duration: 1.5s;
+      }
+
+      @keyframes fade {
+        from {
+          opacity: 0.4;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      .icon-glow {
+        transition: text-shadow 0.3s ease-in-out;
+      }
+
+      .icon-glow:hover {
+        text-shadow: 0 0 20px #ffd700, 0 0 15px #daa520, 0 0 20px #b8860b;
+      }
+
+      /* Nuevo estilo para sombras doradas en hover */
+      .shadow-gold-xl {
+        box-shadow: 0 10px 30px rgba(232, 218, 113, 0.4);
+      }
+      .hover\:shadow-gold-xl:hover {
+        box-shadow: 0 12px 40px rgba(232, 218, 113, 0.6),
+          0 0 25px rgba(232, 218, 113, 0.8);
+      }
+
+      /* Estilos para el video del hero */
+      .hero-video-full {
+        width: 100%;
+        height: 100%; /* Ocupa el 100% de la altura de su padre (hero-section) */
+        object-fit: cover;
+      }
+
+      /* Variables para los gradientes y el glow */
+      :root {
+        --gold-gradient: linear-gradient(
+          to right,
+          #ffd700,
+          #daa520,
+          #b8860b
+        ); /* Tonos de dorado */
+        --gold-gradient-hover: linear-gradient(
+          to right,
+          #ffd700,
+          #daa520,
+          #b8860b
+        ); /* Un poco más oscuro para el hover */
+        --border-width: 2px; /* Define el ancho del borde */
+        --gold-glow-color: rgba(
+          232,
+          218,
+          113,
+          0.6
+        ); /* Color dorado con opacidad para el glow */
+        --gold-glow-color-strong: rgba(
+          232,
+          218,
+          113,
+          0.6
+        ); /* Más opaco para el focus/hover */
+        --button-initial-bg: #1a1a1a; /* <-- NUEVO: Color de fondo inicial del botón (gris muy oscuro) */
+      }
+
+      /* Estilo inicial del botón: Fondo oscuro, borde y texto dorado (gradiente) */
+      .button-gold-gradient {
+        position: relative;
+        z-index: 1;
+        overflow: hidden; /* Esencial para hvr-shutter-out-horizontal y el redondeo */
+        padding: 12px 28px;
+        border: none;
+        background-color: var(
+          --button-initial-bg
+        ); /* <-- NUEVO: Fondo sólido oscuro para el botón */
+
+        /* Gradiente en el texto */
+        background-image: var(
+          --gold-gradient
+        ); /* Aplica el gradiente dorado al texto */
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent; /* Hace el texto transparente para que el gradiente se vea */
+        -webkit-text-fill-color: transparent;
+
+        /* Efecto de iluminación (glow) */
+        box-shadow: 0 0 10px var(--gold-glow-color),
+          /* Sombra exterior suave */ 0 0 20px var(--gold-glow-color),
+          /* Sombra exterior media */ inset 0 0 5px
+            var(--gold-glow-color-strong); /* Sombra interior para "iluminar" */
+        transition: box-shadow 0.3s ease-in-out; /* Transición suave para el glow */
+
+        /* Tipo de letra de la página */
+        font-family: "DM Serif Display", serif; /* O 'Cormorant Garamond', serif; */
+        font-weight: 400;
+        letter-spacing: normal;
+        text-transform: none; /* Mantener en mayúsculas como en el diseño previo */
+      }
+
+      /* Pseudo-elemento ::after para crear el borde con gradiente y las puntas redondeadas */
+      .button-gold-gradient::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: var(--gold-gradient); /* El gradiente para el borde */
+        border-radius: inherit; /* Hereda el redondeo del botón */
+        z-index: -1; /* Se coloca detrás del contenido del botón */
+        /* Máscara para crear el agujero transparente en el centro del borde */
+        -webkit-mask: linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        padding: var(--border-width); /* Define el grosor del borde */
+      }
+
+      /* Estilo del efecto hover de hvr-shutter-out-horizontal */
+      .hvr-shutter-out-horizontal::before {
+        background-image: var(
+          --gold-gradient-hover
+        ) !important; /* Gradiente para el hover del shutter */
+        background-color: transparent !important; /* Asegura que no haya color sólido de fallback */
+        border-radius: inherit; /* Hereda el redondeo del botón principal */
+      }
+
+      /* Color del texto al hacer hover */
+      .hvr-shutter-out-horizontal:hover {
+        color: #1a1a1a !important; /* Texto oscuro para buen contraste sobre el fondo dorado del hover */
+        -webkit-text-fill-color: #1a1a1a !important; /* Anula el gradiente del texto en hover */
+        background-image: none !important; /* Elimina el gradiente del texto en hover */
+        /* Intensifica el glow al hacer hover */
+        box-shadow: 0 0 15px var(--gold-glow-color-strong),
+          0 0 30px var(--gold-glow-color-strong),
+          inset 0 0 8px var(--gold-glow-color-strong);
+      }
+
+      /* Ajuste para el glow en el estado focus */
+      .button-gold-gradient:focus-visible {
+        box-shadow: 0 0 15px var(--gold-glow-color-strong),
+          0 0 30px var(--gold-glow-color-strong),
+          inset 0 0 8px var(--gold-glow-color-strong);
+        outline: none; /* Elimina el outline por defecto del navegador */
+      }
+
+      /* Media Query para ocultar el botón CTA y mostrar el ícono en móviles y escritorio */
+      @media (max-width: 767px) {
+        .header-cta-button {
+          display: none !important;
+        }
+        .header-cta-icon {
+          display: inline-block !important;
+        }
+      }
+      @media (min-width: 768px) {
+        .header-cta-button {
+          display: none !important;
+        }
+        .header-cta-icon {
+          display: inline-block !important;
+        }
+      }
+
+      /* Estilos MAIN */
+      .section-spacing {
+        padding-top: 5rem; /* Espacio superior para cada sección */
+        padding-bottom: 5rem; /* Espacio inferior para cada sección */
+      }
+
+      .section-title {
         text-align: center;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        font-family: "DM Serif Display", serif;
+        font-size: 3.5rem; /* Equivalente a text-5xl */
+        line-height: 1;
+        margin-bottom: 2.5rem; /* Equivalente a mb-10 */
+        background-image: linear-gradient(to right, #e8da71, #bfa03a, #8c7853);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-style: italic;
+        transition: all 0.3s ease-in-out;
+      }
+
+      .section-title:hover {
+        filter: drop-shadow(0 0 8px #e8da71);
+      }
+
+      .centered-content-wrapper {
+        max-width: 80rem; /* max-w-5xl es 64rem, 80rem para un poco más de espacio */
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .content-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3rem; /* Espacio entre imagen y texto */
+        margin-bottom: 4rem; /* Espacio debajo de la sección */
+      }
+
+      @media (min-width: 768px) {
+        .content-section {
+          flex-direction: row;
+          text-align: left;
+        }
+        .content-section.reverse {
+          flex-direction: row-reverse;
+        }
+      }
+
+      .content-text {
+        flex: 1;
+        padding: 0 1rem; /* Pequeño padding horizontal */
+      }
+
+      .content-text p {
+        font-family: "Cormorant Garamond", serif;
+      }
+
+      .content-image-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .content-image-container img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 0.75rem; /* rounded-xl */
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
       }
-      .team-member-card:hover {
-        transform: translateY(-8px); /* Más elevación al pasar el ratón */
-        box-shadow: 0 8px 25px rgba(232, 218, 113, 0.5); /* Brillo más pronunciado */
-      }
-      .team-photo-new {
-        width: 140px;
-        height: 140px;
-        object-fit: cover;
-        border-radius: 9999px; /* Circular */
-        margin: 0 auto 1.5rem;
-        border: 3px solid #bfa03a; /* Borde más prominente */
-        box-shadow: 0 0 15px rgba(232, 218, 113, 0.3); /* Sutil brillo en la foto */
-        transition: border-color 0.3s ease, box-shadow 0.3s ease;
-      }
-      .team-photo-new:hover {
-        border-color: #e8da71;
-        box-shadow: 0 0 25px rgba(232, 218, 113, 0.7); /* Brillo más intenso en la foto */
+
+      .content-image-container img:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(232, 218, 113, 0.3);
       }
 
-      /* Estilo del botón CTA (Call To Action) */
-      .btn-cta {
-        display: inline-block;
-        padding: 0.75rem 2rem;
-        border-radius: 9999px; /* rounded-full */
-        text-decoration: none;
-        font-weight: 700;
-        font-family: "Cormorant Garamond", serif;
-        color: black;
-        background: linear-gradient(90deg, #e8da71, #bfa03a, #8c7853);
-        transition: all 0.3s ease-in-out;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      }
-      .btn-cta:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 0 20px rgba(232, 218, 113, 0.8),
-          0 0 40px rgba(232, 218, 113, 0.6);
+      /* Valores */
+      .values-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        padding: 2rem 0;
       }
 
-      /* Estilo para los iconos de valores/filosofía */
       .value-icon {
-        color: var(--default-icon-color);
-        text-shadow: none;
-        transition: all 0.5s ease-in-out;
+        color: #f5e089; /* Color dorado */
+        font-size: 4rem; /* Icono más grande */
+        text-shadow: 0 0 15px rgba(245, 224, 137, 0.6); /* Sombra dorada */
       }
 
-      .value-icon:hover {
-        color: var(--active-glow-color);
-        text-shadow: var(--glow-shadow);
-      }
-
-      /* Animación de encendido/apagado secuencial para iconos */
       .icon-flicker-animation {
-        animation: flicker 2s infinite alternate;
-      }
-
-      @keyframes flicker {
-        0%,
-        100% {
-          color: var(--default-icon-color);
-          text-shadow: none;
-        }
-        50% {
-          color: var(--active-glow-color);
-          text-shadow: var(--glow-shadow);
-        }
+        animation: flicker 1.5s infinite alternate;
       }
 
       .flicker-delay-1 {
@@ -163,249 +506,82 @@
         animation-delay: 1s;
       }
 
-      /* --- Estilos de Secciones Minimalistas --- */
-      section {
-        padding: 6rem 2rem;
-        text-align: center; /* Centra el texto directamente en la sección si no hay un contenedor específico */
-      }
-
-      section > div {
-        margin-top: 4rem;
-      }
-
-      /* CLASES PARA CENTRAR CONTENEDORES PRINCIPALES EN CADA SECCIÓN */
-      .centered-content-wrapper {
-        max-width: 80rem; /* Un ancho máximo generoso, ajusta si es necesario */
-        margin-left: auto;
-        margin-right: auto;
-        width: 100%; /* Asegura que tome el ancho disponible hasta el max-width */
-      }
-
-      /* Ajustes para cuadrículas */
-      .grid-container {
-        display: grid;
-        gap: 4rem;
-        grid-template-columns: 1fr;
-        justify-items: center; /* Centra los items de la cuadrícula */
-      }
-
-      @media (min-width: 768px) {
-        .grid-container {
-          grid-template-columns: repeat(2, 1fr);
+      @keyframes flicker {
+        0%,
+        100% {
+          opacity: 1;
+          text-shadow: 0 0 15px rgba(245, 224, 137, 0.6),
+            0 0 25px rgba(245, 224, 137, 0.4);
+        }
+        50% {
+          opacity: 0.8;
+          text-shadow: 0 0 10px rgba(245, 224, 137, 0.3),
+            0 0 20px rgba(245, 224, 137, 0.2);
         }
       }
 
-      @media (min-width: 1024px) {
-        .grid-container {
-          grid-template-columns: repeat(3, 1fr);
-        }
-      }
-
-      .values-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 3rem;
-        justify-items: center;
-        /* Centrar la cuadrícula en sí, si no ocupa todo el ancho */
-        justify-content: center;
-      }
-
-      @media (min-width: 768px) {
-        .values-grid {
-          grid-template-columns: repeat(3, 1fr);
-        }
-      }
-
+      /* Equipo */
       .team-grid {
         display: grid;
-        grid-template-columns: 1fr;
-        gap: 3rem;
-        /* IMPORTANTE: Centra tanto los ítems DENTRO de las celdas como la cuadrícula en sí,
-           cuando esta no llena todo el ancho del contenedor padre. */
-        place-items: center; /* Centra horizontal y verticalmente cada ítem en su celda */
-        justify-content: center; /* Centra la cuadrícula como un todo si no ocupa todo el espacio */
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 0.5rem !important;
+        justify-items: center;
+        padding: 2rem 0;
       }
 
-      @media (min-width: 640px) {
-        .team-grid {
-          grid-template-columns: repeat(2, 1fr);
-        }
-      }
-
-      @media (min-width: 1024px) {
-        .team-grid {
-          grid-template-columns: repeat(3, 1fr);
-        }
-      }
-
-      /* Títulos de sección */
-      .section-title {
-        font-size: 3rem;
-        text-align: center;
-        margin-bottom: 4rem;
-        background: linear-gradient(90deg, #e8da71, #bfa03a, #8c7853);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-family: "DM Serif Display", serif;
-        font-style: italic;
-        letter-spacing: 0.05em;
-        transition: all 0.3s ease-in-out;
-      }
-
-      .section-title:hover {
-        text-shadow: 0 0 8px rgba(232, 218, 113, 0.7);
-      }
-
-      /* Animación para "Nuestra Historia" */
-      .history-section h2 {
-        transition: filter 0.3s ease;
-      }
-
-      .history-section h2:hover {
-        filter: drop-shadow(0 0 8px #e8da71);
-      }
-
-      .section-subtitle {
-        font-size: 1.5rem;
-        color: #a0aec0;
-        text-align: center;
-        margin-bottom: 3rem;
-        font-family: "Cormorant Garamond", serif;
-        font-style: italic;
-      }
-
-      /* Estilos para el nuevo diseño de secciones con imagen/texto */
-      .content-section {
-        display: flex;
-        flex-direction: column; /* Por defecto apila en columnas para móviles */
-        align-items: center;
-        gap: 4rem;
-        margin-bottom: 6rem;
-      }
-
-      .content-section.reverse {
-        flex-direction: column-reverse; /* Para invertir orden en móviles si es necesario */
-      }
-
-      .content-image-container {
-        width: 100%;
-        max-width: 500px; /* Ajusta según el diseño deseado */
+      .team-member-card {
+        background-color: #1f2937;
         border-radius: 1rem;
-        overflow: hidden;
-        box-shadow: 0 0 25px rgba(232, 218, 113, 0.3),
-          0 0 50px rgba(232, 218, 113, 0.1);
-        transition: box-shadow 0.3s ease;
-      }
-
-      .content-image-container:hover {
-        box-shadow: 0 0 35px rgba(232, 218, 113, 0.5),
-          0 0 70px rgba(232, 218, 113, 0.2);
-      }
-
-      .content-image-container img {
-        width: 100%;
-        height: auto;
-        display: block;
-      }
-
-      .content-text {
-        flex: 1;
+        padding: 2rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
         text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        max-width: 300px;
+        width: 100%;
+        border: 1px solid rgba(232, 218, 113, 0.3); /* Borde sutil dorado */
       }
 
-      @media (min-width: 768px) {
-        .content-section {
-          flex-direction: row; /* En pantallas medianas y grandes, alinea en fila */
-          text-align: left; /* Alinea el texto a la izquierda en desktop */
-        }
-        .content-section.reverse {
-          flex-direction: row-reverse; /* Invierte el orden para alternar */
-        }
-        .content-text {
-          text-align: left; /* Alinea el texto a la izquierda en desktop */
-        }
-      }
-      .icon-glow {
-        transition: text-shadow 0.3s ease-in-out; /* Suaviza la transición del resplandor */
+      .team-member-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 25px rgba(232, 218, 113, 0.4),
+          0 0 30px rgba(232, 218, 113, 0.2);
       }
 
-      .icon-glow:hover {
-        text-shadow: 0 0 20px #ffd700, 0 0 15px #daa520, 0 0 20px #b8860b;
+      .team-photo-new {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin: 0 auto 1.5rem auto;
+        border: 4px solid #e8da71; /* Borde dorado más pronunciado */
+        box-shadow: 0 0 15px rgba(232, 218, 113, 0.6);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .team-photo-new:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(232, 218, 113, 0.8),
+          0 0 35px rgba(232, 218, 113, 0.4);
       }
     </style>
   </head>
-  <body
-    class="relative text-white font-sans bg-overlay"
-    style="
-      background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-        url('./src/img/FondoLuxore.png');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-    "
-  >
-    <script>
-      // Este es el script corregido del loader.
-      window.addEventListener("load", () => {
-        const loader = document.getElementById("intro-loader");
-        const headerIsologo = document.getElementById("header-isologo"); // Selecciona el isologo
-
-        // Función para activar el pulso del isologo
-        const activateIsologoPulse = () => {
-          if (headerIsologo) {
-            headerIsologo.classList.add("active-pulse");
-            // Después de un breve momento, quitar la clase para que el brillo se desvanezca
-            setTimeout(() => {
-              headerIsologo.classList.remove("active-pulse");
-            }, 500); // El brillo dura 0.5 segundos y se desvanece
-          }
-        };
-
-        // Verifica si el loader ya se ha mostrado en esta sesión
-        if (sessionStorage.getItem("loaderShown")) {
-          loader.remove(); // Si ya se mostró, elimina el loader inmediatamente
-          document.body.style.overflow = "auto"; // Asegura que el scroll esté habilitado
-          activateIsologoPulse(); // <-- LLAMADA AGREGADA AQUÍ para visitas subsecuentes
-        } else {
-          // Si no se ha mostrado, ejecuta la animación
-          sessionStorage.setItem("loaderShown", "true"); // Marca que el loader ya se mostró en esta sesión
-
-          // Espera 3 segundos antes de empezar a ocultar el loader
-          setTimeout(() => {
-            loader.classList.add(
-              "opacity-0",
-              "transition-opacity",
-              "duration-1000"
-            );
-            // Después de 1 segundo (la duración de la transición), remueve el loader del DOM
-            setTimeout(() => {
-              loader.remove();
-              document.body.style.overflow = "auto"; // Habilita el scroll después de la animación
-              activateIsologoPulse(); // <-- LLAMADA YA EXISTENTE AQUÍ para la primera visita
-            }, 1000);
-          }, 3000); // El loader estará visible por 3 segundos antes de empezar a desaparecer
-
-          document.body.style.overflow = "hidden"; // Deshabilita el scroll mientras el loader es visible
-        }
-      });
-    </script>
+  <body class="relative text-white font-sans bg-overlay">
     <div
       id="intro-loader"
       class="fixed inset-0 bg-black z-[9999] flex flex-col justify-center items-center"
+      role="status"
+      aria-label="Cargando contenido de la página"
     >
       <div class="relative w-32 h-32">
         <div
           class="absolute inset-0 rounded-full bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] blur-2xl bg-opacity-100 animate-pulse"
         ></div>
-
         <img
           src="./src/img/isotipoLuxore.png"
-          alt="Logo Luxore"
+          alt="Logo Luxore - Cargando"
           class="relative w-full h-full object-contain z-10 transition-transform duration-500 hover:scale-105"
         />
       </div>
-
       <p
         class="mt-14 text-4xl md:text-5xl tracking-wider italic bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] bg-clip-text text-transparent"
         style="font-family: 'DM Serif Display', serif"
@@ -415,70 +591,46 @@
     </div>
 
     <header
-      class="sticky top-0 z-50 bg-black border-b border-[#E8DA71] px-4 py-4 md:py-4 flex items-center justify-between relative h-20 md:h-24"
+      class="sticky top-0 z-50 bg-black border-b border-[#E8DA71] px-4 py-4 md:py-4 flex items-center justify-between h-20 md:h-24"
     >
       <div class="absolute inset-0 bg-black bg-opacity-40 -z-[1]"></div>
-
-      <h1
-        class="flex items-center space-x-2 text-3xl tracking-wider bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] bg-clip-text text-transparent"
-        style="font-family: 'DM Serif Display', serif; font-style: italic"
-      >
-        <div class="absolute left-1/2 transform -translate-x-1/2">
-          <a href="index.html">
-            <img
-              id="header-isologo"
-              src="./src/img/isotipoLuxore.png"
-              alt="Isologo Luxore"
-              class="w-16 md:w-20 h-auto object-contain hover:drop-shadow-[0_0_15px_#E8DA71] isologo-glow-pulse"
-          /></a>
-        </div>
-      </h1>
-
-      <div class="ml-auto md:hidden">
+      <div class="absolute left-1/2 transform -translate-x-1/2">
+        <a href="index.html" aria-label="Volver al inicio">
+          <img
+            id="header-isologo"
+            src="./src/img/isotipoLuxore.png"
+            alt="Isologo Luxore"
+            class="w-16 md:w-20 h-auto object-contain hover:drop-shadow-[0_0_15px_#E8DA71] isologo-glow-pulse"
+          />
+        </a>
+      </div>
+      <div class="ml-auto flex items-center gap-4">
+        <a
+          href="https://wa.me/593968157701"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-[#E8DA71] text-3xl focus:outline-none hover:drop-shadow-[0_0_1px_#E8DA71] header-cta-icon"
+          aria-label="Haz tu pedido"
+        >
+          <i class="bi bi-bag-heart icon-golden-gradient interactive-icon"></i>
+        </a>
         <button
           id="menu-toggle"
-          class="text-[#E8DA71] text-3xl focus:outline-none hover:drop-shadow-[0_0_4px_#E8DA71]"
-          aria-label="Abrir menú"
+          class="text-[#E8DA71] text-3xl focus:outline-none hover:drop-shadow-[0_0_2px_#E8DA71]"
+          aria-label="Abrir menú de navegación"
         >
-          <i class="bi bi-list icon-golden-gradient"></i>
+          <i class="bi bi-list icon-golden-gradient interactive-icon"></i>
         </button>
       </div>
-
-      <nav class="hidden md:flex space-x-8 text-lg ml-auto">
-        <a
-          href="index.html"
-          class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition"
-          style="font-family: 'DM Serif Display', serif; font-style: italic"
-          >Inicio</a
-        >
-        <a
-          href="productos.html"
-          class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition"
-          style="font-family: 'DM Serif Display', serif; font-style: italic"
-          >Productos</a
-        >
-        <a
-          href="nosotros.html"
-          class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition font-semibold"
-          style="font-family: 'DM Serif Display', serif; font-style: italic"
-          >Nosotros</a
-        >
-        <a
-          href="socios.html"
-          class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition"
-          style="font-family: 'DM Serif Display', serif; font-style: italic"
-          >Socios</a
-        >
-      </nav>
-
       <nav
         id="mobile-menu"
         class="fixed top-0 right-0 w-64 h-full bg-black text-white p-6 transform translate-x-full transition-transform duration-300 z-40 shadow-lg"
+        aria-label="Menú de navegación principal"
       >
         <button
           id="menu-close"
           class="text-2xl mb-6 focus:outline-none hover:drop-shadow-[0_0_6px_#E8DA71] transition"
-          aria-label="Cerrar menú"
+          aria-label="Cerrar menú de navegación"
         >
           <i
             class="bi bi-arrow-left-circle-fill text-3xl icon-golden-gradient"
@@ -488,109 +640,104 @@
           <li>
             <a
               href="index.html"
-              class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition"
-              style="font-family: 'DM Serif Display', serif; font-style: italic"
+              class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition nav-link-dm-serif"
               >Inicio</a
             >
           </li>
           <li>
             <a
               href="productos.html"
-              class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition"
-              style="font-family: 'DM Serif Display', serif; font-style: italic"
+              class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition nav-link-dm-serif"
               >Colecciones</a
             >
           </li>
+
           <li>
             <a
               href="nosotros.html"
-              class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition"
-              style="font-family: 'DM Serif Display', serif; font-style: italic"
+              class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition nav-link-dm-serif"
               >Nosotros</a
             >
           </li>
           <li>
             <a
               href="socios.html"
-              class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition"
-              style="font-family: 'DM Serif Display', serif; font-style: italic"
+              class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition nav-link-dm-serif"
               >Socios</a
             >
           </li>
-          <div class="flex justify-center gap-8 mb-3 text-2xl">
+          <li>
+            <a
+              href="faq.html"
+              class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition nav-link-dm-serif"
+              >FAQ</a
+            >
+          </li>
+          <li>
+            <a
+              href="politicas.html"
+              class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition nav-link-dm-serif"
+              >Políticas</a
+            >
+          </li>
+        </ul>
+        <div class="mt-8 pt-4 border-t border-gray-700 text-center">
+          <h4
+            class="text-2xl tracking-wide bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] bg-clip-text text-transparent italic mb-4"
+            style="font-family: 'DM Serif Display', serif"
+          >
+            Síguenos
+          </h4>
+          <div class="flex justify-center gap-6 text-3xl">
             <a
               href="https://instagram.com/luxore.ec"
               target="_blank"
               rel="noopener noreferrer"
-              data-aos="zoom-in"
-              data-aos-duration="800"
-              data-aos-delay="3500"
               class="interactive-icon"
               aria-label="Síguenos en Instagram"
-              ><i class="bi bi-instagram icon-glow"></i
+              ><i class="bi bi-instagram"></i
             ></a>
             <a
               href="https://tiktok.com/@luxore.ec"
               target="_blank"
               rel="noopener noreferrer"
-              data-aos="zoom-in"
-              data-aos-duration="800"
-              data-aos-delay="3500"
               class="interactive-icon"
               aria-label="Síguenos en TikTok"
-              ><i class="bi bi-tiktok icon-glow"></i
+              ><i class="bi bi-tiktok"></i
             ></a>
             <a
               href="https://www.youtube.com/@luxore_ec"
               target="_blank"
               rel="noopener noreferrer"
-              data-aos="zoom-in"
-              data-aos-duration="800"
-              data-aos-delay="3500"
               class="interactive-icon"
               aria-label="Síguenos en YouTube"
-              ><i class="bi bi-youtube icon-glow"></i
+              ><i class="bi bi-youtube"></i
             ></a>
             <a
               href="https://www.facebook.com/luxore.ec"
               target="_blank"
               rel="noopener noreferrer"
-              data-aos="zoom-in"
-              data-aos-duration="800"
-              data-aos-delay="3500"
               class="interactive-icon"
               aria-label="Síguenos en Facebook"
-              ><i class="bi bi-facebook icon-glow"></i
+              ><i class="bi bi-facebook"></i
             ></a>
           </div>
-        </ul>
+        </div>
       </nav>
     </header>
 
     <main class="container mx-auto px-4">
       <section
-        class="history-section"
+        class="section-spacing"
         data-aos="fade-in"
         data-aos-duration="1500"
       >
-        <h2
-          class="text-5xl md:text-6xl tracking-wide bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] bg-clip-text text-transparent italic mb-10 hover:drop-shadow-[0_0_8px_#E8DA71] transition-all duration-300"
-          data-aos="fade-up"
-          data-aos-delay="300"
-          data-aos-duration="1000"
-        >
+        <h2 class="section-title" data-aos="fade-up" data-aos-delay="300">
           Nuestra Historia
         </h2>
-        <div class="centered-content-wrapper max-w-5xl content-section">
-          <div
-            class="content-text"
-            data-aos="fade-right"
-            data-aos-delay="600"
-            data-aos-duration="1000"
-          >
-            <p
-              class="text-lg md:text-xl text-gray-200 leading-relaxed font-semibold mb-4"
-            >
+        <div class="centered-content-wrapper content-section">
+          <div class="content-text" data-aos="fade-right" data-aos-delay="600">
+            <p class="text-xl text-gray-200 leading-relaxed font-semibold mb-4">
               Luxore.ec nace de la pasión por el arte. Cada pieza encarna
               elegancia y distinción, fusionando diseño contemporáneo con
               elementos icónicos del país, reinterpretados para un público
@@ -601,7 +748,6 @@
             class="content-image-container"
             data-aos="fade-left"
             data-aos-delay="800"
-            data-aos-duration="1000"
           >
             <img
               src="./src/img/Ecuador.png"
@@ -611,50 +757,44 @@
         </div>
       </section>
 
-      <section class="vision-section">
+      <section class="section-spacing pb-8" id="equipo">
         <h2 class="section-title" data-aos="fade-up">
           Nuestra Visión y Misión
         </h2>
-        <div class="centered-content-wrapper max-w-5xl content-section reverse">
+        <div class="centered-content-wrapper content-section reverse">
           <div
             class="content-image-container"
             data-aos="fade-right"
             data-aos-delay="200"
-            data-aos-duration="1000"
           >
             <img
               src="./src/img/img1.jpg"
               alt="Imagen de Visión y Misión de Luxore"
             />
           </div>
-          <div
-            class="content-text"
-            data-aos="fade-left"
-            data-aos-delay="400"
-            data-aos-duration="1000"
-          >
-            <p class="text-2xl text-gray-300 leading-relaxed mb-4">
-              Misión: Transformar los recuerdos de viaje en piezas artísticas de
-              lujo que representen el alma de las ciudades ecuatorianas. En
-              Luxore.ec diseñamos objetos decorativos exclusivos para turistas
-              que valoran la elegancia, el diseño y la autenticidad cultural,
-              fusionando materiales nobles con un enfoque minimalista y
-              simbólico.
+          <div class="content-text" data-aos="fade-left" data-aos-delay="400">
+            <p class="text-xl text-gray-300 leading-relaxed mb-4">
+              <strong class="text-2xl">Misión</strong>: Transformar los
+              recuerdos de viaje en piezas artísticas de lujo que representen el
+              alma de las ciudades ecuatorianas. En Luxore.ec diseñamos objetos
+              decorativos exclusivos para turistas que valoran la elegancia, el
+              diseño y la autenticidad cultural, fusionando materiales nobles
+              con un enfoque minimalista y simbólico.
             </p>
-            <p class="text-2xl text-gray-300 leading-relaxed mb-4">---</p>
-            <p class="text-2xl text-gray-300 leading-relaxed">
-              Visión: Ser una opción preferida por turistas que buscan llevar
-              consigo un objeto distintivo de su viaje, destacándonos por
-              nuestra propuesta estética única y la calidad de nuestros
-              acabados.
+
+            <p class="text-xl text-gray-300 leading-relaxed">
+              <strong class="text-2xl">Visión</strong>: Ser una opción preferida
+              por turistas que buscan llevar consigo un objeto distintivo de su
+              viaje, destacándonos por nuestra propuesta estética única y la
+              calidad de nuestros acabados.
             </p>
           </div>
         </div>
       </section>
 
-      <section>
+      <section class="section-spacing" id="our-essence-section">
         <h2 class="section-title" data-aos="fade-up">El Alma de Luxore</h2>
-        <div class="centered-content-wrapper max-w-5xl">
+        <div class="centered-content-wrapper">
           <div class="values-grid">
             <div
               class="flex flex-col items-center p-8 bg-[#1f2937] rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300"
@@ -662,9 +802,7 @@
               data-aos-delay="100"
               data-aos-duration="800"
             >
-              <i
-                class="bi bi-gem text-5xl value-icon mb-4 icon-flicker-animation"
-              ></i>
+              <i class="bi bi-gem value-icon mb-4 feature-icon"></i>
               <h3
                 class="text-2xl text-[#F5E089] mb-2"
                 style="font-family: 'DM Serif Display', serif"
@@ -679,9 +817,7 @@
               data-aos-delay="300"
               data-aos-duration="800"
             >
-              <i
-                class="bi bi-globe-americas text-5xl value-icon mb-4 icon-flicker-animation flicker-delay-1"
-              ></i>
+              <i class="bi bi-globe-americas value-icon mb-4 feature-icon"></i>
               <h3
                 class="text-2xl text-[#F5E089] mb-2"
                 style="font-family: 'DM Serif Display', serif"
@@ -696,9 +832,7 @@
               data-aos-delay="500"
               data-aos-duration="800"
             >
-              <i
-                class="bi bi-stars text-5xl value-icon mb-4 icon-flicker-animation flicker-delay-2"
-              ></i>
+              <i class="bi bi-stars value-icon mb-4 feature-icon"></i>
               <h3
                 class="text-2xl text-[#F5E089] mb-2"
                 style="font-family: 'DM Serif Display', serif"
@@ -710,9 +844,9 @@
         </div>
       </section>
 
-      <section>
+      <section class="section-spacing">
         <h2 class="section-title" data-aos="fade-up">Nuestro Equipo</h2>
-        <div class="centered-content-wrapper max-w-5xl">
+        <div class="centered-content-wrapper">
           <div class="team-grid">
             <div
               class="team-member-card"
@@ -721,7 +855,7 @@
               data-aos-delay="100"
             >
               <img
-                src="./src/img/isotipoLuxore.png"
+                src="./src/img/gc.png"
                 alt="Foto de Guillermo C."
                 class="team-photo-new"
               />
@@ -752,7 +886,7 @@
               data-aos-delay="300"
             >
               <img
-                src="./src/img/isotipoLuxore.png"
+                src="./src/img/wm.png"
                 alt="Foto de Wendy M."
                 class="team-photo-new"
               />
@@ -780,13 +914,13 @@
         </div>
       </section>
 
-      <section>
+      <section class="section-spacing text-center">
         <h2 class="section-title" data-aos="fade-up">
           Compromiso con la Excelencia
         </h2>
         <div class="centered-content-wrapper max-w-3xl">
           <p
-            class="text-lg text-gray-300 mb-6 leading-relaxed"
+            class="text-xl text-gray-300 mb-8 leading-relaxed"
             style="font-family: 'Cormorant Garamond', serif"
             data-aos="fade-up"
             data-aos-delay="200"
@@ -799,7 +933,7 @@
           </p>
           <a
             href="productos.html"
-            class="btn-cta"
+            class="btn-cta hvr-shutter-out-horizontal"
             role="button"
             aria-label="Descubre nuestra colección exclusiva"
             data-aos="zoom-in"
@@ -812,46 +946,303 @@
     </main>
 
     <footer
-      class="bg-black border-t border-[#E8DA71] p-6 text-center text-sm text-gray-500 mt-12"
+      class="bg-black border-t border-[#E8DA71] p-8 text-center text-sm text-gray-400"
+      role="contentinfo"
     >
-      © 2025 Luxore.ec — Todos los derechos reservados.
+      <div class="max-w-6xl mx-auto flex flex-col items-center space-y-6">
+        <div class="text-center">
+          <h4
+            class="text-3xl tracking-wide bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] bg-clip-text text-transparent italic mb-6"
+            style="font-family: 'DM Serif Display', serif"
+          >
+            Síguenos
+          </h4>
+          <div class="flex justify-center gap-6 text-3xl">
+            <a
+              href="https://instagram.com/luxore.ec"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="interactive-icon"
+              aria-label="Síguenos en Instagram"
+              ><i class="bi bi-instagram"></i
+            ></a>
+            <a
+              href="https://tiktok.com/@luxore.ec"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="interactive-icon"
+              aria-label="Síguenos en TikTok"
+              ><i class="bi bi-tiktok"></i
+            ></a>
+            <a
+              href="https://www.youtube.com/@luxore_ec"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="interactive-icon"
+              aria-label="Síguenos en YouTube"
+              ><i class="bi bi-youtube"></i
+            ></a>
+            <a
+              href="https://www.facebook.com/luxore.ec"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="interactive-icon"
+              aria-label="Síguenos en Facebook"
+              ><i class="bi bi-facebook"></i
+            ></a>
+          </div>
+        </div>
+
+        <nav class="flex flex-wrap justify-center gap-x-8 gap-y-4 text-lg">
+          <a
+            href="index.html"
+            class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition nav-link-dm-serif"
+            >Inicio</a
+          >
+          <a
+            href="productos.html"
+            class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition nav-link-dm-serif"
+            >Colecciones</a
+          >
+          <a
+            href="nosotros.html"
+            class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition nav-link-dm-serif"
+            >Nosotros</a
+          >
+          <a
+            href="socios.html"
+            class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition nav-link-dm-serif"
+            >Socios</a
+          >
+          <a
+            href="faq.html"
+            class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition nav-link-dm-serif"
+            >FAQ</a
+          >
+          <a
+            href="politicas.html"
+            class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition nav-link-dm-serif"
+            >Políticas</a
+          >
+        </nav>
+
+        <div class="text-gray-500 flex flex-col md:flex-row items-center gap-4">
+          <a
+            href="mailto:luxore.ec@gmail.com"
+            class="flex items-center gap-2 hover:text-[#E8DA71] transition"
+          >
+            <i class="bi bi-envelope-fill text-[#E8DA71]"></i>
+            luxore.ec@gmail.com
+          </a>
+          <a
+            href="https://wa.me/593968157701"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-2 hover:text-[#E8DA71] transition"
+          >
+            <i class="bi bi-whatsapp text-[#E8DA71]"></i> +593 96 815 7701
+          </a>
+          <span class="flex items-center gap-2"
+            ><i class="bi bi-geo-alt-fill text-[#E8DA71]"></i> Guayaquil,
+            Ecuador</span
+          >
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs">
+          <a
+            href="politica-privacidad.html"
+            class="hover:text-[#E8DA71] transition"
+            >Política de Privacidad</a
+          >
+          <a
+            href="terminos-condiciones.html"
+            class="hover:text-[#E8DA71] transition"
+            >Términos y Condiciones</a
+          >
+          <a href="politica-envios.html" class="hover:text-[#E8DA71] transition"
+            >Política de Envíos</a
+          >
+          <a
+            href="politica-devoluciones.html"
+            class="hover:text-[#E8DA71] transition"
+            >Política de Devoluciones</a
+          >
+        </div>
+
+        <p class="mt-4 text-xs text-gray-600">
+          © 2025 Luxore.ec — Todos los derechos reservados.
+        </p>
+      </div>
     </footer>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
     <script>
-      // Script para el menú móvil
-      document.addEventListener("DOMContentLoaded", () => {
-        const toggle = document.getElementById("menu-toggle");
-        const close = document.getElementById("menu-close");
-        const menu = document.getElementById("mobile-menu");
-        const headerIsologo = document.getElementById("header-isologo"); // Selecciona el isologo del header
+      AOS.init({
+        duration: 1000,
+        easing: "ease-out-quad",
+        once: true,
+      });
+      window.addEventListener("load", function () {
+        const introLoader = document.getElementById("intro-loader");
+        const headerIsologo = document.getElementById("header-isologo");
+        const heroVideoBg = document.getElementById("hero-video-bg");
 
-        toggle.addEventListener("click", () => {
-          menu.classList.remove("translate-x-full");
-        });
-        close.addEventListener("click", () => {
-          menu.classList.add("translate-x-full");
-        });
-
-        // Función para activar el pulso del isologo al cargar la página
         const activateIsologoPulse = () => {
           if (headerIsologo) {
             headerIsologo.classList.add("active-pulse");
             setTimeout(() => {
               headerIsologo.classList.remove("active-pulse");
-            }, 500); // Duración del pulso en ms
+            }, 500);
           }
         };
-        // Activa el pulso al cargar la página (sin loader de intro)
-        activateIsologoPulse();
+
+        const loadHeroVideo = () => {
+          if (heroVideoBg && window.innerWidth >= 768) {
+            heroVideoBg.src = heroVideoBg.dataset.src;
+            heroVideoBg.load();
+            heroVideoBg
+              .play()
+              .catch((e) => console.log("Autoplay del video hero fallido:", e));
+          } else if (heroVideoBg) {
+            heroVideoBg.removeAttribute("src");
+            heroVideoBg.pause();
+          }
+        };
+        if (sessionStorage.getItem("loaderShown")) {
+          introLoader.remove();
+          document.body.style.overflow = "auto";
+          activateIsologoPulse();
+          loadHeroVideo();
+        } else {
+          sessionStorage.setItem("loaderShown", "true");
+          setTimeout(() => {
+            introLoader.classList.add(
+              "opacity-0",
+              "transition-opacity",
+              "duration-1000"
+            );
+            setTimeout(() => {
+              introLoader.remove();
+              document.body.style.overflow = "auto";
+              activateIsologoPulse();
+              loadHeroVideo();
+            }, 3000);
+          }, 3000);
+          document.body.style.overflow = "hidden";
+        }
+
+        window.addEventListener("resize", loadHeroVideo);
       });
-    </script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-      // Inicialización de AOS (Animate On Scroll)
-      AOS.init({
-        duration: 1000, // Duración de la animación en ms
-        easing: "ease-out-quad", // Función de easing para una animación suave
-        once: true, // Si la animación debe ocurrir solo una vez al hacer scroll hacia abajo
+      // Consolidado: carrusel + mobile menu + glow
+      document.addEventListener("DOMContentLoaded", () => {
+        // === Carrusel moderno ===
+        let slideIndex = 0;
+        // Selecciona los elementos con la clase 'carousel-item' directamente
+        const carouselItems = document.querySelectorAll(".carousel-item");
+
+        function showSlide(index) {
+          carouselItems.forEach((el, i) => {
+            el.style.opacity = i === index ? "1" : "0";
+          });
+        }
+
+        function changeSlide(step) {
+          slideIndex =
+            (slideIndex + step + carouselItems.length) % carouselItems.length;
+          showSlide(slideIndex);
+          resetAutoSlide();
+        }
+
+        let autoSlide;
+        function startAutoSlide() {
+          autoSlide = setInterval(() => {
+            changeSlide(1);
+          }, 5000);
+        }
+
+        function resetAutoSlide() {
+          clearInterval(autoSlide);
+          startAutoSlide();
+        }
+
+        if (carouselItems.length > 0) {
+          showSlide(slideIndex);
+          startAutoSlide();
+        }
+
+        // Exportar las funciones al ámbito global para que los botones onclick puedan acceder a ellas
+        window.changeSlide = changeSlide;
+        window.showSlide = showSlide; // Podría ser útil si necesitas inicializar desde otro script
+
+        // === Menú móvil ===
+        const menuToggle = document.getElementById("menu-toggle");
+        const mobileMenu = document.getElementById("mobile-menu");
+        const menuClose = document.getElementById("menu-close");
+
+        if (menuToggle && mobileMenu && menuClose) {
+          menuToggle.addEventListener("click", function () {
+            mobileMenu.classList.remove("translate-x-full");
+          });
+          menuClose.addEventListener("click", function () {
+            mobileMenu.classList.add("translate-x-full");
+          });
+          document.addEventListener("click", function (event) {
+            const isClickInsideMenu =
+              mobileMenu.contains(event.target) ||
+              menuToggle.contains(event.target);
+            if (
+              !isClickInsideMenu &&
+              !mobileMenu.classList.contains("translate-x-full")
+            ) {
+              mobileMenu.classList.add("translate-x-full");
+            }
+          });
+        }
+
+        // === Glow secuencial en íconos ===
+        const ourEssenceSection = document.getElementById(
+          "our-essence-section"
+        );
+        const featureIcons = ourEssenceSection
+          ? ourEssenceSection.querySelectorAll(".feature-icon")
+          : [];
+
+        let animationSequenceRunning = false;
+        if (ourEssenceSection && featureIcons.length > 0) {
+          const observerOptions = {
+            root: null,
+            rootMargin: "0px",
+            threshold: 0.5,
+          };
+          const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting && !animationSequenceRunning) {
+                animationSequenceRunning = true;
+                startSequentialGlow(featureIcons, 400, 250);
+                observer.disconnect();
+              }
+            });
+          }, observerOptions);
+          observer.observe(ourEssenceSection);
+        }
+
+        function startSequentialGlow(icons, glowDuration, pauseDuration) {
+          let i = 0;
+          function animateIcon() {
+            if (i < icons.length) {
+              const currentIcon = icons[i];
+              currentIcon.classList.add("active-glow");
+
+              setTimeout(() => {
+                currentIcon.classList.remove("active-glow");
+                i++;
+                setTimeout(animateIcon, pauseDuration);
+              }, glowDuration);
+            }
+          }
+          setTimeout(animateIcon, 1000);
+        }
       });
     </script>
   </body>

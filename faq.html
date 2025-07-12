@@ -4,11 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-    <title>Luxore.ec - Recuerdos Exclusivos con Identidad Ecuatoriana</title>
+    <title>Luxore.ec - Preguntas Frecuentes</title>
     <link rel="icon" type="image/png" href="./src/img/isotipoLuxore.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css" rel="stylesheet">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css"
+      rel="stylesheet"
+    />
     <link
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=DM+Serif+Display:ital@0;1&display=swap"
       rel="stylesheet"
@@ -275,83 +278,111 @@
 
       /* Variables para los gradientes y el glow */
       :root {
-        --gold-gradient: linear-gradient(to right, #ffd700, #daa520, #b8860b); /* Tonos de dorado */
-        --gold-gradient-hover: linear-gradient(to right, #ffd700, #daa520, #b8860b); /* Un poco más oscuro para el hover */
+        --gold-gradient: linear-gradient(
+          to right,
+          #ffd700,
+          #daa520,
+          #b8860b
+        ); /* Tonos de dorado */
+        --gold-gradient-hover: linear-gradient(
+          to right,
+          #ffd700,
+          #daa520,
+          #b8860b
+        ); /* Un poco más oscuro para el hover */
         --border-width: 2px; /* Define el ancho del borde */
-        --gold-glow-color: rgba(232, 218, 113, 0.6); /* Color dorado con opacidad para el glow */
-        --gold-glow-color-strong: rgba(232, 218, 113, 0.6); /* Más opaco para el focus/hover */
+        --gold-glow-color: rgba(
+          232,
+          218,
+          113,
+          0.6
+        ); /* Color dorado con opacidad para el glow */
+        --gold-glow-color-strong: rgba(
+          232,
+          218,
+          113,
+          0.6
+        ); /* Más opaco para el focus/hover */
         --button-initial-bg: #1a1a1a; /* <-- NUEVO: Color de fondo inicial del botón (gris muy oscuro) */
       }
 
       /* Estilo inicial del botón: Fondo oscuro, borde y texto dorado (gradiente) */
       .button-gold-gradient {
-          position: relative;
-          z-index: 1;
-          overflow: hidden; /* Esencial para hvr-shutter-out-horizontal y el redondeo */
-          padding: 12px 28px;
-          border: none;
-          background-color: var(--button-initial-bg); /* <-- NUEVO: Fondo sólido oscuro para el botón */
+        position: relative;
+        z-index: 1;
+        overflow: hidden; /* Esencial para hvr-shutter-out-horizontal y el redondeo */
+        padding: 12px 28px;
+        border: none;
+        background-color: var(
+          --button-initial-bg
+        ); /* <-- NUEVO: Fondo sólido oscuro para el botón */
 
-          /* Gradiente en el texto */
-          background-image: var(--gold-gradient); /* Aplica el gradiente dorado al texto */
-          -webkit-background-clip: text;
-          background-clip: text;
-          color: transparent; /* Hace el texto transparente para que el gradiente se vea */
-          -webkit-text-fill-color: transparent;
+        /* Gradiente en el texto */
+        background-image: var(
+          --gold-gradient
+        ); /* Aplica el gradiente dorado al texto */
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent; /* Hace el texto transparente para que el gradiente se vea */
+        -webkit-text-fill-color: transparent;
 
-          /* Efecto de iluminación (glow) */
-          box-shadow: 0 0 10px var(--gold-glow-color), /* Sombra exterior suave */
-                      0 0 20px var(--gold-glow-color), /* Sombra exterior media */
-                      inset 0 0 5px var(--gold-glow-color-strong); /* Sombra interior para "iluminar" */
-          transition: box-shadow 0.3s ease-in-out; /* Transición suave para el glow */
+        /* Efecto de iluminación (glow) */
+        box-shadow: 0 0 10px var(--gold-glow-color),
+          /* Sombra exterior suave */ 0 0 20px var(--gold-glow-color),
+          /* Sombra exterior media */ inset 0 0 5px
+            var(--gold-glow-color-strong); /* Sombra interior para "iluminar" */
+        transition: box-shadow 0.3s ease-in-out; /* Transición suave para el glow */
 
-          /* Tipo de letra de la página */
-          font-family: 'DM Serif Display', serif; /* O 'Cormorant Garamond', serif; */
-          font-weight: 400;
-          letter-spacing: normal;
-          text-transform: none; /* Mantener en mayúsculas como en el diseño previo */
+        /* Tipo de letra de la página */
+        font-family: "DM Serif Display", serif; /* O 'Cormorant Garamond', serif; */
+        font-weight: 400;
+        letter-spacing: normal;
+        text-transform: none; /* Mantener en mayúsculas como en el diseño previo */
       }
 
       /* Pseudo-elemento ::after para crear el borde con gradiente y las puntas redondeadas */
       .button-gold-gradient::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: var(--gold-gradient); /* El gradiente para el borde */
-          border-radius: inherit; /* Hereda el redondeo del botón */
-          z-index: -1; /* Se coloca detrás del contenido del botón */
-          /* Máscara para crear el agujero transparente en el centro del borde */
-          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-          mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-          -webkit-mask-composite: xor;
-          mask-composite: exclude;
-          padding: var(--border-width); /* Define el grosor del borde */
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: var(--gold-gradient); /* El gradiente para el borde */
+        border-radius: inherit; /* Hereda el redondeo del botón */
+        z-index: -1; /* Se coloca detrás del contenido del botón */
+        /* Máscara para crear el agujero transparente en el centro del borde */
+        -webkit-mask: linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        padding: var(--border-width); /* Define el grosor del borde */
       }
 
       /* Estilo del efecto hover de hvr-shutter-out-horizontal */
       .hvr-shutter-out-horizontal::before {
-          background-image: var(--gold-gradient-hover) !important; /* Gradiente para el hover del shutter */
-          background-color: transparent !important; /* Asegura que no haya color sólido de fallback */
-          border-radius: inherit; /* Hereda el redondeo del botón principal */
+        background-image: var(
+          --gold-gradient-hover
+        ) !important; /* Gradiente para el hover del shutter */
+        background-color: transparent !important; /* Asegura que no haya color sólido de fallback */
+        border-radius: inherit; /* Hereda el redondeo del botón principal */
       }
 
       /* Color del texto al hacer hover */
       .hvr-shutter-out-horizontal:hover {
-          color: #1a1a1a !important; /* Texto oscuro para buen contraste sobre el fondo dorado del hover */
-          -webkit-text-fill-color: #1a1a1a !important; /* Anula el gradiente del texto en hover */
-          background-image: none !important; /* Elimina el gradiente del texto en hover */
-          /* Intensifica el glow al hacer hover */
-          box-shadow: 0 0 15px var(--gold-glow-color-strong),
-                      0 0 30px var(--gold-glow-color-strong),
-                      inset 0 0 8px var(--gold-glow-color-strong);
+        color: #1a1a1a !important; /* Texto oscuro para buen contraste sobre el fondo dorado del hover */
+        -webkit-text-fill-color: #1a1a1a !important; /* Anula el gradiente del texto en hover */
+        background-image: none !important; /* Elimina el gradiente del texto en hover */
+        /* Intensifica el glow al hacer hover */
+        box-shadow: 0 0 15px var(--gold-glow-color-strong),
+          0 0 30px var(--gold-glow-color-strong),
+          inset 0 0 8px var(--gold-glow-color-strong);
       }
 
       /* Ajuste para el glow en el estado focus */
       .button-gold-gradient:focus-visible {
-          box-shadow: 0 0 15px var(--gold-glow-color-strong),
-                      0 0 30px var(--gold-glow-color-strong),
-                      inset 0 0 8px var(--gold-glow-color-strong);
-          outline: none; /* Elimina el outline por defecto del navegador */
+        box-shadow: 0 0 15px var(--gold-glow-color-strong),
+          0 0 30px var(--gold-glow-color-strong),
+          inset 0 0 8px var(--gold-glow-color-strong);
+        outline: none; /* Elimina el outline por defecto del navegador */
       }
 
       /* Media Query para ocultar el botón CTA y mostrar el ícono en móviles y escritorio */
@@ -370,6 +401,84 @@
         .header-cta-icon {
           display: inline-block !important;
         }
+      }
+
+      /* Estilos específicos para FAQ */
+      .faq-category {
+        margin-bottom: 2.5rem; /* Increased space between categories */
+      }
+
+      .faq-category-title {
+        text-align: center;
+        margin-bottom: 2rem; /* Increased space below category title */
+        font-family: "DM Serif Display", serif;
+        font-size: 3rem; /* Larger font size for category titles */
+        background-image: linear-gradient(to right, #e8da71, #bfa03a, #8c7853);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 0 10px rgba(232, 218, 113, 0.3); /* Subtle glow for category titles */
+      }
+
+      .faq-item details {
+        background-color: rgba(
+          31,
+          41,
+          55,
+          0.7
+        ); /* Darker background for details */
+        border-radius: 0.75rem; /* Rounded corners */
+        margin-bottom: 1.25rem; /* Space between each FAQ item */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); /* Deeper shadow */
+        transition: all 0.3s ease;
+      }
+
+      .faq-item details:hover {
+        box-shadow: 0 6px 15px rgba(232, 218, 113, 0.4); /* Gold glow on hover */
+        transform: translateY(-2px); /* Slight lift on hover */
+      }
+
+      .faq-item summary {
+        padding: 1.5rem 2rem; /* More padding */
+        font-weight: bold;
+        cursor: pointer;
+        outline: none;
+        color: #e8da71; /* Golden color for questions */
+        font-size: 1.25rem; /* Larger font size for questions */
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-family: "Cormorant Garamond", serif;
+      }
+
+      .faq-item summary::-webkit-details-marker,
+      .faq-item summary::marker {
+        display: none; /* Hide default marker */
+      }
+
+      .faq-item summary::after {
+        content: "+";
+        font-size: 1.5rem;
+        color: #bfa03a; /* Golden color for the icon */
+        transition: transform 0.3s ease;
+      }
+
+      .faq-item details[open] summary::after {
+        content: "-";
+        transform: rotate(0deg); /* No rotation needed for - */
+      }
+
+      .faq-item .faq-answer {
+        padding: 0 2rem 1.5rem; /* Padding for answer */
+        color: #d1d5db; /* Lighter gray for answers */
+        line-height: 1.6;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.1rem; /* Slightly larger font for answers */
+      }
+      .faq-category-title:hover {
+        text-shadow: 0 0 20px rgba(232, 218, 113, 0.7),
+          0 0 30px rgba(232, 218, 113, 0.5);
+        transition: text-shadow 0.3s ease-in-out;
       }
     </style>
   </head>
@@ -458,6 +567,7 @@
               class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition nav-link-dm-serif"
               >Colecciones</a
             >
+          </li>
 
           <li>
             <a
@@ -486,8 +596,7 @@
               class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition nav-link-dm-serif"
               >Políticas</a
             >
-          </li>          
-
+          </li>
         </ul>
         <div class="mt-8 pt-4 border-t border-gray-700 text-center">
           <h4
@@ -534,492 +643,270 @@
       </nav>
     </header>
 
-    <main>
-      <section
-        <section
-        class="py-20 px-6"
-        id="intro-video-section"
-        data-aos="slide-down"
-        data-aos-duration="3000"
-        data-aos-delay="0"
+    <main class="py-16 px-4">
+      <h1
+        class="text-6xl tracking-wide bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] bg-clip-text text-transparent italic text-center mb-16"
+        style="font-family: 'DM Serif Display', serif"
+        data-aos="fade-down"
+        data-aos-duration="1500"
       >
-        <h3
-          class="text-5xl tracking-wide bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] bg-clip-text text-transparent italic text-center mb-12"
-          style="font-family: 'DM Serif Display', serif"
-        ></h3>
-        <div class="initial-animation-container">
-          <video
-            src="./src/animacion.mp4/Presentación.mp4"
-            autoplay
-            loop
-            muted
-            playsinline
-            preload="auto"
-            aria-label="Video de animación de Luxore.ec"
-          ></video>
-        </div>
-      </section>
+        Preguntas Frecuentes
+      </h1>
 
-      <section class="py-24 px-6 bg-transparent" id="our-essence-section">
-        <h3
-          class="text-5xl tracking-wide bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] bg-clip-text text-transparent italic text-center mb-12 hover:drop-shadow-[0_0_6px_#E8DA71] transition"
-          style="font-family: 'DM Serif Display', serif"
+      <section class="max-w-4xl mx-auto">
+        <div
+          class="faq-category"
           data-aos="fade-up"
           data-aos-duration="1000"
           data-aos-delay="0"
         >
-          Nuestra Esencia
-        </h3>
+          <h3 class="faq-category-title">Sobre el producto</h3>
+          <div class="faq-list">
+            <div class="faq-item">
+              <details>
+                <summary>¿Qué tipo de resina usan?</summary>
+                <div class="faq-answer">
+                  Utilizamos resina epóxica de alta calidad, conocida por su
+                  durabilidad, transparencia y resistencia al amarillamiento. Es
+                  ideal para encapsular elementos y crear acabados brillantes y
+                  duraderos.
+                </div>
+              </details>
+            </div>
+            <div class="faq-item">
+              <details>
+                <summary>¿Cómo cuidar los imanes?</summary>
+                <div class="faq-answer">
+                  Para mantener tus imanes en óptimas condiciones, límpialos
+                  suavemente con un pincel y evita el contacto prolongado con
+                  luz solar directa o temperaturas extremas. No uses productos
+                  químicos abrasivos.
+                </div>
+              </details>
+            </div>
+            <div class="faq-item">
+              <details>
+                <summary>¿Se despegan los imanes?</summary>
+                <div class="faq-answer">
+                  Hemos reforzado el sistema de fijación para asegurar máxima
+                  durabilidad. Sin embargo, exposiciones prolongadas a altas
+                  temperaturas pueden debilitar la adherencia del imán.
+                  Recomendamos mantenerlos en superficies frescas y secas.
+                </div>
+              </details>
+            </div>
+            <div class="faq-item">
+              <details>
+                <summary>¿Son pintados a mano?</summary>
+                <div class="faq-answer">
+                  Sí, nuestras piezas tienen detalles pintados a mano, lo que
+                  las hace verdaderamente únicas y añade un valor artístico
+                  inigualable.
+                </div>
+              </details>
+            </div>
+            <div class="faq-item">
+              <details>
+                <summary>¿Cada pieza es única?</summary>
+                <div class="faq-answer">
+                  Debido a que son productos artesanales y muchos incluyen
+                  elementos naturales o detalles pintados a mano, cada pieza es
+                  única y puede presentar ligeras variaciones que realzan su
+                  autenticidad.
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+
         <div
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 max-w-6xl mx-auto text-center text-gray-300 justify-items-center"
-          style="font-family: 'DM Serif Display', serif"
-        >
-          <div
-            class="flex flex-col items-center p-6 bg-gray-800 bg-opacity-40 rounded-lg shadow-xl hover:shadow-gold-xl transition-all duration-300"
-            data-aos="fade-up"
-            data-aos-duration="800"
-            data-aos-delay="500"
-          >
-            <div class="text-5xl text-[#E8DA71] mb-4">
-              <i class="bi bi-palette-fill feature-icon"></i>
-            </div>
-            <h4 class="text-2xl font-bold mb-2">Diseño de Autor Exclusivo</h4>
-            <p>
-              Piezas únicas inspiradas en la riqueza cultural y natural de
-              Ecuador.
-            </p>
-          </div>
-
-          <div
-            class="flex flex-col items-center p-6 bg-gray-800 bg-opacity-40 rounded-lg shadow-xl hover:shadow-gold-xl transition-all duration-300"
-            data-aos="fade-up"
-            data-aos-duration="1000"
-            data-aos-delay="1000"
-          >
-            <div class="text-5xl text-[#E8DA71] mb-4">
-              <i class="bi bi-gem feature-icon"></i>
-            </div>
-            <h4 class="text-2xl font-bold mb-2">
-              Hecho 100% a Mano en Ecuador
-            </h4>
-            <p>
-              Calidad artesanal y materiales selectos que garantizan durabilidad
-              y autenticidad.
-            </p>
-          </div>
-
-          <div
-            class="flex flex-col items-center p-6 bg-gray-800 bg-opacity-40 rounded-lg shadow-xl hover:shadow-gold-xl transition-all duration-300"
-            data-aos="fade-up"
-            data-aos-duration="1000"
-            data-aos-delay="1500"
-          >
-            <div class="text-5xl text-[#E8DA71] mb-4">
-              <i class="bi bi-flag-fill feature-icon"></i>
-            </div>
-            <h4 class="text-2xl font-bold mb-2">Un Recuerdo Inolvidable</h4>
-            <p>
-              El regalo perfecto para turistas y amantes de la cultura
-              ecuatoriana.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section
-        class="py-20 bg-transparent"
-        data-aos="fade-up"
-        data-aos-duration="1000"
-        data-aos-delay="0"
-      >
-        <h3
-          class="text-5xl tracking-wide bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] bg-clip-text text-transparent italic text-center mb-12 hover:drop-shadow-[0_0_6px_#E8DA71] transition"
-          style="font-family: 'DM Serif Display', serif"
-        >
-          Piezas Destacadas
-        </h3>
-
-          <div
-            class="relative w-full max-w-2xl mx-auto overflow-hidden rounded-xl shadow-xl h-72 sm:h-96"
-          >
-            <div
-              class="carousel-item absolute inset-0 opacity-0 transition-opacity duration-1000"
-            >
-              <img
-                src="./src/img/GalapagosMP.png"
-                class="w-full h-full object-cover"
-                alt="Galápagos"
-              />
-            </div>
-            <div
-              class="carousel-item absolute inset-0 opacity-0 transition-opacity duration-1000"
-            >
-              <img
-                src="./src/img/QuitoMP.png"
-                class="w-full h-full object-cover"
-                alt="Quito"
-              />
-            </div>
-            <div
-              class="carousel-item absolute inset-0 opacity-0 transition-opacity duration-1000"
-            >
-              <img
-                src="./src/img/GuayaquilMP.png"
-                class="w-full h-full object-cover"
-                alt="Guayaquil"
-              />
-            </div>
-
-            <!-- Botones -->
-            <button
-              onclick="changeSlide(-1)"
-              class="absolute left-3 top-1/2 transform -translate-y-1/2 text-white text-3xl z-10 hover:text-[#E8DA71]"
-            >
-              ❮
-            </button>
-            <button
-              onclick="changeSlide(1)"
-              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-white text-3xl z-10 hover:text-[#E8DA71]"
-            >
-              ❯
-            </button>
-          </div>
-        </section>
-
-        <div class="text-center mt-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="1000">
-            <a href="productos.html"
-              class="inline-block px-8 py-3 text-lg font-semibold tracking-wide uppercase rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 hvr-shutter-out-horizontal button-gold-gradient relative"
-              aria-label="Ver colecciones">
-                Ver colecciones
-            </a>
-        </div>
-      </section>
-
-      <section class="py-32 px-6 bg-transparent" id="how-we-do-it-section">
-        <h3
-          class="text-5xl tracking-wide bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] bg-clip-text text-transparent italic text-center mb-12 hover:drop-shadow-[0_0_6px_#E8DA71] transition"
-          style="font-family: 'DM Serif Display', serif"
+          class="faq-category"
           data-aos="fade-up"
           data-aos-duration="1000"
-          data-aos-delay="0"
+          data-aos-delay="200"
         >
-          Nuestro Proceso Artesanal
-        </h3>
+          <h3 class="faq-category-title">Envíos y entregas</h3>
+          <div class="faq-list">
+            <div class="faq-item">
+              <details>
+                <summary>¿Hacen envíos nacionales?</summary>
+                <div class="faq-answer">
+                  Por el momento realizamos entregas únicamente dentro de
+                  Guayaquil. Estamos trabajando para ampliar nuestra cobertura
+                  próximamente.
+                </div>
+              </details>
+            </div>
+            <div class="faq-item">
+              <details>
+                <summary>¿Dónde entregan?</summary>
+                <div class="faq-answer">
+                  Las entregas se realizan en lugares públicos seguros como
+                  centros comerciales, oficinas, plazas o parques. En algunos
+                  casos, si el repartidor conoce bien el sector, se puede
+                  coordinar la entrega a domicilio.
+                </div>
+              </details>
+            </div>
+            <div class="faq-item">
+              <details>
+                <summary>¿Costo de envío?</summary>
+                <div class="faq-answer">
+                  El costo de envío varía según el lugar de entrega dentro de
+                  Guayaquil y se confirma al momento de coordinar el pedido. En
+                  algunos sectores, la entrega puede ser gratuita o con tarifa
+                  reducida.
+                </div>
+              </details>
+            </div>
+            <div class="faq-item">
+              <details>
+                <summary>¿Quién gestiona las entregas?</summary>
+                <div class="faq-answer">
+                  Las entregas son gestionadas directamente por personal de
+                  Luxore, lo que garantiza un trato seguro, puntual y
+                  personalizado.
+                </div>
+              </details>
+            </div>
+            <div class="faq-item">
+              <details>
+                <summary>¿Tiempo estimado de entrega?</summary>
+                <div class="faq-answer">
+                  El tiempo estimado de entrega es de 24 a 72 horas hábiles para
+                  envíos nacionales, una vez confirmado el pago.
+                </div>
+              </details>
+            </div>
+            <div class="faq-item">
+              <details>
+                <summary>¿Hay entregas el mismo día?</summary>
+                <div class="faq-answer">
+                  Las entregas el mismo día están disponibles únicamente para
+                  pedidos en Guayaquil, sujetos a disponibilidad y previa
+                  coordinación. Por favor, contáctanos directamente para este
+                  tipo de solicitud.
+                </div>
+              </details>
+            </div>
+            <div class="faq-item">
+              <details>
+                <summary>¿Hacen entregas los fines de semana?</summary>
+                <div class="faq-answer">
+                  Generalmente, las entregas se realizan de lunes a viernes. Las
+                  entregas los fines de semana son excepcionales y deben ser
+                  coordinadas previamente con nuestro equipo, con posible costo
+                  adicional.
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+
         <div
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 max-w-6xl mx-auto text-center text-gray-300"
-          style="font-family: 'DM Serif Display', serif"
-        >
-          <div
-            class="flex flex-col items-center p-6 bg-gray-800 bg-opacity-40 rounded-lg shadow-xl hover:shadow-gold-xl transition-all duration-300"
-            data-aos="fade-up"
-            data-aos-duration="1000"
-            data-aos-delay="500"
-          >
-            <div class="text-5xl text-[#E8DA71] mb-4">
-              <i class="bi bi-brush-fill feature-icon"></i>
-            </div>
-            <h4 class="text-2xl font-bold mb-2">Inspiración y Diseño</h4>
-            <p>Cada pieza nace de la rica historia y paisajes del Ecuador.</p>
-          </div>
-
-          <div
-            class="flex flex-col items-center p-6 bg-gray-800 bg-opacity-40 rounded-lg shadow-xl hover:shadow-gold-xl transition-all duration-300"
-            data-aos="fade-up"
-            data-aos-duration="1000"
-            data-aos-delay="1000"
-          >
-            <div class="text-5xl text-[#E8DA71] mb-4">
-              <i class="bi bi-tools feature-icon"></i>
-            </div>
-            <h4 class="text-2xl font-bold mb-2">Confección Detallada</h4>
-            <p>Artesanos expertos moldean y dan vida a cada recuerdo.</p>
-          </div>
-
-          <div
-            class="flex flex-col items-center p-6 bg-gray-800 bg-opacity-40 rounded-lg shadow-xl hover:shadow-gold-xl transition-all duration-300"
-            data-aos="fade-up"
-            data-aos-duration="1000"
-            data-aos-delay="1500"
-          >
-            <div class="text-5xl text-[#E8DA71] mb-4">
-              <i class="bi bi-stars feature-icon"></i>
-            </div>
-            <h4 class="text-2xl font-bold mb-2">Acabados de Lujo</h4>
-            <p>
-              Pulido y detalles que elevan cada creación a una obra de arte.
-            </p>
-          </div>
-
-          <div
-            class="flex flex-col items-center p-6 bg-gray-800 bg-opacity-40 rounded-lg shadow-xl hover:shadow-gold-xl transition-all duration-300"
-            data-aos="fade-up"
-            data-aos-duration="1000"
-            data-aos-delay="2000"
-          >
-            <div class="text-5xl text-[#E8DA71] mb-4">
-              <i class="bi bi-truck feature-icon"></i>
-            </div>
-            <h4 class="text-2xl font-bold mb-2">Entrega Confiable</h4>
-            <p>
-              Transportamos más que productos: llevamos historias, arte y
-              cultura directo a tus manos.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section class="py-24 px-6 bg-transparent" id="our-commitments-section">
-        <h3
-          class="text-5xl tracking-wide bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] bg-clip-text text-transparent italic text-center mb-12 hover:drop-shadow-[0_0_6px_#E8DA71] transition"
-          style="font-family: 'DM Serif Display', serif"
+          class="faq-category"
           data-aos="fade-up"
           data-aos-duration="1000"
-          data-aos-delay="0"
+          data-aos-delay="400"
         >
-          Nuestros Compromisos
-        </h3>
+          <h3 class="faq-category-title">Pedidos y pagos</h3>
+          <div class="faq-list">
+            <div class="faq-item">
+              <details>
+                <summary>¿Cómo hago un pedido?</summary>
+                <div class="faq-answer">
+                  Puedes realizar tu pedido escribiéndonos directamente por
+                  Instagram o a través de WhatsApp. Te responderemos lo antes
+                  posible para confirmar los detalles y coordinar la entrega.
+                </div>
+              </details>
+            </div>
+            <div class="faq-item">
+              <details>
+                <summary>¿Puedo hacer un pedido personalizado?</summary>
+                <div class="faq-answer">
+                  Sí, aceptamos pedidos personalizados. Para discutir tus ideas
+                  y obtener una cotización, por favor, contáctanos a través de
+                  WhatsApp o correo electrónico.
+                </div>
+              </details>
+            </div>
+            <div class="faq-item">
+              <details>
+                <summary>¿Se puede pagar al recibir?</summary>
+                <div class="faq-answer">
+                  Sí, en algunos casos podemos coordinar el pago contra entrega.
+                  Sin embargo, por seguridad, confianza mutua y facilidad en la
+                  gestión, preferimos que el pago se realice por transferencia o
+                  depósito bancario antes de la entrega.
+                </div>
+              </details>
+            </div>
+            <div class="faq-item">
+              <details>
+                <summary>¿Qué métodos de pago aceptan?</summary>
+                <div class="faq-answer">
+                  Aceptamos transferencias bancarias y depósitos directos. Te
+                  enviaremos los datos una vez confirmado el pedido.
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+
         <div
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 max-w-6xl mx-auto text-center text-gray-300 justify-items-center"
-          style="font-family: 'DM Serif Display', serif"
+          class="faq-category"
+          data-aos="fade-up"
+          data-aos-duration="1000"
+          data-aos-delay="600"
         >
-          <div
-            class="flex flex-col items-center p-6 bg-gray-800 bg-opacity-40 rounded-lg shadow-xl hover:shadow-gold-xl transition-all duration-300"
-            data-aos="fade-up"
-            data-aos-duration="1000"
-            data-aos-delay="500"
-          >
-            <div class="text-5xl text-[#E8DA71] mb-4">
-              <i class="bi bi-star-fill feature-icon"></i>
+          <h3 class="faq-category-title">Garantías y soporte</h3>
+          <div class="faq-list">
+            <div class="faq-item">
+              <details>
+                <summary>¿Tienen garantía?</summary>
+                <div class="faq-answer">
+                  Sí, ofrecemos garantía por defectos de fabricación. Si tu
+                  producto presenta algún problema al recibirlo, por favor,
+                  notifícanos dentro de las 48 horas siguientes a la entrega.
+                </div>
+              </details>
             </div>
-            <h4 class="text-2xl font-bold mb-2">Calidad Garantizada</h4>
-            <p>Materiales premium y acabados impecables en cada detalle.</p>
-          </div>
-          <div
-            class="flex flex-col items-center p-6 bg-gray-800 bg-opacity-40 rounded-lg shadow-xl hover:shadow-gold-xl transition-all duration-300"
-            data-aos="fade-up"
-            data-aos-duration="1000"
-            data-aos-delay="750"
-          >
-            <div class="text-5xl text-[#E8DA71] mb-4">
-              <i class="bi bi-emoji-heart-eyes-fill feature-icon"></i>
+            <div class="faq-item">
+              <details>
+                <summary>¿Qué pasa si el producto llega dañado?</summary>
+                <div class="faq-answer">
+                  En caso de que tu producto llegue dañado, por favor, envíanos
+                  fotos o videos del estado del paquete y del artículo a nuestro
+                  WhatsApp o correo electrónico dentro de las 24 horas
+                  posteriores a la recepción. Evaluaremos el caso y te
+                  ofreceremos una solución, ya sea un reemplazo o un reembolso.
+                </div>
+              </details>
             </div>
-            <h4 class="text-2xl font-bold mb-2">Momentos Memorables</h4>
-            <p>
-              Creamos recuerdos que emocionan, conectan y dejan huella en
-              quienes los reciben.
-            </p>
-          </div>
-          <div
-            class="flex flex-col items-center p-6 bg-gray-800 bg-opacity-40 rounded-lg shadow-xl hover:shadow-gold-xl transition-all duration-300"
-            data-aos="fade-up"
-            data-aos-duration="1000"
-            data-aos-delay="1000"
-          >
-            <div class="text-5xl text-[#E8DA71] mb-4">
-              <i class="bi bi-globe-americas feature-icon"></i>
+            <div class="faq-item">
+              <details>
+                <summary>¿Puedo cancelar un pedido?</summary>
+                <div class="faq-answer">
+                  Los pedidos pueden ser cancelados si aún no han sido
+                  procesados para envío. Contáctanos lo antes posible si deseas
+                  cancelar tu pedido.
+                </div>
+              </details>
             </div>
-            <h4 class="text-2xl font-bold mb-2">Impacto Local</h4>
-            <p>Apoyamos el talento artesanal y la economía de Ecuador.</p>
+            <div class="faq-item">
+              <details>
+                <summary>¿Cómo contacto si tengo un problema?</summary>
+                <div class="faq-answer">
+                  Puedes contactarnos a través de WhatsApp al +593 96 815 7701,
+                  o enviarnos un correo electrónico a luxore.ec@gmail.com.
+                  Estamos disponibles para ayudarte con cualquier consulta o
+                  inconveniente.
+                </div>
+              </details>
+            </div>
           </div>
         </div>
-      </section>
-
-      <section class="py-20 px-6 bg-transparent" id="testimonials-section">
-        <h3
-          class="text-5xl tracking-wide bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] bg-clip-text text-transparent italic text-center mb-12 hover:drop-shadow-[0_0_6px_#E8DA71] transition"
-          style="font-family: 'DM Serif Display', serif"
-          data-aos="fade-up"
-          data-aos-duration="1000"
-          data-aos-delay="0"
-        >
-          Lo que dicen nuestros clientes
-        </h3>
-        <div
-          class="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl mx-auto text-gray-300"
-          style="font-family: 'Cormorant Garamond', serif"
-        >
-          <div
-            class="bg-gray-800 bg-opacity-40 p-8 rounded-lg shadow-xl hover:shadow-gold-xl transition-all duration-300"
-            data-aos="fade-up"
-            data-aos-duration="1000"
-            data-aos-delay="500"
-          >
-            <p class="italic text-lg mb-4">
-              "Recibí mi pieza y estoy fascinado. La calidad es excepcional y la
-              historia detrás de ella es cautivadora. ¡Un pedazo de Ecuador en
-              mis manos!"
-            </p>
-            <p class="font-bold text-[#E8DA71]">- Ana María P., Guayaquil</p>
-          </div>
-          <div
-            class="bg-gray-800 bg-opacity-40 p-8 rounded-lg shadow-xl hover:shadow-gold-xl transition-all duration-300"
-            data-aos="fade-up"
-            data-aos-duration="1000"
-            data-aos-delay="1000"
-          >
-            <p class="italic text-lg mb-4">
-              "El detalle y el diseño son impresionantes. Mis amigos quedaron
-              sorprendidos con la originalidad. Definitivamente volveré a
-              comprar."
-            </p>
-            <p class="font-bold text-[#E8DA71]">- Carlos L., Quito</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="py-20 px-6 bg-transparent">
-        <h3
-          class="text-5xl tracking-wide bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] bg-clip-text text-transparent italic text-center mb-12 hover:drop-shadow-[0_0_6px_#E8DA71] transition"
-          style="font-family: 'DM Serif Display', serif"
-          data-aos="fade-up"
-          data-aos-duration="1000"
-          data-aos-delay="0"
-        >
-          Sobre Luxore.ec
-        </h3>
-        <p
-          class="max-w-4xl mx-auto text-gray-300 text-center text-xl leading-relaxed"
-          style="font-family: 'DM Serif Display', serif"
-          data-aos="fade-up"
-          data-aos-duration="1000"
-          data-aos-delay="500"
-        >
-          Somos un emprendimiento ecuatoriano que crea piezas exclusivas
-          inspiradas en las ciudades más icónicas del país. Nuestro objetivo es
-          resaltar con diseño, elegancia y exclusividad el arte y la cultura de
-          nuestra tierra en cada recuerdo.
-        </p>
-        <div
-          class="text-center mt-8"
-          data-aos="fade-up"
-          data-aos-duration="1000"
-          data-aos-delay="1000"
-        >
-          <a
-            href="nosotros.html"
-            class="inline-block px-8 py-3 text-lg font-semibold tracking-wide uppercase rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 hvr-shutter-out-horizontal button-gold-gradient relative"
-            aria-label="Conocer más sobre nuestra marca y equipo"
-          >
-            Conoce más</a
-          >
-        </div>
-      </section>
-
-      <section class="py-20 px-6 bg-transparent">
-        <h3
-          class="text-5xl tracking-wide bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] bg-clip-text text-transparent italic text-center mb-12 hover:drop-shadow-[0_0_6px_#E8DA71] transition"
-          style="font-family: 'DM Serif Display', serif"
-          data-aos="fade-up"
-          data-aos-duration="2000"
-          data-aos-delay="0"
-        >
-          Nuestros Socios
-        </h3>
-        <div
-          class="flex flex-wrap justify-center items-center gap-10 text-gray-300"
-        >
-          <div
-            class="text-center flex flex-col items-center"
-            data-aos="fade-up"
-            data-aos-duration="2000"
-            data-aos-delay="500"
-          >
-            <a href="socios.html" aria-label="Visitar página de socios">
-              <img
-                src="./src/img/LogoBlancoVectorizado.png"
-                alt="Logo Auraa.ec"
-                class="h-20 w-auto mx-auto mb-3 partner-logo rounded-full"
-                loading="lazy"
-              />
-            </a>
-            <a
-              href="https://www.instagram.com/auraaa.ec"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-base partner-instagram-link"
-              aria-label="Visitar Instagram de Auraa.ec"
-            >
-              @auraaa.ec
-            </a>
-          </div>
-
-          <div
-            class="text-center flex flex-col items-center"
-            data-aos="fade-up"
-            data-aos-duration="2000"
-            data-aos-delay="500"
-          >
-            <a href="socios.html" aria-label="Visitar página de socios">
-              <img
-                src="./src/img/encantadaec.jpeg"
-                alt="Logo Encantada"
-                class="h-20 w-auto mx-auto mb-3 partner-logo rounded-full"
-                loading="lazy"
-              />
-            </a>
-            <a
-              href="https://www.instagram.com/encantadaec"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-base partner-instagram-link"
-              aria-label="Visitar Instagram de Encantada"
-            >
-              @encantadaec
-            </a>
-          </div>
-        </div>
-        <div class="text-center mt-12">
-          <a
-            href="socios.html"
-            class="inline-block px-8 py-3 text-lg font-semibold tracking-wide uppercase rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 hvr-shutter-out-horizontal button-gold-gradient relative"
-            data-aos="fade-up"
-            data-aos-duration="2000"
-            data-aos-delay="1000"
-            aria-label="Ver todos nuestros socios estratégicos"
-          >
-            Ver socios
-          </a>
-        </div>
-      </section>
-
-      <section
-        class="py-16 px-6 bg-gray-900 bg-opacity-80 text-center"
-        data-aos="fade-up"
-        data-aos-duration="1000"
-        data-aos-delay="0"
-        id="final-cta-section"
-      >
-        <h3
-          class="text-5xl tracking-wide bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] bg-clip-text text-transparent italic text-center mb-8"
-          data-aos="fade-up"
-          data-aos-duration="1000"
-          data-aos-delay="500"
-          style="font-family: 'DM Serif Display', serif"
-        >
-          ¿Listo para llevarte un pedazo de Ecuador?
-        </h3>
-        <p
-          class="max-w-2xl mx-auto text-gray-300 text-xl mb-12"
-          data-aos="fade-up"
-          data-aos-duration="1000"
-          data-aos-delay="750"
-          style="font-family: 'Cormorant Garamond', serif"
-        >
-          Descubre nuestras colecciones exclusivas o contáctanos para pedidos
-          personalizados.
-        </p>
-        <a
-          href="https://wa.me/593968157701"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-block text-xl px-10 py-4 font-semibold tracking-wide uppercase rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 hvr-shutter-out-horizontal button-gold-gradient relative"
-          data-aos="fade-up"
-          data-aos-duration="1000"
-          data-aos-delay="1000"
-          aria-label="Haz tu pedido ahora"
-        >
-          Haz tu pedido ahora
-        </a>
       </section>
     </main>
 
@@ -1102,7 +989,6 @@
             class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition nav-link-dm-serif"
             >Políticas</a
           >
-
         </nav>
 
         <div class="text-gray-500 flex flex-col md:flex-row items-center gap-4">

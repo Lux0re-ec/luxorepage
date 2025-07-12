@@ -9,6 +9,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css"
+      rel="stylesheet"
+    />
+    <link
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=DM+Serif+Display:ital@0;1&display=swap"
       rel="stylesheet"
     />
@@ -17,29 +21,131 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     />
     <link href="./dist/output.css" rel="stylesheet" />
-
     <style>
-      /* Variables CSS para colores personalizados */
       :root {
-        --default-icon-color: #bfa03a; /* Color dorado base */
-        --active-glow-color: #f5e089; /* Color dorado más claro para el brillo activo */
+        --default-icon-color: #bfa03a;
+        --active-glow-color: #f5e089;
         --glow-shadow: 0 0 12px rgba(232, 218, 113, 0.5),
-          0 0 25px rgba(232, 218, 113, 1), 0 0 50px rgba(255, 250, 200, 0.5); /* Sombra para el brillo */
+          0 0 25px rgba(232, 218, 113, 1), 0 0 50px rgba(255, 250, 200, 0.5);
+        --gold-gradient: linear-gradient(
+          to right,
+          #ffd700,
+          #daa520,
+          #b8860b
+        ); /* Tonos de dorado */
+        --gold-gradient-hover: linear-gradient(
+          to right,
+          #ffd700,
+          #daa520,
+          #b8860b
+        ); /* Un poco más oscuro para el hover */
+        --border-width: 2px; /* Define el ancho del borde */
+        --gold-glow-color: rgba(
+          232,
+          218,
+          113,
+          0.6
+        ); /* Color dorado con opacidad para el glow */
+        --gold-glow-color-strong: rgba(
+          232,
+          218,
+          113,
+          0.6
+        ); /* Más opaco para el focus/hover */
+        --button-initial-bg: #1a1a1a; /* Color de fondo inicial del botón (gris muy oscuro) */
+        --elegant-blue: #0d1a2b; /* Tono azul oscuro elegante */
+        --dark-shadow: 0 5px 20px rgba(0, 0, 0, 0.5); /* Sombra más pronunciada */
       }
-
-      /* Definición de fuentes personalizadas (localmente si no se cargan de Google Fonts) */
       @font-face {
         font-family: "Cormorant Garamond";
         src: url("./fonts/CormorantGaramond-VariableFont_wght.woff2")
           format("woff2");
+        font-display: swap;
       }
       @font-face {
         font-family: "DM Serif Display";
         src: url("./fonts/DMSerifDisplay-Italic.woff2") format("woff2");
+        font-display: swap;
       }
 
-      /* Estilos generales del body para el fondo de imagen */
-      body {
+      .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 4rem;
+        justify-items: center;
+      }
+      .product-card {
+        background-color: #1f2937;
+        border-radius: 1rem;
+        padding: 1rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        max-width: 220px;
+        width: 100%;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+      }
+      .product-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(232, 218, 113, 0.4);
+      }
+      .feature-icon {
+        color: var(--default-icon-color);
+        text-shadow: none;
+        transition: all 0.5s ease-in-out;
+      }
+      .feature-icon.active-glow {
+        color: var(--active-glow-color);
+        text-shadow: var(--glow-shadow);
+      }
+      .feature-icon:hover {
+        color: var(--active-glow-color);
+        text-shadow: var(--glow-shadow);
+      }
+      .isologo-glow-pulse {
+        transition: filter 0.5s ease-out;
+      }
+      .isologo-glow-pulse.active-pulse {
+        filter: drop-shadow(0 0 15px #e8da71);
+      }
+      .partner-logo {
+        transition: all 0.3s ease-in-out;
+        border-radius: 50%;
+        overflow: hidden;
+        display: block;
+      }
+      .partner-logo:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px rgba(232, 218, 113, 0.7),
+          0 0 30px rgba(232, 218, 113, 0.5);
+      }
+      .partner-instagram-link {
+        color: #a0aec0;
+        text-decoration: none;
+        transition: color 0.3s ease, text-shadow 0.3s ease;
+      }
+      .partner-instagram-link:hover {
+        color: #e8da71;
+        text-shadow: 0 0 8px rgba(232, 218, 113, 0.7);
+      }
+      /* Generalización de estilos para iconos interactivos */
+      .interactive-icon {
+        color: var(--default-icon-color);
+        text-shadow: none;
+        transition: all 0.3s ease-in-out;
+      }
+      .interactive-icon:hover {
+        color: var(--active-glow-color);
+        text-shadow: var(--glow-shadow);
+      }
+
+      /* Estilos para los enlaces de navegación */
+      .nav-link-dm-serif {
+        font-family: "DM Serif Display", serif;
+      }
+
+      /* Estilo del cuerpo para el fondo */
+      .bg-overlay {
         background-image: linear-gradient(
             rgba(0, 0, 0, 0.3),
             rgba(0, 0, 0, 0.3)
@@ -49,427 +155,378 @@
         background-position: center;
         background-repeat: no-repeat;
         background-attachment: fixed;
-        color: white; /* Asegura el color del texto globalmente */
       }
 
-      /* Restablecer estilos de texto para que las fuentes de Google sean las predeterminadas */
-      p,
-      /* Eliminado 'nav a' y 'ul li a' de aquí para que los estilos inline en el header tomen prioridad */
-      ul li a {
-        font-family: "Cormorant Garamond", serif; /* Usar Cormorant Garamond para párrafos y enlaces de navegación */
-        font-style: normal; /* Asegurar que no sea itálica por defecto */
-        color: #e2e8f0; /* Un gris claro para el texto de los párrafos */
-      }
-
-      /* Estilos para títulos h1, h2, h3 */
-      h1,
-      h2,
-      h3 {
-        font-family: "DM Serif Display", serif;
-        font-style: italic; /* Los títulos siempre serán itálicos */
-        background: linear-gradient(90deg, #e8da71, #bfa03a, #8c7853);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-
-      /* Estilos para el isologo del header */
-      .isologo-glow-pulse {
-        transition: filter 0.5s ease-out;
-      }
-      .isologo-glow-pulse.active-pulse {
-        filter: drop-shadow(0 0 15px #e8da71);
-      }
-
-      /* Estilos de las tarjetas del equipo */
-      .team-member-card {
-        background: #1f2937; /* Color de fondo más oscuro para las tarjetas */
-        border-radius: 1rem;
-        padding: 1.5rem;
-        text-align: center;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
-      .team-member-card:hover {
-        transform: translateY(-8px); /* Más elevación al pasar el ratón */
-        box-shadow: 0 8px 25px rgba(232, 218, 113, 0.5); /* Brillo más pronunciado */
-      }
-      .team-photo-new {
-        width: 140px;
-        height: 140px;
-        object-fit: cover;
-        border-radius: 9999px; /* Circular */
-        margin: 0 auto 1.5rem;
-        border: 3px solid #bfa03a; /* Borde más prominente */
-        box-shadow: 0 0 15px rgba(232, 218, 113, 0.3); /* Sutil brillo en la foto */
-        transition: border-color 0.3s ease, box-shadow 0.3s ease;
-      }
-      .team-photo-new:hover {
-        border-color: #e8da71;
-        box-shadow: 0 0 25px rgba(232, 218, 113, 0.7); /* Brillo más intenso en la foto */
-      }
-
-      /* Estilo del botón CTA (Call To Action) */
+      /* Estilos para el botón CTA */
       .btn-cta {
-        display: inline-block;
-        padding: 0.75rem 2rem;
-        border-radius: 9999px; /* rounded-full */
-        text-decoration: none;
-        font-weight: 700;
-        font-family: "Cormorant Garamond", serif;
-        color: black;
-        background: linear-gradient(90deg, #e8da71, #bfa03a, #8c7853);
-        transition: all 0.3s ease-in-out;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      }
-      .btn-cta:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 0 20px rgba(232, 218, 113, 0.8),
-          0 0 40px rgba(232, 218, 113, 0.6);
-      }
-
-      /* Estilo para los iconos de valores/filosofía */
-      .value-icon {
-        color: var(--default-icon-color);
-        text-shadow: none;
-        transition: all 0.5s ease-in-out;
-      }
-
-      .value-icon:hover {
-        color: var(--active-glow-color);
-        text-shadow: var(--glow-shadow);
-      }
-
-      /* Animación de encendido/apagado secuencial para iconos */
-      .icon-flicker-animation {
-        animation: flicker 2s infinite alternate;
-      }
-
-      @keyframes flicker {
-        0%,
-        100% {
-          color: var(--default-icon-color);
-          text-shadow: none;
-        }
-        50% {
-          color: var(--active-glow-color);
-          text-shadow: var(--glow-shadow);
-        }
-      }
-
-      .flicker-delay-1 {
-        animation-delay: 0.5s;
-      }
-      .flicker-delay-2 {
-        animation-delay: 1s;
-      }
-
-      /* --- Estilos de Secciones Minimalistas --- */
-      section {
-        padding: 6rem 2rem;
-        text-align: center; /* Centra el texto directamente en la sección si no hay un contenedor específico */
-      }
-
-      section > div {
-        margin-top: 4rem;
-      }
-
-      /* CLASES PARA CENTRAR CONTENEDORES PRINCIPALES EN CADA SECCIÓN */
-      .centered-content-wrapper {
-        max-width: 80rem; /* Un ancho máximo generoso, ajusta si es necesario */
-        margin-left: auto;
-        margin-right: auto;
-        width: 100%; /* Asegura que tome el ancho disponible hasta el max-width */
-      }
-
-      /* Ajustes para cuadrículas */
-      .grid-container {
-        display: grid;
-        gap: 4rem;
-        grid-template-columns: 1fr;
-        justify-items: center; /* Centra los items de la cuadrícula */
-      }
-
-      @media (min-width: 768px) {
-        .grid-container {
-          grid-template-columns: repeat(2, 1fr);
-        }
-      }
-
-      @media (min-width: 1024px) {
-        .grid-container {
-          grid-template-columns: repeat(3, 1fr);
-        }
-      }
-
-      .values-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 3rem;
-        justify-items: center;
-        /* Centrar la cuadrícula en sí, si no ocupa todo el ancho */
-        justify-content: center;
-      }
-
-      @media (min-width: 768px) {
-        .values-grid {
-          grid-template-columns: repeat(3, 1fr);
-        }
-      }
-
-      .team-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 3rem;
-        /* IMPORTANTE: Centra tanto los ítems DENTRO de las celdas como la cuadrícula en sí,
-           cuando esta no llena todo el ancho del contenedor padre. */
-        place-items: center; /* Centra horizontal y verticalmente cada ítem en su celda */
-        justify-content: center; /* Centra la cuadrícula como un todo si no ocupa todo el espacio */
-      }
-
-      @media (min-width: 640px) {
-        .team-grid {
-          grid-template-columns: repeat(2, 1fr);
-        }
-      }
-
-      @media (min-width: 1024px) {
-        .team-grid {
-          grid-template-columns: repeat(3, 1fr);
-        }
-      }
-
-      /* Títulos de sección */
-      .section-title {
-        font-size: 3rem;
-        text-align: center;
-        margin-bottom: 4rem;
-        background: linear-gradient(90deg, #e8da71, #bfa03a, #8c7853);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-family: "DM Serif Display", serif;
-        font-style: italic;
+        background: linear-gradient(to right, #b8860b, #e8da71, #b8860b);
+        color: #1a202c;
+        padding: 0.9rem 2rem;
+        border-radius: 9999px;
+        font-size: 1rem;
+        font-weight: bold;
         letter-spacing: 0.05em;
-        transition: all 0.3s ease-in-out;
-      }
-
-      .section-title:hover {
-        text-shadow: 0 0 8px rgba(232, 218, 113, 0.7);
-      }
-
-      /* Animación para "Nuestra Historia" */
-      .history-section h2 {
-        transition: filter 0.3s ease;
-      }
-
-      .history-section h2:hover {
-        filter: drop-shadow(0 0 8px #e8da71);
-      }
-
-      .section-subtitle {
-        font-size: 1.5rem;
-        color: #a0aec0;
-        text-align: center;
-        margin-bottom: 3rem;
+        cursor: pointer;
+        border: none;
+        box-shadow: 0 3px 15px rgba(232, 218, 113, 0.4);
+        transition: all 0.3s ease;
         font-family: "Cormorant Garamond", serif;
-        font-style: italic;
+        text-decoration: none;
+        display: inline-block;
       }
 
-      /* Estilos para el nuevo diseño de secciones con imagen/texto */
-      .content-section {
+      .btn-cta:hover {
+        background: linear-gradient(to right, #9a6a08, #f5e089, #9a6a08);
+        box-shadow: 0 6px 20px rgba(232, 218, 113, 0.6);
+        transform: translateY(-2px);
+      }
+
+      /* Estilos para el contenedor de la animación de inicio */
+      .initial-animation-container {
         display: flex;
-        flex-direction: column; /* Por defecto apila en columnas para móviles */
+        justify-content: center;
         align-items: center;
-        gap: 4rem;
-        margin-bottom: 6rem;
+        min-height: 50vh;
+        padding: 2rem;
+        background-color: transparent;
       }
 
-      .content-section.reverse {
-        flex-direction: column-reverse; /* Para invertir orden en móviles si es necesario */
-      }
-
-      .content-image-container {
-        width: 100%;
-        max-width: 500px; /* Ajusta según el diseño deseado */
-        border-radius: 1rem;
-        overflow: hidden;
-        box-shadow: 0 0 25px rgba(232, 218, 113, 0.3),
-          0 0 50px rgba(232, 218, 113, 0.1);
-        transition: box-shadow 0.3s ease;
-      }
-
-      .content-image-container:hover {
-        box-shadow: 0 0 35px rgba(232, 218, 113, 0.5),
-          0 0 70px rgba(232, 218, 113, 0.2);
-      }
-
-      .content-image-container img {
+      .initial-animation-container video {
+        max-width: 800px;
         width: 100%;
         height: auto;
+        border-radius: 1rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         display: block;
       }
 
-      .content-text {
-        flex: 1;
-        text-align: center;
-      }
-
-      @media (min-width: 768px) {
-        .content-section {
-          flex-direction: row; /* En pantallas medianas y grandes, alinea en fila */
-          text-align: left; /* Alinea el texto a la izquierda en desktop */
-        }
-        .content-section.reverse {
-          flex-direction: row-reverse; /* Invierte el orden para alternar */
-        }
-        .content-text {
-          text-align: left; /* Alinea el texto a la izquierda en desktop */
-        }
-      }
-
-      /* Estilos específicos para la sección de Socios */
-      .partner-card {
-        background: #1f2937;
+      /* Estilos del carrusel */
+      .slideshow-container {
+        max-width: 800px;
+        position: relative;
+        margin: auto;
         border-radius: 1rem;
-        padding: 2rem;
-        text-align: center;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        overflow: hidden;
       }
 
-      .partner-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 8px 25px rgba(232, 218, 113, 0.5);
+      .mySlides {
+        display: none;
+        width: 100%;
       }
 
-      .partner-logo {
-        width: 120px;
-        height: 120px;
-        object-fit: contain;
-        margin-bottom: 1.5rem;
+      .mySlides img {
+        width: 100%;
+        height: 500px;
+        object-fit: cover;
+        border-radius: 1rem;
+      }
+
+      /* Botones de navegación */
+      .prev,
+      .next {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        width: auto;
+        padding: 16px;
+        margin-top: -22px;
+        color: white;
+        font-weight: bold;
+        font-size: 30px;
+        transition: 0.6s ease;
+        border-radius: 0 3px 3px 0;
+        user-select: none;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      .next {
+        right: 0;
+        border-radius: 3px 0 0 3px;
+      }
+
+      .prev:hover,
+      .next:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+
+      /* Puntos indicadores */
+      .dot {
+        cursor: pointer;
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        background-color: #bbb;
         border-radius: 50%;
-        border: 3px solid #bfa03a;
-        padding: 5px;
-        background-color: #0d1217;
-        transition: border-color 0.3s ease, box-shadow 0.3s ease;
-      }
-
-      .partner-logo:hover {
-        border-color: #e8da71;
-        box-shadow: 0 0 20px rgba(232, 218, 113, 0.7);
-      }
-
-      .partner-name {
-        font-size: 1.8rem;
-        color: #f5e089;
-        margin-bottom: 0.5rem;
-        font-family: "DM Serif Display", serif;
-      }
-
-      .partner-description {
-        font-size: 1rem;
-        color: #a0aec0;
-        font-family: "Cormorant Garamond", serif;
-        line-height: 1.6;
-      }
-
-      .partner-link {
         display: inline-block;
-        margin-top: 1rem;
-        color: #5ac8fa; /* Un azul más suave para enlaces */
-        font-family: "Cormorant Garamond", serif;
-        font-weight: 500;
-        text-decoration: none;
-        transition: color 0.3s ease, text-shadow 0.3s ease;
+        transition: background-color 0.6s ease;
       }
 
-      .partner-link:hover {
-        color: #a0e0fd;
-        text-shadow: 0 0 8px rgba(90, 200, 250, 0.5);
+      .active,
+      .dot:hover {
+        background-color: #717171;
+      }
+
+      /* Animación de desvanecimiento */
+      .fade {
+        animation-name: fade;
+        animation-duration: 1.5s;
+      }
+
+      @keyframes fade {
+        from {
+          opacity: 0.4;
+        }
+        to {
+          opacity: 1;
+        }
       }
       .icon-glow {
-        transition: text-shadow 0.3s ease-in-out; /* Suaviza la transición del resplandor */
+        transition: text-shadow 0.3s ease-in-out;
       }
 
       .icon-glow:hover {
         text-shadow: 0 0 20px #ffd700, 0 0 15px #daa520, 0 0 20px #b8860b;
       }
+
+      /* Nuevo estilo para sombras doradas en hover */
+      .shadow-gold-xl {
+        box-shadow: 0 10px 30px rgba(232, 218, 113, 0.4);
+      }
+      .hover\:shadow-gold-xl:hover {
+        box-shadow: 0 12px 40px rgba(232, 218, 113, 0.6),
+          0 0 25px rgba(232, 218, 113, 0.8);
+      }
+
+      /* Estilos para el video del hero */
+      .hero-video-full {
+        width: 100%;
+        height: 100%; /* Ocupa el 100% de la altura de su padre (hero-section) */
+        object-fit: cover;
+      }
+
+      /* Estilo inicial del botón: Fondo transparente, borde y texto dorado (gradiente) */
+      .button-gold-gradient {
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+        padding: 12px 28px;
+        border: none;
+        background-color: transparent; /* Fondo transparente */
+
+        /* Gradiente en el texto */
+        background-image: var(
+          --gold-gradient
+        ); /* Aplica el gradiente dorado al texto */
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+
+        /* Efecto de iluminación (glow) en el contorno */
+        box-shadow: 0 0 10px var(--gold-glow-color),
+          0 0 20px var(--gold-glow-color),
+          inset 0 0 5px var(--gold-glow-color-strong);
+        transition: box-shadow 0.3s ease-in-out;
+
+        /* Tipo de letra de la página */
+        font-family: "DM Serif Display", serif;
+        font-weight: 400;
+        letter-spacing: normal;
+        text-transform: none;
+        border-radius: 9999px;
+      }
+
+      /* Pseudo-elemento ::after para crear el borde con gradiente y las puntas redondeadas */
+      .button-gold-gradient::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: var(--gold-gradient);
+        border-radius: inherit;
+        z-index: -1;
+        -webkit-mask: linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        padding: var(--border-width);
+      }
+
+      /* Estilo del efecto hover de hvr-shutter-out-horizontal */
+      .hvr-shutter-out-horizontal::before {
+        background-image: var(--gold-gradient-hover) !important;
+        background-color: transparent !important;
+        border-radius: inherit;
+      }
+
+      /* Color del texto al hacer hover */
+      .hvr-shutter-out-horizontal:hover {
+        color: #1a1a1a !important;
+        -webkit-text-fill-color: #1a1a1a !important;
+        background-image: none !important;
+        box-shadow: 0 0 15px var(--gold-glow-color-strong),
+          0 0 30px var(--gold-glow-color-strong),
+          inset 0 0 8px var(--gold-glow-color-strong);
+      }
+
+      /* Ajuste para el glow en el estado focus */
+      .button-gold-gradient:focus-visible {
+        box-shadow: 0 0 15px var(--gold-glow-color-strong),
+          0 0 30px var(--gold-glow-color-strong),
+          inset 0 0 8px var(--gold-glow-color-strong);
+        outline: none;
+      }
+
+      /* Media Query para ocultar el botón CTA y mostrar el ícono en móviles y escritorio */
+      @media (max-width: 767px) {
+        .header-cta-button {
+          display: none !important;
+        }
+        .header-cta-icon {
+          display: inline-block !important;
+        }
+      }
+      @media (min-width: 768px) {
+        .header-cta-button {
+          display: none !important;
+        }
+        .header-cta-icon {
+          display: inline-block !important;
+        }
+      }
+      /* Estilos específicos para la sección de Socios */
+      .partners-section {
+        padding: 4rem 0;
+      }
+
+      .section-title {
+        font-family: "DM Serif Display", serif;
+        font-size: 3rem;
+        text-align: center;
+        margin-bottom: 3rem;
+        background: linear-gradient(
+          to right,
+          #e8da71,
+          #bfa03a,
+          #8c7853
+        ); /* Gradiente dorado para el título */
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 0 15px rgba(232, 218, 113, 0.4); /* Sutil glow para el título */
+        transition: text-shadow 0.3s ease-in-out; /* Transición para el efecto de luz */
+      }
+
+      .section-title:hover {
+        text-shadow: 0 0 20px rgba(232, 218, 113, 0.8),
+          0 0 30px rgba(232, 218, 113, 0.6), 0 0 40px rgba(232, 218, 113, 0.4); /* Efecto de luz más intenso al pasar el cursor */
+      }
+
+      .centered-content-wrapper {
+        max-width: 960px; /* Ancho máximo para centrar el contenido */
+        margin: 0 auto;
+        padding: 0 1rem;
+        text-align: center; /* Centra el texto y los elementos inline-block */
+      }
+
+      .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 3rem; /* Espacio entre tarjetas */
+        justify-items: center; /* Centra las tarjetas dentro de cada columna */
+        align-items: stretch; /* Asegura que las tarjetas tengan la misma altura */
+        padding: 2rem 0;
+      }
+
+      .partner-card {
+        background-color: #0d1a2b; /* Tono azul oscuro elegante */
+        border-radius: 1rem;
+        padding: 2rem;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5); /* Sombra más pronunciada */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid rgba(232, 218, 113, 0.3); /* Borde dorado sutil */
+      }
+
+      .partner-card:hover {
+        transform: translateY(-8px); /* Elevación al hacer hover */
+        box-shadow: 0 12px 30px rgba(232, 218, 113, 0.4),
+          0 0 25px rgba(232, 218, 113, 0.6); /* Glow más fuerte */
+      }
+
+      .partner-logo {
+        width: 120px; /* Tamaño más grande para los logos */
+        height: 120px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 3px solid #e8da71; /* Borde dorado alrededor del logo */
+        margin-bottom: 1.5rem;
+        box-shadow: 0 0 10px rgba(232, 218, 113, 0.5); /* Sombra sutil en el logo */
+      }
+
+      .partner-name {
+        font-family: "DM Serif Display", serif;
+        font-size: 2rem;
+        color: #e8da71; /* Color dorado para el nombre del socio */
+        margin-bottom: 0.75rem;
+        text-shadow: 0 0 8px rgba(232, 218, 113, 0.7);
+      }
+
+      .partner-description {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.1rem;
+        color: #d1d5db; /* Texto gris claro */
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+        flex-grow: 1; /* Permite que la descripción ocupe el espacio disponible */
+      }
+
+      .partner-link .bi-instagram {
+        color: #e8da71; /* Ícono de Instagram dorado */
+        transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
+      }
+
+      .partner-link .bi-instagram:hover {
+        color: #f5e089;
+        transform: scale(1.1);
+        text-shadow: 0 0 15px rgba(232, 218, 113, 0.9);
+      }
+
+      /* Media queries para responsividad */
+      @media (max-width: 768px) {
+        .section-title {
+          font-size: 2.5rem;
+        }
+        .grid-container {
+          grid-template-columns: 1fr; /* Una columna en pantallas pequeñas */
+        }
+        .partner-card {
+          max-width: 350px; /* Ancho máximo para tarjetas en móviles */
+          margin: 0 auto; /* Centrar tarjeta */
+        }
+      }
     </style>
   </head>
-  <body
-    class="relative text-white font-sans bg-overlay"
-    style="
-      background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-        url('./src/img/FondoLuxore.png');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-    "
-  >
-    <script>
-      // Este es el script corregido del loader.
-      window.addEventListener("load", () => {
-        const loader = document.getElementById("intro-loader");
-        const headerIsologo = document.getElementById("header-isologo"); // Selecciona el isologo
-
-        // Función para activar el pulso del isologo
-        const activateIsologoPulse = () => {
-          if (headerIsologo) {
-            headerIsologo.classList.add("active-pulse");
-            // Después de un breve momento, quitar la clase para que el brillo se desvanezca
-            setTimeout(() => {
-              headerIsologo.classList.remove("active-pulse");
-            }, 500); // El brillo dura 0.5 segundos y se desvanece
-          }
-        };
-
-        // Verifica si el loader ya se ha mostrado en esta sesión
-        if (sessionStorage.getItem("loaderShown")) {
-          loader.remove(); // Si ya se mostró, elimina el loader inmediatamente
-          document.body.style.overflow = "auto"; // Asegura que el scroll esté habilitado
-          activateIsologoPulse(); // <-- LLAMADA AGREGADA AQUÍ para visitas subsecuentes
-        } else {
-          // Si no se ha mostrado, ejecuta la animación
-          sessionStorage.setItem("loaderShown", "true"); // Marca que el loader ya se mostró en esta sesión
-
-          // Espera 3 segundos antes de empezar a ocultar el loader
-          setTimeout(() => {
-            loader.classList.add(
-              "opacity-0",
-              "transition-opacity",
-              "duration-1000"
-            );
-            // Después de 1 segundo (la duración de la transición), remueve el loader del DOM
-            setTimeout(() => {
-              loader.remove();
-              document.body.style.overflow = "auto"; // Habilita el scroll después de la animación
-              activateIsologoPulse(); // <-- LLAMADA YA EXISTENTE AQUÍ para la primera visita
-            }, 1000);
-          }, 3000); // El loader estará visible por 3 segundos antes de empezar a desaparecer
-
-          document.body.style.overflow = "hidden"; // Deshabilita el scroll mientras el loader es visible
-        }
-      });
-    </script>
+  <body class="relative text-white font-sans bg-overlay">
     <div
       id="intro-loader"
       class="fixed inset-0 bg-black z-[9999] flex flex-col justify-center items-center"
+      role="status"
+      aria-label="Cargando contenido de la página"
     >
       <div class="relative w-32 h-32">
         <div
           class="absolute inset-0 rounded-full bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] blur-2xl bg-opacity-100 animate-pulse"
         ></div>
-
         <img
           src="./src/img/isotipoLuxore.png"
-          alt="Logo Luxore"
+          alt="Logo Luxore - Cargando"
           class="relative w-full h-full object-contain z-10 transition-transform duration-500 hover:scale-105"
         />
       </div>
-
       <p
         class="mt-14 text-4xl md:text-5xl tracking-wider italic bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] bg-clip-text text-transparent"
         style="font-family: 'DM Serif Display', serif"
@@ -479,70 +536,46 @@
     </div>
 
     <header
-      class="sticky top-0 z-50 bg-black border-b border-[#E8DA71] px-4 py-4 md:py-4 flex items-center justify-between relative h-20 md:h-24"
+      class="sticky top-0 z-50 bg-black border-b border-[#E8DA71] px-4 py-4 md:py-4 flex items-center justify-between h-20 md:h-24"
     >
       <div class="absolute inset-0 bg-black bg-opacity-40 -z-[1]"></div>
-
-      <h1
-        class="flex items-center space-x-2 text-3xl tracking-wider bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] bg-clip-text text-transparent"
-        style="font-family: 'DM Serif Display', serif; font-style: italic"
-      >
-        <div class="absolute left-1/2 transform -translate-x-1/2">
-          <a href="index.html">
-            <img
-              id="header-isologo"
-              src="./src/img/isotipoLuxore.png"
-              alt="Isologo Luxore"
-              class="w-16 md:w-20 h-auto object-contain hover:drop-shadow-[0_0_15px_#E8DA71] isologo-glow-pulse"
-          /></a>
-        </div>
-      </h1>
-
-      <div class="ml-auto md:hidden">
+      <div class="absolute left-1/2 transform -translate-x-1/2">
+        <a href="index.html" aria-label="Volver al inicio">
+          <img
+            id="header-isologo"
+            src="./src/img/isotipoLuxore.png"
+            alt="Isologo Luxore"
+            class="w-16 md:w-20 h-auto object-contain hover:drop-shadow-[0_0_15px_#E8DA71] isologo-glow-pulse"
+          />
+        </a>
+      </div>
+      <div class="ml-auto flex items-center gap-4">
+        <a
+          href="https://wa.me/593968157701"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-[#E8DA71] text-3xl focus:outline-none hover:drop-shadow-[0_0_1px_#E8DA71] header-cta-icon"
+          aria-label="Haz tu pedido"
+        >
+          <i class="bi bi-bag-heart icon-golden-gradient interactive-icon"></i>
+        </a>
         <button
           id="menu-toggle"
-          class="text-[#E8DA71] text-3xl focus:outline-none hover:drop-shadow-[0_0_4px_#E8DA71]"
-          aria-label="Abrir menú"
+          class="text-[#E8DA71] text-3xl focus:outline-none hover:drop-shadow-[0_0_2px_#E8DA71]"
+          aria-label="Abrir menú de navegación"
         >
-          <i class="bi bi-list icon-golden-gradient"></i>
+          <i class="bi bi-list icon-golden-gradient interactive-icon"></i>
         </button>
       </div>
-
-      <nav class="hidden md:flex space-x-8 text-lg ml-auto">
-        <a
-          href="index.html"
-          class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition"
-          style="font-family: 'DM Serif Display', serif; font-style: italic"
-          >Inicio</a
-        >
-        <a
-          href="productos.html"
-          class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition"
-          style="font-family: 'DM Serif Display', serif; font-style: italic"
-          >Productos</a
-        >
-        <a
-          href="nosotros.html"
-          class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition"
-          style="font-family: 'DM Serif Display', serif; font-style: italic"
-          >Nosotros</a
-        >
-        <a
-          href="socios.html"
-          class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition font-semibold"
-          style="font-family: 'DM Serif Display', serif; font-style: italic"
-          >Socios</a
-        >
-      </nav>
-
       <nav
         id="mobile-menu"
         class="fixed top-0 right-0 w-64 h-full bg-black text-white p-6 transform translate-x-full transition-transform duration-300 z-40 shadow-lg"
+        aria-label="Menú de navegación principal"
       >
         <button
           id="menu-close"
           class="text-2xl mb-6 focus:outline-none hover:drop-shadow-[0_0_6px_#E8DA71] transition"
-          aria-label="Cerrar menú"
+          aria-label="Cerrar menú de navegación"
         >
           <i
             class="bi bi-arrow-left-circle-fill text-3xl icon-golden-gradient"
@@ -552,89 +585,96 @@
           <li>
             <a
               href="index.html"
-              class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition"
-              style="font-family: 'DM Serif Display', serif; font-style: italic"
+              class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition nav-link-dm-serif"
               >Inicio</a
             >
           </li>
           <li>
             <a
               href="productos.html"
-              class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition"
-              style="font-family: 'DM Serif Display', serif; font-style: italic"
+              class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition nav-link-dm-serif"
               >Colecciones</a
             >
           </li>
+
           <li>
             <a
               href="nosotros.html"
-              class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition"
-              style="font-family: 'DM Serif Display', serif; font-style: italic"
+              class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition nav-link-dm-serif"
               >Nosotros</a
             >
           </li>
           <li>
             <a
               href="socios.html"
-              class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition"
-              style="font-family: 'DM Serif Display', serif; font-style: italic"
+              class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition nav-link-dm-serif"
               >Socios</a
             >
           </li>
-          <div class="flex justify-center gap-8 mb-3 text-2xl">
+          <li>
+            <a
+              href="faq.html"
+              class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition nav-link-dm-serif"
+              >FAQ</a
+            >
+          </li>
+          <li>
+            <a
+              href="politicas.html"
+              class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition nav-link-dm-serif"
+              >Políticas</a
+            >
+          </li>
+        </ul>
+        <div class="mt-8 pt-4 border-t border-gray-700 text-center">
+          <h4
+            class="text-2xl tracking-wide bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] bg-clip-text text-transparent italic mb-4"
+            style="font-family: 'DM Serif Display', serif"
+          >
+            Síguenos
+          </h4>
+          <div class="flex justify-center gap-6 text-3xl">
             <a
               href="https://instagram.com/luxore.ec"
               target="_blank"
               rel="noopener noreferrer"
-              data-aos="zoom-in"
-              data-aos-duration="800"
-              data-aos-delay="3500"
               class="interactive-icon"
               aria-label="Síguenos en Instagram"
-              ><i class="bi bi-instagram icon-glow"></i
+              ><i class="bi bi-instagram"></i
             ></a>
             <a
               href="https://tiktok.com/@luxore.ec"
               target="_blank"
               rel="noopener noreferrer"
-              data-aos="zoom-in"
-              data-aos-duration="800"
-              data-aos-delay="3500"
               class="interactive-icon"
               aria-label="Síguenos en TikTok"
-              ><i class="bi bi-tiktok icon-glow"></i
+              ><i class="bi bi-tiktok"></i
             ></a>
             <a
               href="https://www.youtube.com/@luxore_ec"
               target="_blank"
               rel="noopener noreferrer"
-              data-aos="zoom-in"
-              data-aos-duration="800"
-              data-aos-delay="3500"
               class="interactive-icon"
               aria-label="Síguenos en YouTube"
-              ><i class="bi bi-youtube icon-glow"></i
+              ><i class="bi bi-youtube"></i
             ></a>
             <a
               href="https://www.facebook.com/luxore.ec"
               target="_blank"
               rel="noopener noreferrer"
-              data-aos="zoom-in"
-              data-aos-duration="800"
-              data-aos-delay="3500"
               class="interactive-icon"
               aria-label="Síguenos en Facebook"
-              ><i class="bi bi-facebook icon-glow"></i
+              ><i class="bi bi-facebook"></i
             ></a>
           </div>
-        </ul>
+        </div>
       </nav>
     </header>
 
-    <main class="container mx-auto px-4">
+    <main class="container mx-auto px-4 py-8">
       <section class="partners-section">
         <h2 class="section-title" data-aos="fade-up">Socios Estratégicos</h2>
-        <div class="centered-content-wrapper max-w-5xl">
+        <div class="centered-content-wrapper">
           <div class="grid-container">
             <div
               class="partner-card"
@@ -658,6 +698,7 @@
                 href="https://instagram.com/auraaa.ec"
                 target="_blank"
                 class="partner-link"
+                aria-label="Visitar Instagram de Auraaa.ec"
                 ><i class="bi bi-instagram ml-1 text-3xl"></i
               ></a>
             </div>
@@ -670,19 +711,20 @@
             >
               <img
                 src="./src/img/encantadaec.jpeg"
-                alt="Logo CostaColor"
+                alt="Logo Encantada Ec"
                 class="partner-logo"
               />
               <h3 class="partner-name">@encantadaec</h3>
               <p class="partner-description">
-                Detalles con amor, fresas bañadas el chocolates, corazones
-                rompibles rellena de gomitas y besitos también ofrecer
-                chocopaletas rellenas de cake y Nutella
+                Detalles con amor: fresas bañadas en chocolate, corazones
+                rompibles rellenos de gomitas y besitos, y chocopaletas rellenas
+                de cake y Nutella.
               </p>
               <a
                 href="https://instagram.com/encantadaec"
                 target="_blank"
                 class="partner-link"
+                aria-label="Visitar Instagram de Encantadaec"
                 ><i class="bi bi-instagram ml-1 text-3xl"></i
               ></a>
             </div>
@@ -690,13 +732,13 @@
         </div>
       </section>
 
-      <section>
+      <section class="py-24 mb-16">
         <h2 class="section-title" data-aos="fade-up">
           ¿Quieres ser nuestro socio?
         </h2>
         <div class="centered-content-wrapper max-w-3xl">
           <p
-            class="text-lg text-gray-300 mb-6 leading-relaxed"
+            class="text-lg text-gray-300 mb-8 leading-relaxed"
             style="font-family: 'Cormorant Garamond', serif"
             data-aos="fade-up"
             data-aos-delay="200"
@@ -710,7 +752,7 @@
             href="https://instagram.com/luxore.ec"
             target="_blank"
             rel="noopener noreferrer"
-            class="btn-cta"
+            class="btn-cta hvr-shutter-out-horizontal button-gold-gradient"
             role="button"
             aria-label="Contáctanos en Instagram para ser socio"
             data-aos="zoom-in"
@@ -723,38 +765,303 @@
     </main>
 
     <footer
-      class="bg-black border-t border-[#E8DA71] p-6 text-center text-sm text-gray-500 mt-12"
+      class="bg-black border-t border-[#E8DA71] p-8 text-center text-sm text-gray-400"
+      role="contentinfo"
     >
-      © 2025 Luxore.ec — Todos los derechos reservados.
+      <div class="max-w-6xl mx-auto flex flex-col items-center space-y-6">
+        <div class="text-center">
+          <h4
+            class="text-3xl tracking-wide bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] bg-clip-text text-transparent italic mb-6"
+            style="font-family: 'DM Serif Display', serif"
+          >
+            Síguenos
+          </h4>
+          <div class="flex justify-center gap-6 text-3xl">
+            <a
+              href="https://instagram.com/luxore.ec"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="interactive-icon"
+              aria-label="Síguenos en Instagram"
+              ><i class="bi bi-instagram"></i
+            ></a>
+            <a
+              href="https://tiktok.com/@luxore.ec"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="interactive-icon"
+              aria-label="Síguenos en TikTok"
+              ><i class="bi bi-tiktok"></i
+            ></a>
+            <a
+              href="https://www.youtube.com/@luxore_ec"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="interactive-icon"
+              aria-label="Síguenos en YouTube"
+              ><i class="bi bi-youtube"></i
+            ></a>
+            <a
+              href="https://www.facebook.com/luxore.ec"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="interactive-icon"
+              aria-label="Síguenos en Facebook"
+              ><i class="bi bi-facebook"></i
+            ></a>
+          </div>
+        </div>
+
+        <nav class="flex flex-wrap justify-center gap-x-8 gap-y-4 text-lg">
+          <a
+            href="index.html"
+            class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition nav-link-dm-serif"
+            >Inicio</a
+          >
+          <a
+            href="productos.html"
+            class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition nav-link-dm-serif"
+            >Colecciones</a
+          >
+          <a
+            href="nosotros.html"
+            class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition nav-link-dm-serif"
+            >Nosotros</a
+          >
+          <a
+            href="socios.html"
+            class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition nav-link-dm-serif"
+            >Socios</a
+          >
+          <a
+            href="faq.html"
+            class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition nav-link-dm-serif"
+            >FAQ</a
+          >
+          <a
+            href="politicas.html"
+            class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition nav-link-dm-serif"
+            >Políticas</a
+          >
+        </nav>
+
+        <div class="text-gray-500 flex flex-col md:flex-row items-center gap-4">
+          <a
+            href="mailto:luxore.ec@gmail.com"
+            class="flex items-center gap-2 hover:text-[#E8DA71] transition"
+          >
+            <i class="bi bi-envelope-fill text-[#E8DA71]"></i>
+            luxore.ec@gmail.com
+          </a>
+          <a
+            href="https://wa.me/593968157701"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-2 hover:text-[#E8DA71] transition"
+          >
+            <i class="bi bi-whatsapp text-[#E8DA71]"></i> +593 96 815 7701
+          </a>
+          <span class="flex items-center gap-2"
+            ><i class="bi bi-geo-alt-fill text-[#E8DA71]"></i> Guayaquil,
+            Ecuador</span
+          >
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs">
+          <a
+            href="politica-privacidad.html"
+            class="hover:text-[#E8DA71] transition"
+            >Política de Privacidad</a
+          >
+          <a
+            href="terminos-condiciones.html"
+            class="hover:text-[#E8DA71] transition"
+            >Términos y Condiciones</a
+          >
+          <a href="politica-envios.html" class="hover:text-[#E8DA71] transition"
+            >Política de Envíos</a
+          >
+          <a
+            href="politica-devoluciones.html"
+            class="hover:text-[#E8DA71] transition"
+            >Política de Devoluciones</a
+          >
+        </div>
+
+        <p class="mt-4 text-xs text-gray-600">
+          © 2025 Luxore.ec — Todos los derechos reservados.
+        </p>
+      </div>
     </footer>
 
-    <script>
-      // Script para el menú móvil
-      document.addEventListener("DOMContentLoaded", () => {
-        const toggle = document.getElementById("menu-toggle");
-        const close = document.getElementById("menu-close");
-        const menu = document.getElementById("mobile-menu");
-        const headerIsologo = document.getElementById("header-isologo"); // Selecciona el isologo del header
-
-        toggle.addEventListener("click", () => {
-          menu.classList.remove("translate-x-full");
-        });
-        close.addEventListener("click", () => {
-          menu.classList.add("translate-x-full");
-        });
-
-        // La activación del pulso del isologo al cargar la página se movió al script del loader
-        // para asegurar que solo ocurra después de que el loader se haya manejado.
-        // Si necesitas activarlo en otros momentos además de la carga inicial, considera refactorizar.
-      });
-    </script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
     <script>
-      // Inicialización de AOS (Animate On Scroll)
       AOS.init({
-        duration: 1000, // Duración de la animación en ms
-        easing: "ease-out-quad", // Función de easing para una animación suave
-        once: true, // Si la animación debe ocurrir solo una vez al hacer scroll hacia abajo
+        duration: 1000,
+        easing: "ease-out-quad",
+        once: true,
+      });
+      window.addEventListener("load", function () {
+        const introLoader = document.getElementById("intro-loader");
+        const headerIsologo = document.getElementById("header-isologo");
+        const heroVideoBg = document.getElementById("hero-video-bg");
+
+        const activateIsologoPulse = () => {
+          if (headerIsologo) {
+            headerIsologo.classList.add("active-pulse");
+            setTimeout(() => {
+              headerIsologo.classList.remove("active-pulse");
+            }, 500);
+          }
+        };
+
+        const loadHeroVideo = () => {
+          if (heroVideoBg && window.innerWidth >= 768) {
+            heroVideoBg.src = heroVideoBg.dataset.src;
+            heroVideoBg.load();
+            heroVideoBg
+              .play()
+              .catch((e) => console.log("Autoplay del video hero fallido:", e));
+          } else if (heroVideoBg) {
+            heroVideoBg.removeAttribute("src");
+            heroVideoBg.pause();
+          }
+        };
+        if (sessionStorage.getItem("loaderShown")) {
+          introLoader.remove();
+          document.body.style.overflow = "auto";
+          activateIsologoPulse();
+          loadHeroVideo();
+        } else {
+          sessionStorage.setItem("loaderShown", "true");
+          setTimeout(() => {
+            introLoader.classList.add(
+              "opacity-0",
+              "transition-opacity",
+              "duration-1000"
+            );
+            setTimeout(() => {
+              introLoader.remove();
+              document.body.style.overflow = "auto";
+              activateIsologoPulse();
+              loadHeroVideo();
+            }, 3000);
+          }, 3000);
+          document.body.style.overflow = "hidden";
+        }
+
+        window.addEventListener("resize", loadHeroVideo);
+      });
+      // Consolidado: carrusel + mobile menu + glow
+      document.addEventListener("DOMContentLoaded", () => {
+        // === Carrusel moderno ===
+        let slideIndex = 0;
+        // Selecciona los elementos con la clase 'carousel-item' directamente
+        const carouselItems = document.querySelectorAll(".carousel-item");
+
+        function showSlide(index) {
+          carouselItems.forEach((el, i) => {
+            el.style.opacity = i === index ? "1" : "0";
+          });
+        }
+
+        function changeSlide(step) {
+          slideIndex =
+            (slideIndex + step + carouselItems.length) % carouselItems.length;
+          showSlide(slideIndex);
+          resetAutoSlide();
+        }
+
+        let autoSlide;
+        function startAutoSlide() {
+          autoSlide = setInterval(() => {
+            changeSlide(1);
+          }, 5000);
+        }
+
+        function resetAutoSlide() {
+          clearInterval(autoSlide);
+          startAutoSlide();
+        }
+
+        if (carouselItems.length > 0) {
+          showSlide(slideIndex);
+          startAutoSlide();
+        }
+
+        // Exportar las funciones al ámbito global para que los botones onclick puedan acceder a ellas
+        window.changeSlide = changeSlide;
+        window.showSlide = showSlide; // Podría ser útil si necesitas inicializar desde otro script
+
+        // === Menú móvil ===
+        const menuToggle = document.getElementById("menu-toggle");
+        const mobileMenu = document.getElementById("mobile-menu");
+        const menuClose = document.getElementById("menu-close");
+
+        if (menuToggle && mobileMenu && menuClose) {
+          menuToggle.addEventListener("click", function () {
+            mobileMenu.classList.remove("translate-x-full");
+          });
+          menuClose.addEventListener("click", function () {
+            mobileMenu.classList.add("translate-x-full");
+          });
+          document.addEventListener("click", function (event) {
+            const isClickInsideMenu =
+              mobileMenu.contains(event.target) ||
+              menuToggle.contains(event.target);
+            if (
+              !isClickInsideMenu &&
+              !mobileMenu.classList.contains("translate-x-full")
+            ) {
+              mobileMenu.classList.add("translate-x-full");
+            }
+          });
+        }
+
+        // === Glow secuencial en íconos ===
+        const ourEssenceSection = document.getElementById(
+          "our-essence-section"
+        );
+        const featureIcons = ourEssenceSection
+          ? ourEssenceSection.querySelectorAll(".feature-icon")
+          : [];
+
+        let animationSequenceRunning = false;
+        if (ourEssenceSection && featureIcons.length > 0) {
+          const observerOptions = {
+            root: null,
+            rootMargin: "0px",
+            threshold: 0.5,
+          };
+          const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting && !animationSequenceRunning) {
+                animationSequenceRunning = true;
+                startSequentialGlow(featureIcons, 400, 250);
+                observer.disconnect();
+              }
+            });
+          }, observerOptions);
+          observer.observe(ourEssenceSection);
+        }
+
+        function startSequentialGlow(icons, glowDuration, pauseDuration) {
+          let i = 0;
+          function animateIcon() {
+            if (i < icons.length) {
+              const currentIcon = icons[i];
+              currentIcon.classList.add("active-glow");
+
+              setTimeout(() => {
+                currentIcon.classList.remove("active-glow");
+                i++;
+                setTimeout(animateIcon, pauseDuration);
+              }, glowDuration);
+            }
+          }
+          setTimeout(animateIcon, 1000);
+        }
       });
     </script>
   </body>

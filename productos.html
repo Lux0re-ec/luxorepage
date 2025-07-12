@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Productos - Luxore.ec</title>
+    <title>Colecciones - Luxore.ec</title>
     <link rel="icon" type="image/png" href="./src/img/isotipoLuxore.ico" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -20,104 +20,138 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <link href="./dist/output.css" rel="stylesheet" />
     <style>
+      /* productos.html CSS modificado */
+
+      :root {
+        /* Variables extraídas de index.html para consistencia */
+        --default-icon-color: #bfa03a;
+        --active-glow-color: #f5e089;
+        --glow-shadow: 0 0 12px rgba(232, 218, 113, 0.5),
+          0 0 25px rgba(232, 218, 113, 1), 0 0 50px rgba(255, 250, 200, 0.5);
+
+        --gold-gradient: linear-gradient(to right, #ffd700, #daa520, #b8860b);
+        --gold-gradient-hover: linear-gradient(
+          to right,
+          #ffd700,
+          #daa520,
+          #b8860b
+        );
+        --border-width: 2px;
+        --gold-glow-color: rgba(232, 218, 113, 0.6);
+        --gold-glow-color-strong: rgba(232, 218, 113, 0.6);
+        --button-initial-bg: #1a1a1a;
+      }
+
+      /* Definición de las fuentes extraídas de index.html */
+      @font-face {
+        font-family: "Cormorant Garamond";
+        src: url("./fonts/CormorantGaramond-VariableFont_wght.woff2")
+          format("woff2");
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "DM Serif Display";
+        src: url("./fonts/DMSerifDisplay-Italic.woff2") format("woff2");
+        font-display: swap;
+      }
+
       html {
         scroll-behavior: smooth;
       }
 
-      /* Variables CSS del index.html para consistencia */
-      :root {
-        --default-icon-color: #bfa03a; /* Color dorado base */
-        --active-glow-color: #f5e089; /* Color dorado más claro para el brillo activo */
-        --glow-shadow: 0 0 12px rgba(232, 218, 113, 0.5),
-          /* Más desenfoque, color más claro, opacidad total */ 0 0 25px
-            rgba(232, 218, 113, 1),
-          /* Segunda capa de sombra más grande y opaca */ 0 0 50px
-            rgba(255, 250, 200, 0.5); /* Sombra para el brillo */
-      }
-
-      /* Estilos generales del body para el fondo del index.html */
+      /* Estilos generales del body consistentes con index.html */
       body {
-        background-image: linear-gradient(rgba(0, 0, 0, 0.3)),
+        background-image: linear-gradient(
+            rgba(0, 0, 0, 0.3),
+            rgba(0, 0, 0, 0.3)
+          ),
           url("./src/img/FondoLuxore.png");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        background-attachment: fixed; /* Esto asegura que el fondo permanezca fijo */
+        background-attachment: fixed;
         display: flex;
         flex-direction: column;
         min-height: 100vh;
-        font-family: "Cormorant Garamond", serif; /* Aplicar Cormorant Garamond por defecto */
+        font-family: "Cormorant Garamond", serif;
       }
 
-      /* Estilos para product-card (ajustados para el nuevo grid y AOS) */
+      /* Iconos interactivos de index.html */
+      .interactive-icon {
+        color: var(--default-icon-color);
+        text-shadow: none;
+        transition: all 0.3s ease-in-out;
+      }
+      .interactive-icon:hover {
+        color: var(--active-glow-color);
+        text-shadow: var(--glow-shadow);
+      }
+
+      /* Estilos para product-card y productos-grid */
+      .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 4rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+        justify-items: center;
+      }
+
       .product-card {
-        background: #1f2937; /* gray-800 - ajustado a bg-gray-800 de index.html */
+        background: #1f2937;
         border-radius: 1rem;
         padding: 1rem;
         max-width: 220px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Sombra más sutil y consistente */
-        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Añadida transformación para el hover */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
         display: flex;
         flex-direction: column;
         align-items: center;
         cursor: pointer;
-        height: 100%; /* Para asegurar que todas las tarjetas tengan la misma altura en el grid */
+        height: 100%;
       }
       .product-card:hover {
-        transform: translateY(
-          -4px
-        ); /* Pequeño levantamiento al pasar el mouse */
-        box-shadow: 0 8px 20px rgba(232, 218, 113, 0.4); /* Sombra más pronunciada con color dorado */
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(232, 218, 113, 0.4);
       }
+
       .product-card img,
       .product-card video {
         width: 180px;
         height: 180px;
         object-fit: cover;
-        border-radius: 0.75rem; /* Consistency with index.html */
+        border-radius: 0.75rem;
         margin-bottom: 0.75rem;
         flex-shrink: 0;
-        /* Sombras de la imagen para consistencia con index.html */
         box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.9),
           0 4px 12px rgba(0, 0, 0, 0.9), 0 0 0 2px rgba(255, 255, 255, 0.05);
-        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Mantenemos las transiciones */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
       }
       .product-card img:hover,
       .product-card video:hover {
-        transform: scale(1.03); /* Efecto de zoom al pasar el mouse */
+        transform: scale(1.03);
       }
+
+      /* Títulos y descripciones unificados con index.html */
       .product-title {
-        color: #f5e089; /* Color más claro del index.html para títulos */
+        color: var(--active-glow-color);
         font-weight: 600;
         font-family: "DM Serif Display", serif;
         font-size: 1.125rem;
         text-align: center;
         margin-bottom: 0.5rem;
+        /* ELIMINADO: text-shadow: var(--glow-shadow); */
       }
       .product-desc {
-        color: #a0aec0; /* gray-400 */
+        color: #a0aec0;
         font-size: 0.875rem;
         text-align: center;
         min-height: 3em;
-        /* Usa la fuente del index para las descripciones */
-        font-family: "Cormorant Garamond", serif; /* o 'Cormorant Garamond' si prefieres */
+        font-family: "Cormorant Garamond", serif;
       }
 
-      /* Grid container - ajustado para un mejor espaciado y tamaño de columnas */
-      .products-grid {
-        display: grid;
-        grid-template-columns: repeat(
-          auto-fit,
-          minmax(250px, 1fr)
-        ); /* Min size a 250px para más espacio */
-        gap: 4rem; /* Aumentado el gap para mejor visibilidad */
-        max-width: 1200px; /* Ancho máximo para el grid */
-        margin: 0 auto;
-        padding: 2rem 1rem;
-        justify-items: center; /* Centrar las tarjetas dentro de las columnas */
-      }
-
-      /* Modal */
+      /* Estilos de Modal */
       .modal-bg {
         background: rgba(0, 0, 0, 0.85);
         position: fixed;
@@ -127,15 +161,15 @@
         justify-content: center;
         z-index: 1000;
         padding: 1rem;
-        opacity: 0; /* Para la transición de entrada/salida */
-        transition: opacity 0.3s ease-out; /* Transición suave para la opacidad */
+        opacity: 0;
+        transition: opacity 0.3s ease-out;
       }
       .modal-bg.active {
         display: flex;
-        opacity: 1; /* Muestra el modal */
+        opacity: 1;
       }
       .modal-content {
-        background: #1a202c; /* gray-900 */
+        background: #1a202c;
         border-radius: 1rem;
         max-width: 80vw;
         max-height: 80vh;
@@ -149,13 +183,13 @@
         flex-direction: column;
         align-items: center;
         gap: 1rem;
-        transform: scale(0.9); /* Para la animación de entrada */
-        opacity: 0; /* Para la animación de entrada */
-        transition: transform 0.3s ease-out, opacity 0.3s ease-out; /* Transición para la escala y opacidad */
+        transform: scale(0.9);
+        opacity: 0;
+        transition: transform 0.3s ease-out, opacity 0.3s ease-out;
       }
       .modal-bg.active .modal-content {
-        transform: scale(1); /* Escala a tamaño normal */
-        opacity: 1; /* Hace visible el contenido */
+        transform: scale(1);
+        opacity: 1;
       }
       .modal-content img,
       .modal-content video {
@@ -167,16 +201,16 @@
       }
       .modal-title {
         font-size: 1.75rem;
-        color: #e8da71;
+        color: var(--active-glow-color);
         text-align: center;
         margin: 0;
+        text-shadow: var(--glow-shadow);
       }
       .modal-desc {
         font-size: 1rem;
-        color: #cbd5e0; /* gray-300 */
+        color: #cbd5e0;
         text-align: center;
-        /* Asegúrate de usar una de tus fuentes para la descripción del modal */
-        font-family: "Cormorant Garamond", serif; /* o 'Cormorant Garamond' */
+        font-family: "Cormorant Garamond", serif;
       }
       .modal-close {
         position: absolute;
@@ -184,83 +218,72 @@
         right: 1rem;
         background: transparent;
         border: none;
-        color: #e8da71;
+        color: var(--active-glow-color);
         font-size: 2rem;
         cursor: pointer;
         font-weight: bold;
-        transition: color 0.2s ease, text-shadow 0.2s ease; /* Transición para el hover */
+        transition: color 0.2s ease, text-shadow 0.2s ease;
       }
       .modal-close:hover {
-        color: #bfa03a;
-        text-shadow: 0 0 8px rgba(232, 218, 113, 0.7); /* Brillo al pasar el mouse */
+        color: var(--active-glow-color);
+        text-shadow: var(--glow-shadow);
       }
 
-      /* NUEVOS ESTILOS PARA LA ANIMACIÓN DEL ISOLOGO EN EL HEADER */
+      /* Estilos de isologo, logos de socios e instagram */
       .isologo-glow-pulse {
-        transition: filter 0.5s ease-out; /* Transición para el brillo del filtro */
+        transition: filter 0.5s ease-out;
       }
       .isologo-glow-pulse.active-pulse {
-        filter: drop-shadow(
-          0 0 15px #e8da71
-        ); /* Un brillo inicial más pronunciado */
+        filter: drop-shadow(0 0 15px #e8da71);
       }
 
-      /* Estilos para las imágenes de los socios */
       .partner-logo {
         transition: all 0.3s ease-in-out;
-        border-radius: 50%; /* Si quieres que sean circulares, como suelen ser los logos de perfil */
+        border-radius: 50%;
         overflow: hidden;
-        display: block; /* Para que margin: auto funcione correctamente si es un <a> */
+        display: block;
       }
-
       .partner-logo:hover {
         transform: scale(1.05);
         box-shadow: 0 0 15px rgba(232, 218, 113, 0.7),
           0 0 30px rgba(232, 218, 113, 0.5);
       }
 
-      /* Estilos para el enlace del nombre de usuario */
       .partner-instagram-link {
-        color: #a0aec0; /* Color gris claro por defecto */
-        text-decoration: none; /* Quita el subrayado predeterminado */
-        transition: color 0.3s ease, text-shadow 0.3s ease; /* Transición para color y sombra */
+        color: #a0aec0;
+        text-decoration: none;
+        transition: color 0.3s ease, text-shadow 0.3s ease;
       }
-
       .partner-instagram-link:hover {
-        color: #e8da71; /* Color dorado al pasar el ratón */
-        text-shadow: 0 0 8px rgba(232, 218, 113, 0.7); /* Brillo sutil */
+        color: #e8da71;
+        text-shadow: 0 0 8px rgba(232, 218, 113, 0.7);
       }
 
-      /* CAMBIO DE COLOR DE FONDO DE MYSTERY BOX Y AJUSTES */
+      /* Sección Mystery Box */
       .mystery-box-section {
-        background-color: #0d1b2a; /* ¡NUEVO COLOR DE FONDO! */
-        /* Puedes mantener el background-image si quieres una textura encima */
-        /* background-image: url('./src/img/mystery_pattern.png'); */
+        background-color: #0d1b2a;
         background-size: cover;
         background-position: center;
-        border-top: 2px solid #e8da71;
-        border-bottom: 2px solid #e8da71;
+        border-top: 2px solid var(--active-glow-color);
+        border-bottom: 2px solid var(--active-glow-color);
         padding: 5rem 1rem;
         text-align: center;
       }
-
       .mystery-box-title {
         font-family: "DM Serif Display", serif;
         font-size: 2.5rem;
         line-height: 1.2;
         margin-bottom: 1.5rem;
-        background-image: linear-gradient(to right, #e8da71, #bfa03a, #8c7853);
+        background-image: var(--gold-gradient);
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
-        text-shadow: 0 0 10px rgba(232, 218, 113, 0.4);
+        text-shadow: var(--glow-shadow);
         transition: all 0.3s ease;
       }
       .mystery-box-title:hover {
-        text-shadow: 0 0 20px rgba(232, 218, 113, 0.7),
-          0 0 30px rgba(232, 218, 113, 0.5);
+        text-shadow: var(--glow-shadow);
       }
-
       .mystery-box-subtitle {
         font-family: "Cormorant Garamond", serif;
         font-size: 1.1rem;
@@ -271,34 +294,33 @@
         margin-right: auto;
         line-height: 1.6;
       }
-
       .mystery-box-image {
         width: 250px;
         height: auto;
         margin: 0 auto 2rem auto;
         border-radius: 1.5rem;
         box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7),
-          0 0 30px rgba(232, 218, 113, 0.5);
+          0 0 30px var(--gold-glow-color);
         transition: transform 0.4s ease-in-out;
         cursor: pointer;
       }
       .mystery-box-image:hover {
         transform: scale(1.05) rotate(2deg);
         box-shadow: 0 15px 50px rgba(0, 0, 0, 0.9),
-          0 0 40px rgba(232, 218, 113, 0.8);
+          0 0 40px var(--gold-glow-color-strong);
       }
-
       .mystery-box-price {
         font-family: "DM Serif Display", serif;
         font-size: 1.5rem;
-        color: #e8da71;
+        color: var(--active-glow-color);
         font-weight: bold;
         margin-bottom: 2.5rem;
-        text-shadow: 0 0 15px rgba(232, 218, 113, 0.6);
+        text-shadow: var(--glow-shadow);
       }
 
+      /* Botón Mystery Box (consistente con btn-cta de index.html) */
       .mystery-box-button {
-        background: linear-gradient(to right, #e8da71, #bfa03a, #8c7853);
+        background: var(--gold-gradient);
         color: #1a202c;
         padding: 1rem 2.5rem;
         border-radius: 0.75rem;
@@ -308,17 +330,15 @@
         letter-spacing: 0.05em;
         cursor: pointer;
         border: none;
-        box-shadow: 0 5px 20px rgba(232, 218, 113, 0.5);
+        box-shadow: 0 5px 20px var(--gold-glow-color);
         transition: all 0.3s ease;
         font-family: "Cormorant Garamond", serif;
       }
       .mystery-box-button:hover {
-        background: linear-gradient(to right, #f5e089, #d4bb5a, #a8946e);
-        box-shadow: 0 8px 25px rgba(232, 218, 113, 0.8);
+        background: var(--gold-gradient-hover);
+        box-shadow: 0 8px 25px var(--gold-glow-color-strong);
         transform: translateY(-3px);
       }
-
-      /* Opcional: para el texto de la probabilidad, si lo quieres más sutil */
       .mystery-box-probability {
         font-family: "Cormorant Garamond", serif;
         font-size: 1rem;
@@ -329,57 +349,292 @@
       .line-through-manual {
         text-decoration: line-through;
       }
-      .icon-glow {
-        transition: text-shadow 0.3s ease-in-out; /* Suaviza la transición del resplandor */
-      }
 
+      /* Iconos de brillo (se usará interactive-icon o feature-icon) */
+      .icon-glow {
+        transition: text-shadow 0.3s ease-in-out;
+      }
       .icon-glow:hover {
         text-shadow: 0 0 20px #ffd700, 0 0 15px #daa520, 0 0 20px #b8860b;
       }
+
       .hidden {
         display: none;
+      }
+
+      /* Botón WhatsApp */
+      .whatsapp-button {
+        background: var(--gold-gradient);
+        color: #1a202c;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        font-size: 0.9rem;
+        font-weight: bold;
+        margin-top: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        cursor: pointer;
+        border: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        box-shadow: 0 4px 15px var(--gold-glow-color);
+      }
+      .whatsapp-button:hover {
+        background: var(--gold-gradient-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px var(--gold-glow-color-strong);
+      }
+      .whatsapp-button i {
+        font-size: 1.2rem;
+      }
+
+      /* Productos Agotados */
+      .product-card.sold-out {
+        opacity: 0.6;
+        pointer-events: none;
+        position: relative;
+      }
+      .sold-out-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--active-glow-color);
+        font-family: "DM Serif Display", serif;
+        font-size: 1.5rem;
+        text-transform: uppercase;
+        z-index: 10;
+        border-radius: 1rem;
+        pointer-events: none;
+      }
+
+      /* Separador visual entre colecciones */
+      .collection-divider {
+        border: none;
+        height: 2px;
+        background: var(--gold-gradient);
+        width: 80%;
+        max-width: 600px;
+        margin: 4rem auto;
+        box-shadow: 0 0 15px var(--gold-glow-color);
+      }
+
+      /* Nueva sección de filtrado */
+      .filter-navigation {
+        text-align: center;
+        margin-top: 2rem;
+        margin-bottom: 3rem;
+      }
+      .filter-navigation ul {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        list-style: none;
+        padding: 0;
+      }
+      .filter-navigation a {
+        color: #e0e0e0;
+        text-decoration: none;
+        font-family: "DM Serif Display", serif;
+        font-size: 1.2rem;
+        transition: color 0.3s ease, text-shadow 0.3s ease;
+      }
+      .filter-navigation a:hover,
+      .filter-navigation a:focus {
+        color: var(--active-glow-color);
+        text-shadow: var(--glow-shadow);
+      }
+      /* Nuevo estilo para los enlaces del menú móvil para que coincidan con la fuente de los títulos */
+      .nav-link-dm-serif-no-glow {
+        font-family: "DM Serif Display", serif;
+        font-weight: 400; /* Asumiendo un peso normal para no ser "bold" */
+        color: white; /* Texto blanco */
+        transition: color 0.3s ease;
+      }
+      .nav-link-dm-serif-no-glow:hover {
+        color: #e8da71;
+        text-shadow: 0 0 10px rgba(232, 218, 113, 0.6),
+          0 0 15px rgba(232, 218, 113, 0.4);
+      }
+      :root {
+        /* ... tus variables existentes ... */
+
+        --gold-gradient: linear-gradient(to right, #ffd700, #daa520, #b8860b);
+        --gold-gradient-hover: linear-gradient(
+          to right,
+          #ffd700,
+          #daa520,
+          #b8860b
+        ); /* Si el hover debe ser distinto, modificar aquí */
+        --border-width: 2px;
+        --gold-glow-color: rgba(232, 218, 113, 0.6);
+        --gold-glow-color-strong: rgba(
+          232,
+          218,
+          113,
+          0.9
+        ); /* MODIFICADO: Opacidad aumentada para ser más fuerte */
+        --button-initial-bg: #1a1a1a; /* Fondo inicial oscuro del botón */
+      }
+      .whatsapp-button {
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+
+        /* Propiedades de layout y tamaño (ajustadas para el estilo del botón) */
+        padding: 0.8rem 1.8rem;
+        border-radius: 0.75rem;
+        font-size: 1rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        cursor: pointer;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        text-decoration: none;
+        font-family: "DM Serif Display", serif;
+
+        /* Estilo inicial del botón (sin hover): Fondo oscuro */
+        background-color: var(--button-initial-bg);
+
+        /* Gradiente dorado en el texto (estado inicial) */
+        background-image: var(--gold-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+
+        /* Efecto de glow (sombra de brillo) en el estado inicial - CORREGIDO LA SINTAXIS Y VALORES*/
+        box-shadow: 0 0 10px var(--gold-glow-color),
+          /* Sombra exterior suave */ 0 0 20px var(--gold-glow-color),
+          /* Sombra exterior media (usando 20px como en ejemplos previos) */
+            inset 0 0 5px var(--gold-glow-color-strong); /* Sombra interior para "iluminar" */
+        transition: box-shadow 0.3s ease-in-out, transform 0.3s ease;
+      }
+
+      /* Pseudo-elemento ::after para crear el borde con gradiente y las puntas redondeadas */
+      .whatsapp-button::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: var(--gold-gradient);
+        border-radius: inherit;
+        z-index: -1;
+        -webkit-mask: linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        padding: var(--border-width);
+      }
+
+      /* Pseudo-elemento ::before para el efecto de persiana (hvr-shutter-out-horizontal) */
+      .whatsapp-button::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: var(--gold-gradient-hover);
+        transform: scaleX(0);
+        transform-origin: center;
+        transition: transform 0.3s ease-out;
+        z-index: 0;
+        border-radius: inherit;
+      }
+
+      /* Estado al pasar el cursor (hover) del botón */
+      .whatsapp-button:hover {
+        color: #1a1a1a;
+        -webkit-text-fill-color: #1a1a1a;
+        background-image: none;
+
+        /* Intensifica el glow al pasar el cursor - CORREGIDO para ser más fuerte como en ejemplo*/
+        box-shadow: 0 0 15px var(--gold-glow-color-strong),
+          0 0 30px var(--gold-glow-color-strong),
+          inset 0 0 8px var(--gold-glow-color-strong);
+        transform: translateY(-3px);
+      }
+
+      /* La animación de persiana se activa al pasar el cursor */
+      .whatsapp-button:hover::before {
+        transform: scaleX(1);
+      }
+
+      /* Estilos para el ícono de WhatsApp dentro del botón */
+      .whatsapp-button i {
+        font-size: 1.2rem;
+        color: #1a1a1a; /* Establece el color inicial del icono a dorado */
+      }
+
+      /* Asegura que el ícono cambie a negro en hover */
+      .whatsapp-button:hover i {
+        color: #1a1a1a !important; /* Fuerza el color del icono a negro en hover */
+      }
+
+      /* Ajuste para el glow en el estado focus (accesibilidad) */
+      .whatsapp-button:focus-visible {
+        box-shadow: 0 0 15px var(--gold-glow-color-strong),
+          0 0 30px var(--gold-glow-color-strong),
+          inset 0 0 8px var(--gold-glow-color-strong);
+        outline: none;
       }
     </style>
   </head>
   <body class="text-white">
     <header
-      class="sticky top-0 z-50 bg-black border-b border-[#E8DA71] px-4 py-4 md:py-4 flex items-center justify-between relative h-20 md:h-24"
+      class="sticky top-0 z-50 bg-black border-b border-[#E8DA71] px-4 py-4 md:py-4 flex items-center justify-between h-20 md:h-24"
     >
       <div class="absolute inset-0 bg-black bg-opacity-40 -z-[1]"></div>
-
-      <h1
-        class="flex items-center space-x-2 text-3xl tracking-wider bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] bg-clip-text text-transparent"
-        style="font-family: 'DM Serif Display', serif; font-style: italic"
-      >
-        <div class="absolute left-1/2 transform -translate-x-1/2">
-          <a href="index.html">
-            <img
-              id="header-isologo"
-              src="./src/img/isotipoLuxore.png"
-              alt="Isologo Luxore"
-              class="w-16 md:w-20 h-auto object-contain hover:drop-shadow-[0_0_15px_#E8DA71] isologo-glow-pulse"
-            />
-          </a>
-        </div>
-      </h1>
-
-      <div class="ml-auto">
+      <div class="absolute left-1/2 transform -translate-x-1/2">
+        <a href="index.html" aria-label="Volver al inicio">
+          <img
+            id="header-isologo"
+            src="./src/img/isotipoLuxore.png"
+            alt="Isologo Luxore"
+            class="w-16 md:w-20 h-auto object-contain hover:drop-shadow-[0_0_15px_#E8DA71] isologo-glow-pulse"
+          />
+        </a>
+      </div>
+      <div class="ml-auto flex items-center gap-4">
+        <a
+          href="https://wa.me/593968157701"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-[#E8DA71] text-3xl focus:outline-none hover:drop-shadow-[0_0_1px_#E8DA71] header-cta-icon"
+          aria-label="Haz tu pedido"
+        >
+          <i class="bi bi-bag-heart icon-golden-gradient interactive-icon"></i>
+        </a>
         <button
           id="menu-toggle"
-          class="text-[#E8DA71] text-3xl focus:outline-none hover:drop-shadow-[0_0_4px_#E8DA71]"
-          aria-label="Abrir menú"
+          class="text-[#E8DA71] text-3xl focus:outline-none hover:drop-shadow-[0_0_2px_#E8DA71]"
+          aria-label="Abrir menú de navegación"
         >
-          <i class="bi bi-list icon-golden-gradient"></i>
+          <i class="bi bi-list icon-golden-gradient interactive-icon"></i>
         </button>
       </div>
       <nav
         id="mobile-menu"
         class="fixed top-0 right-0 w-64 h-full bg-black text-white p-6 transform translate-x-full transition-transform duration-300 z-40 shadow-lg"
+        aria-label="Menú de navegación principal"
       >
         <button
           id="menu-close"
           class="text-2xl mb-6 focus:outline-none hover:drop-shadow-[0_0_6px_#E8DA71] transition"
-          aria-label="Cerrar menú"
+          aria-label="Cerrar menú de navegación"
         >
           <i
             class="bi bi-arrow-left-circle-fill text-3xl icon-golden-gradient"
@@ -387,88 +642,98 @@
         </button>
         <ul class="space-y-4 text-lg">
           <li>
-            <a
-              href="index.html"
-              class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition"
-              style="font-family: 'DM Serif Display', serif; font-style: italic"
-              >Inicio</a
-            >
+            <a href="index.html" class="nav-link-dm-serif-no-glow">Inicio</a>
           </li>
           <li>
-            <a
-              href="productos.html"
-              class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition"
-              style="font-family: 'DM Serif Display', serif; font-style: italic"
+            <a href="productos.html" class="nav-link-dm-serif-no-glow"
               >Colecciones</a
             >
           </li>
+
           <li>
-            <a
-              href="nosotros.html"
-              class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition"
-              style="font-family: 'DM Serif Display', serif; font-style: italic"
+            <a href="nosotros.html" class="nav-link-dm-serif-no-glow"
               >Nosotros</a
             >
           </li>
           <li>
-            <a
-              href="socios.html"
-              class="hover:text-[#E8DA71] hover:drop-shadow-[0_0_6px_#E8DA71] transition"
-              style="font-family: 'DM Serif Display', serif; font-style: italic"
-              >Socios</a
+            <a href="socios.html" class="nav-link-dm-serif-no-glow">Socios</a>
+          </li>
+          <li>
+            <a href="faq.html" class="nav-link-dm-serif-no-glow">FAQ</a>
+          </li>
+          <li>
+            <a href="politicas.html" class="nav-link-dm-serif-no-glow"
+              >Políticas</a
             >
           </li>
-          <div class="flex justify-center gap-8 mb-3 text-2xl">
+        </ul>
+        <div class="mt-8 pt-4 border-t border-gray-700 text-center">
+          <h4
+            class="text-2xl tracking-wide bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] bg-clip-text text-transparent italic mb-4"
+            style="font-family: 'DM Serif Display', serif"
+          >
+            Síguenos
+          </h4>
+          <div class="flex justify-center gap-6 text-3xl">
             <a
               href="https://instagram.com/luxore.ec"
               target="_blank"
               rel="noopener noreferrer"
-              data-aos="zoom-in"
-              data-aos-duration="800"
-              data-aos-delay="3500"
               class="interactive-icon"
               aria-label="Síguenos en Instagram"
-              ><i class="bi bi-instagram icon-glow"></i
+              ><i class="bi bi-instagram"></i
             ></a>
             <a
               href="https://tiktok.com/@luxore.ec"
               target="_blank"
               rel="noopener noreferrer"
-              data-aos="zoom-in"
-              data-aos-duration="800"
-              data-aos-delay="3500"
               class="interactive-icon"
               aria-label="Síguenos en TikTok"
-              ><i class="bi bi-tiktok icon-glow"></i
+              ><i class="bi bi-tiktok"></i
             ></a>
             <a
               href="https://www.youtube.com/@luxore_ec"
               target="_blank"
               rel="noopener noreferrer"
-              data-aos="zoom-in"
-              data-aos-duration="800"
-              data-aos-delay="3500"
               class="interactive-icon"
               aria-label="Síguenos en YouTube"
-              ><i class="bi bi-youtube icon-glow"></i
+              ><i class="bi bi-youtube"></i
             ></a>
             <a
               href="https://www.facebook.com/luxore.ec"
               target="_blank"
               rel="noopener noreferrer"
-              data-aos="zoom-in"
-              data-aos-duration="800"
-              data-aos-delay="3500"
               class="interactive-icon"
               aria-label="Síguenos en Facebook"
-              ><i class="bi bi-facebook icon-glow"></i
+              ><i class="bi bi-facebook"></i
             ></a>
           </div>
-        </ul>
+        </div>
       </nav>
     </header>
 
     <main class="flex-grow">
+      <h1 class="hidden" style="display: none">
+        Colecciones Exclusivas de Luxore.ec
+      </h1>
+
+      <nav class="filter-navigation" aria-label="Filtrar colecciones">
+        <ul>
+          <li>
+            <a href="#products-section" aria-label="Ir a Prestige Collection"
+              >Prestige Collection</a
+            >
+          </li>
+          <li>
+            <a
+              href="#luxore-masterpiece-section"
+              aria-label="Ir a Masterpiece Collection"
+              >Masterpiece Collection</a
+            >
+          </li>
+        </ul>
+      </nav>
+
       <section class="py-20 px-6" id="products-section">
         <h2
           class="text-4xl tracking-wide bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] bg-clip-text text-transparent italic text-center mb-12 hover:drop-shadow-[0_0_6px_#E8DA71] transition"
@@ -490,21 +755,35 @@
         </h3>
         <div class="products-grid">
           <div
+            id="guayaquil-prestige"
             class="product-card cursor-pointer"
             data-title="Guayaquil Prestige Collection"
-            data-desc="Inspirado en la Perla del Pacífico, este recuerdo captura la vibrante energía y la rica historia de Guayaquil. Ideal para coleccionistas y amantes de la cultura costeña."
+            data-desc="Inspirado en la Perla del Pacífico, este recuerdo captura la vibrante energía y la rica historia de Guayaquil."
             data-img="./src/img/GuayaquilPC.png"
             data-video-src="./src/animacion.mp4/GuayaquilPC.mp4"
             tabindex="0"
+            role="button"
+            aria-label="Guayaquil Prestige Collection: Ver detalles del producto"
             data-aos="fade-up"
             data-aos-duration="800"
             data-aos-delay="100"
           >
-            <img
-              src="./src/img/GuayaquilPC.png"
-              alt="Guayaquil Prestige Collection"
-              class="product-img"
-            />
+            <div class="media-container">
+              <img
+                src="./src/img/GuayaquilPC.png"
+                alt="Modelo de la Guayaquil Prestige Collection, capturando la energía de la Perla del Pacífico."
+                class="product-img"
+              />
+              <video
+                src="./src/animacion.mp4/GuayaquilPC.mp4"
+                poster="./src/img/GuayaquilPC.png"
+                alt="Animación de la Guayaquil Prestige Collection"
+                class="hidden"
+                muted
+                preload="auto"
+                loop
+              ></video>
+            </div>
             <h4 class="product-title">Guayaquil</h4>
             <p class="product-desc">Inspirado en la Perla del Pacífico.</p>
             <p
@@ -516,15 +795,28 @@
                 >$5.50</span
               >
             </p>
+            <a
+              href="https://wa.me/593968157701"
+              class="whatsapp-button"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Solicitar Guayaquil Prestige Collection por WhatsApp"
+              role="button"
+            >
+              <i class="bi bi-whatsapp"></i>
+            </a>
           </div>
 
           <div
+            id="quito-prestige"
             class="product-card cursor-pointer"
             data-title="Quito Prestige Collection"
-            data-desc="Esta pieza de arte celebra la majestuosidad de Quito, con sus iglesias coloniales y su impresionante paisaje andino. Un tesoro que evoca la capital del Ecuador."
+            data-desc="Esta pieza de arte celebra la majestuosidad de Quito, con sus iglesias coloniales y su impresionante paisaje, andino. Un tesoro que evoca la capital del Ecuador."
             data-img="./src/img/QuitoPC.png"
             data-video-src="./src/animacion.mp4/QuitoPC.mp4"
             tabindex="0"
+            role="button"
+            aria-label="Quito Prestige Collection: Ver detalles del producto"
             data-aos="fade-up"
             data-aos-duration="800"
             data-aos-delay="800"
@@ -532,16 +824,17 @@
             <div class="media-container">
               <img
                 src="./src/img/QuitoPC.png"
-                alt="Quito Prestige Collection"
+                alt="Modelo de la Quito Prestige Collection, celebrando la majestuosidad andina."
                 class="product-img"
               />
               <video
                 src="./src/animacion.mp4/GalapagosPC.mp4"
                 poster="./src/img/QuitoPC.png"
-                alt="Animación Quito Prestige Collection"
+                alt="Animación de la Quito Prestige Collection"
                 class="hidden"
                 muted
                 preload="auto"
+                loop
               ></video>
             </div>
             <h4 class="product-title">Quito</h4>
@@ -555,15 +848,28 @@
                 >$5.50</span
               >
             </p>
+            <a
+              href="https://wa.me/593968157701"
+              class="whatsapp-button"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Solicitar Quito Prestige Collection por WhatsApp"
+              role="button"
+            >
+              <i class="bi bi-whatsapp"></i>
+            </a>
           </div>
 
           <div
+            id="cuenca-prestige"
             class="product-card cursor-pointer"
             data-title="Cuenca Prestige Collection"
             data-desc="Reflejo de historia y elegancia andina, este producto rinde homenaje a Cuenca, Patrimonio Cultural de la Humanidad, con su arquitectura única y su atmósfera bohemia."
             data-img="./src/img/CuencaPC.png"
             data-video-src="./src/animacion.mp4/CuencaPC.mp4"
             tabindex="0"
+            role="button"
+            aria-label="Cuenca Prestige Collection: Ver detalles del producto"
             data-aos="fade-up"
             data-aos-duration="800"
             data-aos-delay="800"
@@ -571,16 +877,17 @@
             <div class="media-container">
               <img
                 src="./src/img/CuencaPC.png"
-                alt="Cuenca Deluxe"
+                alt="Modelo de la Cuenca Prestige Collection, un reflejo de historia y elegancia."
                 class="product-img"
               />
               <video
                 src="./src/animacion.mp4/CuencaPC.mp4"
                 poster="./src/img/CuencaPC.png"
-                alt="Animación Cuenca Prestige Collection"
+                alt="Animación de la Cuenca Prestige Collection"
                 class="hidden"
                 muted
                 preload="auto"
+                loop
               ></video>
             </div>
             <h4 class="product-title">Cuenca</h4>
@@ -594,15 +901,28 @@
                 >$5.50</span
               >
             </p>
+            <a
+              href="https://wa.me/593968157701"
+              class="whatsapp-button"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Solicitar Cuenca Prestige Collection por WhatsApp"
+              role="button"
+            >
+              <i class="bi bi-whatsapp"></i>
+            </a>
           </div>
 
           <div
+            id="galapagos-prestige"
             class="product-card cursor-pointer"
             data-title="Galápagos Prestige Collection"
             data-desc="Captura la esencia de la biodiversidad única de las islas encantadas. Un homenaje a la naturaleza inigualable de Galápagos que te acompañará siempre."
             data-img="./src/img/GalapagosPC.png"
             data-video-src="./src/animacion.mp4/GalapagosPC.mp4"
             tabindex="0"
+            role="button"
+            aria-label="Galápagos Prestige Collection: Ver detalles del producto"
             data-aos="fade-up"
             data-aos-duration="800"
             data-aos-delay="800"
@@ -610,16 +930,17 @@
             <div class="media-container">
               <img
                 src="./src/img/GalapagosPC.png"
-                alt="Galápagos Prestige Collection"
+                alt="Modelo de la Galápagos Prestige Collection, representando la biodiversidad única de las islas."
                 class="product-img"
               />
               <video
                 src="./src/animacion.mp4/GalapagosPC.mp4"
                 poster="./src/img/GalapagosPC.png"
-                alt="Animación Galápagos Prestige Collection"
+                alt="Animación de la Galápagos Prestige Collection"
                 class="hidden"
                 muted
                 preload="auto"
+                loop
               ></video>
             </div>
             <h4 class="product-title">Galápagos</h4>
@@ -630,14 +951,26 @@
               class="text-[#E8DA71] text-lg font-bold mt-2"
               style="font-family: 'Cormorant Garamond', serif"
             >
-              <span class="product-title">AGOTADO</span>
-              <span
-                class="text-gray-500 line-through-manual text-base mr-2"
-              ></span>
+              <span class="text-2xl">Precio $4.00</span>
+              <span class="text-gray-500 line-through-manual text-base mr-2"
+                >$5.50</span
+              >
             </p>
+            <a
+              href="https://wa.me/593968157701"
+              class="whatsapp-button"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Solicitar Galápagos Prestige Collection por WhatsApp"
+              role="button"
+            >
+              <i class="bi bi-whatsapp"></i>
+            </a>
           </div>
         </div>
       </section>
+
+      <hr class="collection-divider" aria-hidden="true" />
 
       <section class="py-20 px-6" id="luxore-masterpiece-section">
         <h2
@@ -651,12 +984,15 @@
 
         <div class="products-grid">
           <div
+            id="guayaquil-masterpiece"
             class="product-card Masterpiece Collection"
             data-title="Guayaquil Masterpiece Collection"
-            data-desc="Diseño moderno y sofisticado, captura la esencia cosmopolita de Guayaquil con un acabado plateado distintivo. Perfecto para quienes aprecian la elegancia contemporánea."
+            data-desc="Diseño moderno y sofisticado, captura la esencia cosmopolita de Guayaquil con un acabado plateado distintivo. Perfecto para quienes aprecian la elegancia."
             data-img="./src/img/GuayaquilMP - copia.png"
             data-video-src="./src/animacion.mp4/GuayaquilMP.mp4"
             tabindex="0"
+            role="button"
+            aria-label="Guayaquil Masterpiece Collection: Ver detalles del producto"
             data-aos="fade-up"
             data-aos-duration="800"
             data-aos-delay="800"
@@ -664,13 +1000,13 @@
             <div class="media-container">
               <img
                 src="./src/img/GuayaquilMP - copia.png"
-                alt="Guayaquil Masterpiece Collection"
+                alt="Modelo de la Guayaquil Masterpiece Collection en acabado plateado, diseño moderno y sofisticado."
                 class="product-img"
               />
               <video
                 src="./src/animacion.mp4/GuayaquilMP.mp4"
                 poster="./src/img/GuayaquilMP - copia.png"
-                alt="Animación Guayaquil Masterpiece Collection"
+                alt="Animación de la Guayaquil Masterpiece Collection"
                 class="hidden"
                 muted
                 preload="auto"
@@ -689,15 +1025,28 @@
                 >$5.50</span
               >
             </p>
+            <a
+              href="https://wa.me/593968157701"
+              class="whatsapp-button"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Solicitar Guayaquil Masterpiece Collection por WhatsApp"
+              role="button"
+            >
+              <i class="bi bi-whatsapp"></i>
+            </a>
           </div>
 
           <div
+            id="quito-masterpiece"
             class="product-card cursor-pointer"
             data-title="Quito Masterpiece Collection"
             data-desc="Una reinterpretación moderna de la capital, esta pieza combina la tradición con la vanguardia en un brillo plateado que refleja la evolución de Quito."
             data-img="./src/img/QuitoMP - copia.png"
             data-video-src="./src/animacion.mp4/QuitoMP.mp4"
             tabindex="0"
+            role="button"
+            aria-label="Quito Masterpiece Collection: Ver detalles del producto"
             data-aos="fade-up"
             data-aos-duration="800"
             data-aos-delay="800"
@@ -705,13 +1054,13 @@
             <div class="media-container">
               <img
                 src="./src/img/QuitoMP - copia.png"
-                alt="Quito Masterpiece Collection"
+                alt="Modelo de la Quito Masterpiece Collection en acabado plateado, combinando tradición y vanguardia."
                 class="product-img"
               />
               <video
                 src="./src/animacion.mp4/QuitoMP.mp4"
                 poster="./src/img/QuitoMP - copia.png"
-                alt="Animación Cuenca Masterpiece Collection"
+                alt="Animación de la Quito Masterpiece Collection"
                 class="hidden"
                 muted
                 preload="auto"
@@ -730,15 +1079,28 @@
                 >$5.50</span
               >
             </p>
+            <a
+              href="https://wa.me/593968157701"
+              class="whatsapp-button"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Solicitar Quito Masterpiece Collection por WhatsApp"
+              role="button"
+            >
+              <i class="bi bi-whatsapp"></i>
+            </a>
           </div>
 
           <div
+            id="cuenca-masterpiece"
             class="product-card cursor-pointer"
             data-title="Cuenca Masterpiece Collection"
             data-desc="Inspirada en la elegancia de Cuenca, esta pieza en tono plateado ofrece un toque de distinción y arte, ideal para quienes valoran la sofisticación sutil."
             data-img="./src/img/CuencaMP.png"
             data-video-src="./src/animacion.mp4/CuencaMP.mp4"
             tabindex="0"
+            role="button"
+            aria-label="Cuenca Masterpiece Collection: Ver detalles del producto"
             data-aos="fade-up"
             data-aos-duration="800"
             data-aos-delay="800"
@@ -746,13 +1108,13 @@
             <div class="media-container">
               <img
                 src="./src/img/CuencaMP.png"
-                alt="Cuenca Masterpiece Collection"
+                alt="Modelo de la Cuenca Masterpiece Collection en tono plateado, inspirada en la elegancia de Cuenca."
                 class="product-img"
               />
               <video
                 src="./src/animacion.mp4/CuencaMP.mp4"
                 poster="./src/img/CuencaMP.png"
-                alt="Animación Quito Masterpiece Collection"
+                alt="Animación de la Cuenca Masterpiece Collection"
                 class="hidden"
                 muted
                 preload="auto"
@@ -771,15 +1133,28 @@
                 >$5.50</span
               >
             </p>
+            <a
+              href="https://wa.me/593968157701"
+              class="whatsapp-button"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Solicitar Cuenca Masterpiece Collection por WhatsApp"
+              role="button"
+            >
+              <i class="bi bi-whatsapp"></i>
+            </a>
           </div>
 
           <div
+            id="galapagos-masterpiece"
             class="product-card cursor-pointer"
             data-title="Galápagos Masterpiece Collection"
             data-desc="Celebra la majestuosidad natural de Galápagos con un diseño minimalista y brillante, que evoca la pureza y la calma de sus islas únicas."
             data-img="./src/img/GalapagosMP - copia.png"
             data-video-src="./src/animacion.mp4/GalapagosMP.mp4"
             tabindex="0"
+            role="button"
+            aria-label="Galápagos Masterpiece Collection: Ver detalles del producto"
             data-aos="fade-up"
             data-aos-duration="800"
             data-aos-delay="800"
@@ -787,19 +1162,20 @@
             <div class="media-container">
               <img
                 src="./src/img/GalapagosMP - copia.png"
-                alt="Galápagos Masterpiece Collection"
+                alt="Modelo de la Galápagos Masterpiece Collection, diseño minimalista y brillante."
                 class="product-img"
               />
               <video
                 src="./src/animacion.mp4/GalapagosMP.mp4"
                 poster="./src/img/GalapagosMP - copia.png"
-                alt="Animación Galapagos Masterpiece Collection"
+                alt="Animación de la Galápagos Masterpiece Collection"
                 class="hidden"
                 muted
                 preload="auto"
+                loop
               ></video>
             </div>
-            <h4 class="product-title">Galápagos Masterpiece Collection</h4>
+            <h4 class="product-title">Galápagos</h4>
             <p class="product-desc">
               Diseño minimalista y brillante de las islas.
             </p>
@@ -807,11 +1183,21 @@
               class="text-[#E8DA71] text-lg font-bold mt-2"
               style="font-family: 'Cormorant Garamond', serif"
             >
-              <span class="product-title">AGOTADO</span>
-              <span
-                class="text-gray-500 line-through-manual text-base mr-2"
-              ></span>
+              <span class="text-2xl">Precio $4.00</span>
+              <span class="text-gray-500 line-through-manual text-base mr-2"
+                >$5.50</span
+              >
             </p>
+            <a
+              href="https://wa.me/593968157701"
+              class="whatsapp-button"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Solicitar Galápagos Masterpiece Collection por WhatsApp"
+              role="button"
+            >
+              <i class="bi bi-whatsapp"></i>
+            </a>
           </div>
         </div>
       </section>
@@ -840,53 +1226,102 @@
           <p id="modal-desc" class="modal-desc"></p>
         </div>
       </div>
-
-      <section
-        id="mystery-box-section"
-        class="mystery-box-section"
-        data-aos="fade-up"
-        data-aos-duration="1200"
-      >
-        <h2 class="mystery-box-title">Mystery Box by Luxore</h2>
-        <p class="mystery-box-subtitle">
-          ¿Listo para descubrir la exclusividad? Explora la Colección
-          Masterpiece y llévate una pieza única. Ten un 25% de probabilidad de
-          adquirir la exclusiva figura de Galápagos.
-        </p>
-
-        <img
-          src="./src/img/mbl.png"
-          alt="Caja Misteriosa Luxore"
-          class="mystery-box-image"
-        />
-
-        <p class="mystery-box-price">
-          Precio: $4.00
-          <span class="text-lg text-gray-500 line-through-manual text-base mr-2"
-            >$5.50</span
-          >
-        </p>
-
-        <a
-          href="https://www.instagram.com/luxore.ec"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="mystery-box-button"
-        >
-          Escribenos
-        </a>
-
-        <p class="mystery-box-probability">
-          *Cada Caja Misteriosa contiene una pieza aleatoria de la Colección
-          Masterpiece (Guayaquil, Quito, Cuenca, o Galápagos). El 25% de las
-          cajas incluyen la pieza de Galápagos. No hay devoluciones ni cambios.
-        </p>
-      </section>
     </main>
     <footer
-      class="bg-black border-t border-[#E8DA71] p-6 text-center text-sm text-gray-500"
+      class="bg-black border-t border-[#E8DA71] p-8 text-center text-sm text-gray-400"
+      role="contentinfo"
     >
-      © 2025 Luxore.ec — Todos los derechos reservados.
+      <div class="max-w-6xl mx-auto flex flex-col items-center space-y-6">
+        <div class="text-center">
+          <h4
+            class="text-3xl tracking-wide bg-gradient-to-r from-[#E8DA71] via-[#BFA03A] to-[#8C7853] bg-clip-text text-transparent italic mb-6"
+            style="font-family: 'DM Serif Display', serif"
+          >
+            Síguenos
+          </h4>
+          <div class="flex justify-center gap-6 text-3xl">
+            <a
+              href="https://instagram.com/luxore.ec"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="interactive-icon"
+              aria-label="Síguenos en Instagram"
+              ><i class="bi bi-instagram"></i
+            ></a>
+            <a
+              href="https://tiktok.com/@luxore.ec"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="interactive-icon"
+              aria-label="Síguenos en TikTok"
+              ><i class="bi bi-tiktok"></i
+            ></a>
+            <a
+              href="https://www.youtube.com/@luxore_ec"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="interactive-icon"
+              aria-label="Síguenos en YouTube"
+              ><i class="bi bi-youtube"></i
+            ></a>
+            <a
+              href="https://www.facebook.com/luxore.ec"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="interactive-icon"
+              aria-label="Síguenos en Facebook"
+              ><i class="bi bi-facebook"></i
+            ></a>
+          </div>
+        </div>
+
+        <nav class="flex flex-wrap justify-center gap-x-8 gap-y-4 text-lg">
+          <a href="index.html" class="nav-link-dm-serif-no-glow">Inicio</a>
+          <a href="productos.html" class="nav-link-dm-serif-no-glow"
+            >Colecciones</a
+          >
+          <a href="nosotros.html" class="nav-link-dm-serif-no-glow">Nosotros</a>
+          <a href="socios.html" class="nav-link-dm-serif-no-glow">Socios</a>
+          <a href="faq.html" class="nav-link-dm-serif-no-glow">FAQ</a>
+          <a href="politicas.html" class="nav-link-dm-serif-no-glow"
+            >Políticas</a
+          >
+        </nav>
+
+        <div class="text-gray-500 flex flex-col md:flex-row items-center gap-4">
+          <a href="mailto:luxore.ec@gmail.com" class="flex items-center gap-2">
+            <i class="bi bi-envelope-fill text-[#E8DA71]"></i>
+            luxore.ec@gmail.com
+          </a>
+          <a
+            href="https://wa.me/593968157701"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-2"
+          >
+            <i class="bi bi-whatsapp text-[#E8DA71]"></i> +593 96 815 7701
+          </a>
+          <span class="flex items-center gap-2"
+            ><i class="bi bi-geo-alt-fill text-[#E8DA71]"></i> Guayaquil,
+            Ecuador</span
+          >
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs">
+          <a href="politica-privacidad.html" class="">Política de Privacidad</a>
+          <a href="terminos-condiciones.html" class=""
+            >Términos y Condiciones</a
+          >
+          <a href="politica-envios.html" class="">Política de Envíos</a>
+          <a href="politica-devoluciones.html" class=""
+            >Política de Devoluciones</a
+          >
+        </div>
+
+        <p class="mt-4 text-xs text-gray-600">
+          © 2025 Luxore.ec — Todos los derechos reservados.
+        </p>
+      </div>
     </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -915,37 +1350,37 @@
           menu.classList.add("translate-x-full");
         });
       });
-
       // Script para el modal
       const modal = document.getElementById("modal");
       const modalMediaContainer = document.getElementById(
         "modal-media-container"
-      ); // Nuevo contenedor
+      );
+      // Nuevo contenedor
       const modalTitle = document.getElementById("modal-title");
       const modalDesc = document.getElementById("modal-desc");
       const modalClose = document.getElementById("modal-close");
-      const cards = document.querySelectorAll(".product-card");
+      const cards = document.querySelectorAll(".product-card:not(.sold-out)"); // Excluir tarjetas agotadas del modal
 
       function openModal(card) {
         // Limpiar el contenido anterior del contenedor de medios
         modalMediaContainer.innerHTML = "";
-
         const videoSrc = card.dataset.videoSrc;
         const imgSrc = card.dataset.img;
 
         if (videoSrc) {
           const videoElement = document.createElement("video");
           videoElement.src = videoSrc;
-          videoElement.poster = imgSrc; // Usar la imagen como póster
-          // Eliminado 'loop' para que se reproduzca solo una vez
+          videoElement.alt = card.dataset.title;
+          videoElement.poster = imgSrc;
           videoElement.muted = true;
-          // Eliminado 'playsInline' ya que se usa 'controls'
-          videoElement.controls = true; // Permite controles de video
-          videoElement.classList.add("modal-content-media"); // Clase para estilos
+          videoElement.autoplay = true;
+          videoElement.preload = "auto";
+          videoElement.loop = true;
+
+          videoElement.classList.add("modal-content-media");
           modalMediaContainer.appendChild(videoElement);
           videoElement.play().catch((error) => {
             console.error("Error al reproducir el video:", error);
-            // Si la reproducción automática falla, se podría mostrar la imagen en su lugar
             const imgElement = document.createElement("img");
             imgElement.src = imgSrc;
             imgElement.alt = card.dataset.title;
@@ -975,14 +1410,16 @@
       }
 
       cards.forEach((card) => {
-        card.addEventListener("click", () => openModal(card));
-        card.addEventListener("keypress", (e) => {
-          if (e.key === "Enter") {
-            openModal(card);
-          }
-        });
+        // Solo añadir el evento de clic si la tarjeta no está agotada
+        if (!card.classList.contains("sold-out")) {
+          card.addEventListener("click", () => openModal(card));
+          card.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+              openModal(card);
+            }
+          });
+        }
       });
-
       modalClose.addEventListener("click", closeModal);
 
       // Cerrar modal al hacer clic fuera del contenido
